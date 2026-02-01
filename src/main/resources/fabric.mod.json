@@ -3,7 +3,7 @@
   "id": "wynnbinds",
   "version": "${version}",
   "name": "Wynnbinds",
-  "description": "",
+  "description": "A simple Wynncraft mod that allows keybinds per character.",
   "authors": ["OhhhZenix"],
   "contact": {},
   "license": "GPL-3.0",
