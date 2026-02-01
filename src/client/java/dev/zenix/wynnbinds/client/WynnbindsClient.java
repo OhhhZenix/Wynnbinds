@@ -5,7 +5,6 @@ import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.toast.SystemToast;
@@ -61,11 +60,6 @@ public class WynnbindsClient implements ClientModInitializer {
         AutoConfig.register(WynnbindsConfig.class, GsonConfigSerializer::new);
         config = AutoConfig.getConfigHolder(WynnbindsConfig.class).getConfig();
         LOGGER.info("Config loaded successfully");
-
-        if (!FabricLoader.getInstance().isModLoaded("wynntils")) {
-            LOGGER.warn("Wynntils mod not detected. The mod will not work properly.");
-            return;
-        }
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             // Is the feature enabled?
