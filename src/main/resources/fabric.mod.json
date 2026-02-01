@@ -32,5 +32,6 @@
     "fabric-api": "*",
     "minecraft": "${minecraft_version}",
     "wynntils": ">=3.4.4",
+    "cloth-config":  ">=${cloth_config_version}"
   }
 }
