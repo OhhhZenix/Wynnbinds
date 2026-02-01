@@ -30,6 +30,8 @@ fabricApi {
 repositories {
     // Cloth Config Repo
     maven { url "https://maven.shedaniel.me/" }
+    // Mod Menu Repo
+    maven { url "https://maven.terraformersmc.com/releases/" }
 }
 
 dependencies {
