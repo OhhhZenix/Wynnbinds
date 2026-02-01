@@ -56,7 +56,7 @@ public class WynnbindsClient implements ClientModInitializer {
     public void onInitializeClient() {
         LOGGER.info("Initializing Wynnbinds client mod");
         tickCounter = 0;
-        oldCharacterId = "";
+        oldCharacterId = DUMMY_CHARACTER_ID;
 
         AutoConfig.register(WynnbindsConfig.class, GsonConfigSerializer::new);
         config = AutoConfig.getConfigHolder(WynnbindsConfig.class).getConfig();
