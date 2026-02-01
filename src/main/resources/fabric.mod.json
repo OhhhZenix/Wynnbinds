@@ -4,8 +4,10 @@
   "version": "${version}",
   "name": "Wynnbinds",
   "description": "A simple Wynncraft mod that allows keybinds per character.",
-  "authors": ["OhhhZenix"],
   "contact": {},
+  "authors": [
+    "OhhhZenix"
+  ],
   "license": "GPL-3.0",
   "icon": "assets/wynnbinds/icon.png",
   "environment": "client",
