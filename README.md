@@ -14,3 +14,5 @@ A simple Wynncraft mod that allows keybinds per character.
 ## Compatibility
 
 - [Wynntils](https://modrinth.com/mod/wynntils)
+- [Wynncraft Spell Caster](https://modrinth.com/mod/wynncraft-spell-caster)
+- [BetterWynnMacros](https://modrinth.com/mod/better-wynn-macros)
