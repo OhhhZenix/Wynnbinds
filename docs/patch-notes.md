@@ -6,6 +6,7 @@ Here is a history of the project's patch notes.
 Here's what's changed:
 
 - Apply default keybinds for new characters
+- Add source page link
 
 ## Release 1.1.0
 
