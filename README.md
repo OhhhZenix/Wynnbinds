@@ -10,6 +10,8 @@ A simple Wynncraft mod that allows keybinds per character.
   - Mod Version: 17.0.144
   - MC Version: 1.21.4
 - [Mod Menu](https://modrinth.com/mod/modmenu) (Optional)
+  - Mod Version: 13.0.3
+  - MC Version: 1.21.4
 
 ## Compatibility
 
