@@ -14,7 +14,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
-import java.util.HashSet;
 
 public class WynnbindsClient implements ClientModInitializer {
 
@@ -200,7 +199,8 @@ public class WynnbindsClient implements ClientModInitializer {
                         client.getToastManager(),
                         SystemToast.Type.WORLD_BACKUP,
                         Text.of("Keybinds Updated"),
-                        Text.of("Updated keybinds for '" + newCharacterId + "' have been saved to configuration."));
+                        Text.of(String.format("Updated '%s' from '%s' to '%s'",
+                                SCAN_KEYS.get(translationKey).getDisplayName(), oldBoundKey, newBoundKey)));
             LOGGER.info("Updated keybind for '{}' from '{}' to '{}'", translationKey, oldBoundKey, newBoundKey);
         }
 
