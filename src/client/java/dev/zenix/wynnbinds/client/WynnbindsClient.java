@@ -29,30 +29,34 @@ public class WynnbindsClient implements ClientModInitializer {
     // the keys we want to track
     static {
         // Wynntils
-        SCAN_KEYS.put("Cast 1st Spell", new WynnbindsMetadata("Cast 1st Spell", "key.keyboard.z"));
-        SCAN_KEYS.put("Cast 2nd Spell", new WynnbindsMetadata("Cast 2nd Spell", "key.keyboard.x"));
-        SCAN_KEYS.put("Cast 3rd Spell", new WynnbindsMetadata("Cast 3rd Spell", "key.keyboard.c"));
-        SCAN_KEYS.put("Cast 4th Spell", new WynnbindsMetadata("Cast 4th Spell", "key.keyboard.v"));
+        SCAN_KEYS.put("Cast 1st Spell", new WynnbindsMetadata("Wynntils 1st Spell", "key.keyboard.z"));
+        SCAN_KEYS.put("Cast 2nd Spell", new WynnbindsMetadata("Wynntils 2nd Spell", "key.keyboard.x"));
+        SCAN_KEYS.put("Cast 3rd Spell", new WynnbindsMetadata("Wynntils 3rd Spell", "key.keyboard.c"));
+        SCAN_KEYS.put("Cast 4th Spell", new WynnbindsMetadata("Wynntils 4th Spell", "key.keyboard.v"));
 
         // Wynncraft Spell Caster
         SCAN_KEYS.put("key.wynncraft-spell-caster.spell.first",
-                new WynnbindsMetadata("First Spell", "key.keyboard.unknown"));
+                new WynnbindsMetadata("Spell Caster 1st Spell", "key.keyboard.unknown"));
         SCAN_KEYS.put("key.wynncraft-spell-caster.spell.second",
-                new WynnbindsMetadata("Second Spell", "key.keyboard.unknown"));
+                new WynnbindsMetadata("Spell Caster 2nd Spell", "key.keyboard.unknown"));
         SCAN_KEYS.put("key.wynncraft-spell-caster.spell.third",
-                new WynnbindsMetadata("Third Spell", "key.keyboard.unknown"));
+                new WynnbindsMetadata("Spell Caster 3rd Spell", "key.keyboard.unknown"));
         SCAN_KEYS.put("key.wynncraft-spell-caster.spell.fourth",
-                new WynnbindsMetadata("Fourth Spell", "key.keyboard.unknown"));
+                new WynnbindsMetadata("Spell Caster 4th Spell", "key.keyboard.unknown"));
         SCAN_KEYS.put("key.wynncraft-spell-caster.spell.melee",
-                new WynnbindsMetadata("Melee Spell", "key.keyboard.unknown"));
+                new WynnbindsMetadata("Spell Caster Melee", "key.keyboard.unknown"));
         SCAN_KEYS.put("key.wynncraft-spell-caster.config",
                 new WynnbindsMetadata("Spell Caster Config", "key.keyboard.unknown"));
 
         // BetterWynnMacros
-        SCAN_KEYS.put("key.ktnwynnmacros.spell.1", new WynnbindsMetadata("BetterWynnMacros Spell 1", "key.keyboard.r"));
-        SCAN_KEYS.put("key.ktnwynnmacros.spell.2", new WynnbindsMetadata("BetterWynnMacros Spell 2", "key.keyboard.f"));
-        SCAN_KEYS.put("key.ktnwynnmacros.spell.3", new WynnbindsMetadata("BetterWynnMacros Spell 3", "key.keyboard.v"));
-        SCAN_KEYS.put("key.ktnwynnmacros.spell.4", new WynnbindsMetadata("BetterWynnMacros Spell 4", "key.keyboard.q"));
+        SCAN_KEYS.put("key.ktnwynnmacros.spell.1",
+                new WynnbindsMetadata("BetterWynnMacros 1st Spell", "key.keyboard.r"));
+        SCAN_KEYS.put("key.ktnwynnmacros.spell.2",
+                new WynnbindsMetadata("BetterWynnMacros 2nd Spell", "key.keyboard.f"));
+        SCAN_KEYS.put("key.ktnwynnmacros.spell.3",
+                new WynnbindsMetadata("BetterWynnMacros 3rd Spell", "key.keyboard.v"));
+        SCAN_KEYS.put("key.ktnwynnmacros.spell.4",
+                new WynnbindsMetadata("BetterWynnMacros 4th Spell", "key.keyboard.q"));
     }
 
     private int tickCounter;
