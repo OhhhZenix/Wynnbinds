@@ -88,7 +88,11 @@ public class WynnbindsClient implements ClientModInitializer {
         });
     }
 
-    private void saveConfig() {
+    public WynnbindsConfig getConfig() {
+        return config;
+    }
+
+    public void saveConfig() {
         LOGGER.debug("Saving configuration");
         AutoConfig.getConfigHolder(WynnbindsConfig.class).save();
     }
