@@ -1,7 +1,7 @@
 # Patch Notes
 Here is a history of the project's patch notes.
 
-## Release v1.1.0
+## Release 1.1.0
 
 Here’s what’s included:
 
@@ -11,7 +11,7 @@ Here’s what’s included:
 - Improved log messages
 - Licensing updated
 
-## Release v1.0.0
+## Release 1.0.0
 
 This is the first ever release of the project! Here’s what’s included:
 
