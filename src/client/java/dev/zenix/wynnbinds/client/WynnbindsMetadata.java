@@ -2,8 +2,8 @@ package dev.zenix.wynnbinds.client;
 
 public class WynnbindsMetadata {
 
-    private String displayName;
-    private String defaultKey;
+    private final String displayName;
+    private final String defaultKey;
 
     public WynnbindsMetadata(String displayName, String defaultKey) {
         this.displayName = displayName;
