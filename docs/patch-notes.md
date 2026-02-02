@@ -12,13 +12,13 @@ This is the first ever release of the project! Here’s what’s included:
 - Handles key bind updates
 
 **Notification for new character**
-[](./images/1.png)
+![](./images/1.png)
 
 **Notification for existing character**
-[](./images/2.png)
+![](./images/2.png)
 
 **Notification for updating bind**
-[](./images/3.png)
+![](./images/3.png)
 
 **Settings menu**
-[](./images/4.png)
+![](./images/4.png)
