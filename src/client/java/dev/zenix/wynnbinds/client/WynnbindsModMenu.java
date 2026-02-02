@@ -22,14 +22,14 @@ public class WynnbindsModMenu implements ModMenuApi {
             configCategory.addEntry(entryBuilder
                     .startBooleanToggle(Text.of("Enable Mod"),
                             WynnbindsClient.getInstance().getConfig().isModEnabled())
-                    .setDefaultValue(false)
+                    .setDefaultValue(true)
                     .setSaveConsumer(value -> WynnbindsClient.getInstance().getConfig().setEnableMod(value))
                     .build());
 
             configCategory.addEntry(entryBuilder
                     .startBooleanToggle(Text.of("Enable Notifications"),
                             WynnbindsClient.getInstance().getConfig().isNotificationsEnabled())
-                    .setDefaultValue(false)
+                    .setDefaultValue(true)
                     .setSaveConsumer(value -> WynnbindsClient.getInstance().getConfig().setEnableNotifications(value))
                     .build());
 
