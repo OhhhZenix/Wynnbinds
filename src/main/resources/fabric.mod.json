@@ -23,6 +23,9 @@
     ],
     "main": [
       "dev.zenix.wynnbinds.Wynnbinds"
+    ],
+    "modmenu": [
+      "dev.zenix.wynnbinds.client.WynnbindsModMenu"
     ]
   },
   "mixins": [
