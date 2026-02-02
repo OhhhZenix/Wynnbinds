@@ -24,6 +24,8 @@ public class WynnbindsClient implements ClientModInitializer {
     private static final int CHECK_INTERVAL_TICKS = 20;
     private static final HashMap<String, String> SCAN_KEYS = new HashMap<>();
 
+    private static WynnbindsClient instance;
+
     // left is the key we are wanting to track, right is the display name for later.
     static {
         // Wynntils
@@ -51,9 +53,14 @@ public class WynnbindsClient implements ClientModInitializer {
     private String oldCharacterId;
     private WynnbindsConfig config;
 
+    public static WynnbindsClient getInstance() {
+        return instance;
+    }
+
     @Override
     public void onInitializeClient() {
         LOGGER.info("Initializing Wynnbinds client mod");
+        instance = this;
         tickCounter = 0;
         oldCharacterId = DUMMY_CHARACTER_ID;
 
