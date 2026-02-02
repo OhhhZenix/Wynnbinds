@@ -23,31 +23,37 @@ public class WynnbindsClient implements ClientModInitializer {
 
     private static final String DUMMY_CHARACTER_ID = "-";
     private static final int CHECK_INTERVAL_TICKS = 20;
-    private static final HashSet<String> SCAN_KEYS = new HashSet<>();
+    private static final HashMap<String, WynnbindsMetadata> SCAN_KEYS = new HashMap<>();
 
     private static WynnbindsClient instance;
 
     // the keys we want to track
     static {
         // Wynntils
-        SCAN_KEYS.add("Cast 1st Spell");
-        SCAN_KEYS.add("Cast 2nd Spell");
-        SCAN_KEYS.add("Cast 3rd Spell");
-        SCAN_KEYS.add("Cast 4th Spell");
+        SCAN_KEYS.put("Cast 1st Spell", new WynnbindsMetadata("Cast 1st Spell", "key.keyboard.z"));
+        SCAN_KEYS.put("Cast 2nd Spell", new WynnbindsMetadata("Cast 2nd Spell", "key.keyboard.x"));
+        SCAN_KEYS.put("Cast 3rd Spell", new WynnbindsMetadata("Cast 3rd Spell", "key.keyboard.c"));
+        SCAN_KEYS.put("Cast 4th Spell", new WynnbindsMetadata("Cast 4th Spell", "key.keyboard.v"));
 
         // Wynncraft Spell Caster
-        SCAN_KEYS.add("key.wynncraft-spell-caster.spell.first");
-        SCAN_KEYS.add("key.wynncraft-spell-caster.spell.second");
-        SCAN_KEYS.add("key.wynncraft-spell-caster.spell.third");
-        SCAN_KEYS.add("key.wynncraft-spell-caster.spell.fourth");
-        SCAN_KEYS.add("key.wynncraft-spell-caster.spell.melee");
-        SCAN_KEYS.add("key.wynncraft-spell-caster.config");
+        SCAN_KEYS.put("key.wynncraft-spell-caster.spell.first",
+                new WynnbindsMetadata("First Spell", "key.keyboard.unknown"));
+        SCAN_KEYS.put("key.wynncraft-spell-caster.spell.second",
+                new WynnbindsMetadata("Second Spell", "key.keyboard.unknown"));
+        SCAN_KEYS.put("key.wynncraft-spell-caster.spell.third",
+                new WynnbindsMetadata("Third Spell", "key.keyboard.unknown"));
+        SCAN_KEYS.put("key.wynncraft-spell-caster.spell.fourth",
+                new WynnbindsMetadata("Fourth Spell", "key.keyboard.unknown"));
+        SCAN_KEYS.put("key.wynncraft-spell-caster.spell.melee",
+                new WynnbindsMetadata("Melee Spell", "key.keyboard.unknown"));
+        SCAN_KEYS.put("key.wynncraft-spell-caster.config",
+                new WynnbindsMetadata("Spell Caster Config", "key.keyboard.unknown"));
 
         // BetterWynnMacros
-        SCAN_KEYS.add("key.ktnwynnmacros.spell.1");
-        SCAN_KEYS.add("key.ktnwynnmacros.spell.2");
-        SCAN_KEYS.add("key.ktnwynnmacros.spell.3");
-        SCAN_KEYS.add("key.ktnwynnmacros.spell.4");
+        SCAN_KEYS.put("key.ktnwynnmacros.spell.1", new WynnbindsMetadata("BetterWynnMacros Spell 1", "key.keyboard.r"));
+        SCAN_KEYS.put("key.ktnwynnmacros.spell.2", new WynnbindsMetadata("BetterWynnMacros Spell 2", "key.keyboard.f"));
+        SCAN_KEYS.put("key.ktnwynnmacros.spell.3", new WynnbindsMetadata("BetterWynnMacros Spell 3", "key.keyboard.v"));
+        SCAN_KEYS.put("key.ktnwynnmacros.spell.4", new WynnbindsMetadata("BetterWynnMacros Spell 4", "key.keyboard.q"));
     }
 
     private int tickCounter;
@@ -165,7 +171,7 @@ public class WynnbindsClient implements ClientModInitializer {
 
         for (KeyBinding keyBinding : client.options.allKeys) {
             // is this a keybind we care?
-            if (!SCAN_KEYS.contains(keyBinding.getTranslationKey()))
+            if (!SCAN_KEYS.containsKey(keyBinding.getTranslationKey()))
                 continue;
 
             HashMap<String, String> keyMappings = config.getKeyBinds(newCharacterId);
