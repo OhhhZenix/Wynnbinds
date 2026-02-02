@@ -169,7 +169,7 @@ public class WynnbindsClient implements ClientModInitializer {
 
         for (KeyBinding keyBinding : client.options.allKeys) {
             // is this a keybind we care?
-            if (!SCAN_KEYS.containsKey(keyBinding.getTranslationKey()))
+            if (!SCAN_KEYS.contains(keyBinding.getTranslationKey()))
                 continue;
 
             HashMap<String, String> keyMappings = config.getKeyBinds(newCharacterId);
@@ -178,7 +178,7 @@ public class WynnbindsClient implements ClientModInitializer {
 
             // Is this a new mapping?
             if (!keyMappings.containsKey(translationKey)) {
-                LOGGER.debug("Detected new keybind: {} = {}", SCAN_KEYS.get(translationKey), newBoundKey);
+                LOGGER.debug("Detected new keybind: {} = {}", translationKey, newBoundKey);
                 keyMappings.put(translationKey, newBoundKey);
                 shouldSaveConfig = true;
                 continue;
@@ -193,7 +193,7 @@ public class WynnbindsClient implements ClientModInitializer {
             keyMappings.put(translationKey, newBoundKey);
             shouldSaveConfig = true;
 
-            LOGGER.info("Updated keybind '{}' to '{}'", SCAN_KEYS.get(translationKey), newBoundKey);
+            LOGGER.info("Updated keybind for '{}' from '{}' to '{}'", translationKey, oldBoundKey, newBoundKey);
             if (config.isNotificationsEnabled())
                 MinecraftClient.getInstance().execute(() -> {
                     SystemToast.add(
