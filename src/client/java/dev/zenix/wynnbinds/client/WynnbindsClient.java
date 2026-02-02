@@ -110,13 +110,11 @@ public class WynnbindsClient implements ClientModInitializer {
             LOGGER.info("Setting up new character: {}", newCharacterId);
             config.setKeyBinds(newCharacterId, new HashMap<>());
             if (config.isNotificationsEnabled())
-                MinecraftClient.getInstance().execute(() -> {
-                    SystemToast.add(
-                            MinecraftClient.getInstance().getToastManager(),
-                            SystemToast.Type.WORLD_BACKUP,
-                            Text.of("New Character"),
-                            Text.of("Keybinds for character '" + newCharacterId + "' set up."));
-                });
+                SystemToast.add(
+                        MinecraftClient.getInstance().getToastManager(),
+                        SystemToast.Type.WORLD_BACKUP,
+                        Text.of("New Character Detected"),
+                        Text.of("Default keybinds created for character '" + newCharacterId + "'."));
             return;
         }
 
@@ -149,13 +147,11 @@ public class WynnbindsClient implements ClientModInitializer {
 
         // Notify the player
         if (config.isNotificationsEnabled())
-            MinecraftClient.getInstance().execute(() -> {
-                SystemToast.add(
-                        MinecraftClient.getInstance().getToastManager(),
-                        SystemToast.Type.WORLD_BACKUP,
-                        Text.of("Character Loaded"),
-                        Text.of("Keybinds for character '" + newCharacterId + "' applied."));
-            });
+            SystemToast.add(
+                    MinecraftClient.getInstance().getToastManager(),
+                    SystemToast.Type.WORLD_BACKUP,
+                    Text.of("Keybinds Applied"),
+                    Text.of("Keybinds for character '" + newCharacterId + "' have been loaded and applied."));
     }
 
     private void updateKeys(MinecraftClient client, String newCharacterId) {
@@ -193,15 +189,13 @@ public class WynnbindsClient implements ClientModInitializer {
             keyMappings.put(translationKey, newBoundKey);
             shouldSaveConfig = true;
 
-            LOGGER.info("Updated keybind for '{}' from '{}' to '{}'", translationKey, oldBoundKey, newBoundKey);
             if (config.isNotificationsEnabled())
-                MinecraftClient.getInstance().execute(() -> {
-                    SystemToast.add(
-                            MinecraftClient.getInstance().getToastManager(),
-                            SystemToast.Type.WORLD_BACKUP,
-                            Text.of("Character Updated"),
-                            Text.of("Keybinds for character '" + newCharacterId + "' updated."));
-                });
+                SystemToast.add(
+                        client.getToastManager(),
+                        SystemToast.Type.WORLD_BACKUP,
+                        Text.of("Keybinds Updated"),
+                        Text.of("Updated keybinds for '" + newCharacterId + "' have been saved to configuration."));
+            LOGGER.info("Updated keybind for '{}' from '{}' to '{}'", translationKey, oldBoundKey, newBoundKey);
         }
 
         if (shouldSaveConfig)
