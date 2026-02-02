@@ -16,3 +16,7 @@ A simple Wynncraft mod that allows keybinds per character.
 - [Wynntils](https://modrinth.com/mod/wynntils)
 - [Wynncraft Spell Caster](https://modrinth.com/mod/wynncraft-spell-caster)
 - [BetterWynnMacros](https://modrinth.com/mod/better-wynn-macros)
+
+## Todo
+
+- Update to 1.21.11 when Wynntils fully releases on 1.21.11
