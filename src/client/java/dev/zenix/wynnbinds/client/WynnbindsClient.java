@@ -199,7 +199,7 @@ public class WynnbindsClient implements ClientModInitializer {
                         client.getToastManager(),
                         SystemToast.Type.WORLD_BACKUP,
                         Text.of("Keybinds Updated"),
-                        Text.of(String.format("Updated '%s' from '%s' to '%s'",
+                        Text.of(String.format("Updated '%s' from '%s' to '%s' and saved configurations.",
                                 SCAN_KEYS.get(translationKey).getDisplayName(), oldBoundKey, newBoundKey)));
             LOGGER.info("Updated keybind for '{}' from '{}' to '{}'", translationKey, oldBoundKey, newBoundKey);
         }
