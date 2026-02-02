@@ -1,6 +1,12 @@
 # Patch Notes
 Here is a history of the project's patch notes.
 
+## Release 1.2.0
+
+Here's what's changed:
+
+- Apply default keybinds for new characters
+
 ## Release 1.1.0
 
 Here’s what’s included:
