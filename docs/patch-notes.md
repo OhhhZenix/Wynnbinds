@@ -5,7 +5,7 @@ Here is a history of the project's patch notes.
 
 Here’s what’s included:
 
-- Fix logic for update keybinds notifications
+- Fix notifications
 - Update scan keys' data structure
 - Improved toast messages
 - Improved log messages
