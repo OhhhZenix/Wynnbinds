@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class WynnbindsClient implements ClientModInitializer {
 
@@ -22,31 +23,31 @@ public class WynnbindsClient implements ClientModInitializer {
 
     private static final String DUMMY_CHARACTER_ID = "-";
     private static final int CHECK_INTERVAL_TICKS = 20;
-    private static final HashMap<String, String> SCAN_KEYS = new HashMap<>();
+    private static final HashSet<String> SCAN_KEYS = new HashSet<>();
 
     private static WynnbindsClient instance;
 
-    // left is the key we are wanting to track, right is the display name for later.
+    // the keys we want to track
     static {
         // Wynntils
-        SCAN_KEYS.put("Cast 1st Spell", "Cast 1st Spell");
-        SCAN_KEYS.put("Cast 2nd Spell", "Cast 2nd Spell");
-        SCAN_KEYS.put("Cast 3rd Spell", "Cast 3rd Spell");
-        SCAN_KEYS.put("Cast 4th Spell", "Cast 4th Spell");
+        SCAN_KEYS.add("Cast 1st Spell");
+        SCAN_KEYS.add("Cast 2nd Spell");
+        SCAN_KEYS.add("Cast 3rd Spell");
+        SCAN_KEYS.add("Cast 4th Spell");
 
         // Wynncraft Spell Caster
-        SCAN_KEYS.put("key.wynncraft-spell-caster.spell.first", "First Spell");
-        SCAN_KEYS.put("key.wynncraft-spell-caster.spell.second", "Second Spell");
-        SCAN_KEYS.put("key.wynncraft-spell-caster.spell.third", "Third Spell");
-        SCAN_KEYS.put("key.wynncraft-spell-caster.spell.fourth", "Fourth Spell");
-        SCAN_KEYS.put("key.wynncraft-spell-caster.spell.melee", "Melee Attack");
-        SCAN_KEYS.put("key.wynncraft-spell-caster.config", "Open Spell Caster Config");
+        SCAN_KEYS.add("key.wynncraft-spell-caster.spell.first");
+        SCAN_KEYS.add("key.wynncraft-spell-caster.spell.second");
+        SCAN_KEYS.add("key.wynncraft-spell-caster.spell.third");
+        SCAN_KEYS.add("key.wynncraft-spell-caster.spell.fourth");
+        SCAN_KEYS.add("key.wynncraft-spell-caster.spell.melee");
+        SCAN_KEYS.add("key.wynncraft-spell-caster.config");
 
         // BetterWynnMacros
-        SCAN_KEYS.put("key.ktnwynnmacros.spell.1", "Spell 1");
-        SCAN_KEYS.put("key.ktnwynnmacros.spell.2", "Spell 2");
-        SCAN_KEYS.put("key.ktnwynnmacros.spell.3", "Spell 3");
-        SCAN_KEYS.put("key.ktnwynnmacros.spell.4", "Spell 4");
+        SCAN_KEYS.add("key.ktnwynnmacros.spell.1");
+        SCAN_KEYS.add("key.ktnwynnmacros.spell.2");
+        SCAN_KEYS.add("key.ktnwynnmacros.spell.3");
+        SCAN_KEYS.add("key.ktnwynnmacros.spell.4");
     }
 
     private int tickCounter;
