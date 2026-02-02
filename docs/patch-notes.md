@@ -1,6 +1,14 @@
 # Patch Notes
 Here is a history of the project's patch notes.
 
+## Release v1.1.0
+
+Here’s what’s included:
+
+- Fix logic for update keybinds notifications
+- Simplify scan keys' data structure
+- Licensing updated
+
 ## Release v1.0.0
 
 This is the first ever release of the project! Here’s what’s included:
