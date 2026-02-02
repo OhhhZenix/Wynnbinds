@@ -4,29 +4,20 @@
   "version": "${version}",
   "name": "Wynnbinds",
   "description": "A simple Wynncraft mod that allows keybinds per character.",
-  "authors": [
-    "OhhhZenix"
-  ],
+  "authors": ["OhhhZenix"],
   "contact": {
     "homepage": "https://github.com/OhhhZenix/Wynnbinds",
-    "issues": "https://github.com/OhhhZenix/Wynnbinds/issues"
+    "issues": "https://github.com/OhhhZenix/Wynnbinds/issues",
+    "sources": "https://github.com/OhhhZenix/Wynnbinds"
   },
   "license": "GPL-3.0",
   "icon": "assets/wynnbinds/icon.png",
   "environment": "client",
   "entrypoints": {
-    "fabric-datagen": [
-      "dev.zenix.wynnbinds.client.WynnbindsDataGenerator"
-    ],
-    "client": [
-      "dev.zenix.wynnbinds.client.WynnbindsClient"
-    ],
-    "main": [
-      "dev.zenix.wynnbinds.Wynnbinds"
-    ],
-    "modmenu": [
-      "dev.zenix.wynnbinds.client.WynnbindsModMenu"
-    ]
+    "fabric-datagen": ["dev.zenix.wynnbinds.client.WynnbindsDataGenerator"],
+    "client": ["dev.zenix.wynnbinds.client.WynnbindsClient"],
+    "main": ["dev.zenix.wynnbinds.Wynnbinds"],
+    "modmenu": ["dev.zenix.wynnbinds.client.WynnbindsModMenu"]
   },
   "mixins": [
     "wynnbinds.mixins.json",
