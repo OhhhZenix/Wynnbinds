@@ -3,6 +3,8 @@ Here is a history of the project's patch notes.
 
 ## Release 1.3.0
 
+What this release brings:
+
 - Update checker
 - Ability to set custom default binds
 - Update config menu
