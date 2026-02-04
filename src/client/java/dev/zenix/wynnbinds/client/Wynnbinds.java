@@ -1,7 +1,6 @@
 package dev.zenix.wynnbinds.client;
 
 import java.util.HashMap;
-import java.util.HashSet;
 
 public enum Wynnbinds {
         // Wynntils
