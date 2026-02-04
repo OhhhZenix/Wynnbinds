@@ -4,6 +4,7 @@ import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.toast.SystemToast;
@@ -15,6 +16,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.Configurator;
 
+import com.google.gson.Gson;
+
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.HashMap;
 
 public class WynnbindsClient implements ClientModInitializer {
@@ -23,11 +30,13 @@ public class WynnbindsClient implements ClientModInitializer {
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
     private static final int CHECK_INTERVAL_TICKS = 20;
+    private static final int UPDATE_CHECK_INTERVAL_MS = 3_600_000; // 1 hour
     private static WynnbindsClient instance = null;
 
     private int tickCounter = 0;
     private String oldCharacterId = WynnbindsUtils.DUMMY_CHARACTER_ID;
     private WynnbindsConfig config = null;
+    private long lastUpdateCheckTime = 0;
 
     public static WynnbindsClient getInstance() {
         return instance;
@@ -45,10 +54,6 @@ public class WynnbindsClient implements ClientModInitializer {
         LOGGER.info("Config loaded successfully");
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            // Is the feature enabled?
-            if (!config.isModEnabled())
-                return;
-
             // Should we check yet?
             if (tickCounter < CHECK_INTERVAL_TICKS) {
                 tickCounter++;
@@ -58,6 +63,14 @@ public class WynnbindsClient implements ClientModInitializer {
 
             // Is the player valid?
             if (client.player == null)
+                return;
+
+            // Check for updates
+            if (config.isUpdateNotificationsEnabled() && shouldCheckForUpdates())
+                checkForUpdates(client);
+
+            // Is the feature enabled?
+            if (!config.isModEnabled())
                 return;
 
             String newCharacterId = WynnbindsUtils.getCharacterId();
@@ -79,6 +92,49 @@ public class WynnbindsClient implements ClientModInitializer {
     public void saveConfig() {
         LOGGER.debug("Saving configuration");
         AutoConfig.getConfigHolder(WynnbindsConfig.class).save();
+    }
+
+    private boolean shouldCheckForUpdates() {
+        return System.currentTimeMillis() - lastUpdateCheckTime > UPDATE_CHECK_INTERVAL_MS;
+    }
+
+    private void checkForUpdates(MinecraftClient client) {
+        try {
+            final String API_URL = "https://api.github.com/repos/OhhhZenix/Wynnbinds/releases/latest";
+            HttpClient httpClient = HttpClient.newHttpClient();
+            HttpRequest httpRequest = HttpRequest.newBuilder()
+                    .uri(URI.create(API_URL))
+                    .header("Accept", "application/json")
+                    .build();
+            HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+
+            if (httpResponse.statusCode() != 200) {
+                System.out.println("Failed to fetch. Status code: " + httpResponse.statusCode());
+                return;
+            }
+
+            String body = httpResponse.body();
+            Gson gson = new Gson();
+            var json = gson.fromJson(body, HashMap.class);
+            String latestVersion = (String) json.get("tag_name");
+            String currentVersion = FabricLoader.getInstance().getModContainer(MOD_ID)
+                    .map(modContainer -> modContainer.getMetadata().getVersion().getFriendlyString())
+                    .orElse("0.0.0");
+            String homepageUrl = FabricLoader.getInstance().getModContainer(MOD_ID)
+                    .flatMap(modContainer -> modContainer.getMetadata().getContact().get("homepage"))
+                    .orElse("https://github.com/OhhhZenix/Wynnbinds");
+
+            if (WynnbindsUtils.compareSemver(latestVersion, currentVersion) > 0)
+                client.player.sendMessage(
+                        Text.of(String.format(
+                                "Wynnbinds v%s is now available. You're running v%s. Visit %s to download.",
+                                latestVersion, currentVersion, homepageUrl)),
+                        false);
+        } catch (Exception e) {
+            LOGGER.warn("Failed to check for updates", e);
+        }
+
+        lastUpdateCheckTime = System.currentTimeMillis();
     }
 
     private void loadKeys(MinecraftClient client, String newCharacterId) {

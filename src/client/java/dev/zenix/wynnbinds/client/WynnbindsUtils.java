@@ -55,4 +55,21 @@ public class WynnbindsUtils {
         }
     }
 
+    public static int compareSemver(String v1, String v2) {
+        String[] a = v1.split("\\.");
+        String[] b = v2.split("\\.");
+
+        int len = Math.max(a.length, b.length);
+
+        for (int i = 0; i < len; i++) {
+            int n1 = i < a.length ? Integer.parseInt(a[i]) : 0;
+            int n2 = i < b.length ? Integer.parseInt(b[i]) : 0;
+
+            if (n1 != n2) {
+                return Integer.compare(n1, n2);
+            }
+        }
+        return 0;
+    }
+
 }
