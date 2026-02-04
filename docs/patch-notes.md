@@ -1,6 +1,10 @@
 # Patch Notes
 Here is a history of the project's patch notes.
 
+## Release 1.3.1
+
+- Change log level from debug to info
+
 ## Release 1.3.0
 
 What this release brings:
