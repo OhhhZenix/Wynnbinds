@@ -120,6 +120,7 @@ public class WynnbindsClient implements ClientModInitializer {
     }
 
     private void loadKeys(MinecraftClient client, String newCharacterId) {
+        // Is it a new character?
         if (!config.hasCharacter(newCharacterId)) {
             LOGGER.info("Setting up new character: {}", newCharacterId);
 
@@ -173,7 +174,7 @@ public class WynnbindsClient implements ClientModInitializer {
     }
 
     private void updateKeys(MinecraftClient client, String newCharacterId) {
-        // Is this a new character?
+        // Is it a different character?
         if (!newCharacterId.equals(oldCharacterId)) {
             LOGGER.info("Character changed from '{}' to '{}'", oldCharacterId, newCharacterId);
             loadKeys(client, newCharacterId);
