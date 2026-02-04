@@ -12,28 +12,24 @@ public class WynnbindsModMenu implements ModMenuApi {
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
         return parent -> {
-            ConfigBuilder builder = ConfigBuilder.create()
-                    .setParentScreen(parent).setTitle(Text.of("Wynnbinds"));
+            ConfigBuilder builder = ConfigBuilder.create().setParentScreen(parent).setTitle(Text.of("Wynnbinds"));
+            builder.setSavingRunnable(WynnbindsClient.getInstance()::saveConfig);
 
             ConfigEntryBuilder entryBuilder = builder.entryBuilder();
-
             ConfigCategory configCategory = builder.getOrCreateCategory(Text.of("Config"));
 
+            // General
+            configCategory.addEntry(entryBuilder.startTextDescription(Text.of("General")).build());
             configCategory.addEntry(entryBuilder
-                    .startBooleanToggle(Text.of("Enable Mod"),
-                            WynnbindsClient.getInstance().getConfig().isModEnabled())
+                    .startBooleanToggle(Text.of("Enable Mod"), WynnbindsClient.getInstance().getConfig().isModEnabled())
                     .setDefaultValue(true)
-                    .setSaveConsumer(value -> WynnbindsClient.getInstance().getConfig().setEnableMod(value))
-                    .build());
-
+                    .setSaveConsumer(value -> WynnbindsClient.getInstance().getConfig().setEnableMod(value)).build());
             configCategory.addEntry(entryBuilder
                     .startBooleanToggle(Text.of("Enable Notifications"),
                             WynnbindsClient.getInstance().getConfig().isNotificationsEnabled())
                     .setDefaultValue(true)
                     .setSaveConsumer(value -> WynnbindsClient.getInstance().getConfig().setEnableNotifications(value))
                     .build());
-
-            builder.setSavingRunnable(WynnbindsClient.getInstance()::saveConfig);
 
             return builder.build();
         };
