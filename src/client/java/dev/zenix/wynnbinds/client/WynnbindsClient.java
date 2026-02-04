@@ -52,13 +52,13 @@ public class WynnbindsClient implements ClientModInitializer {
 
         // BetterWynnMacros
         SCAN_KEYS.put("key.ktnwynnmacros.spell.1",
-                new WynnbindsMetadata("BetterWynnMacros 1st Spell", "key.keyboard.r"));
+                new WynnbindsMetadata("BetterWynnMacros 1st Spell", "key.keyboard.unknown"));
         SCAN_KEYS.put("key.ktnwynnmacros.spell.2",
-                new WynnbindsMetadata("BetterWynnMacros 2nd Spell", "key.keyboard.f"));
+                new WynnbindsMetadata("BetterWynnMacros 2nd Spell", "key.keyboard.unknown"));
         SCAN_KEYS.put("key.ktnwynnmacros.spell.3",
-                new WynnbindsMetadata("BetterWynnMacros 3rd Spell", "key.keyboard.v"));
+                new WynnbindsMetadata("BetterWynnMacros 3rd Spell", "key.keyboard.unknown"));
         SCAN_KEYS.put("key.ktnwynnmacros.spell.4",
-                new WynnbindsMetadata("BetterWynnMacros 4th Spell", "key.keyboard.q"));
+                new WynnbindsMetadata("BetterWynnMacros 4th Spell", "key.keyboard.unknown"));
     }
 
     private int tickCounter;
