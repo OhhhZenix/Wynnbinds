@@ -1,7 +1,5 @@
 package dev.zenix.wynnbinds.client;
 
-import com.wynntils.core.components.Models;
-
 import dev.zenix.wynnbinds.WynnbindsUtils;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
@@ -12,8 +10,11 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.toast.SystemToast;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
+
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.Configurator;
 
 import java.util.HashMap;
 
@@ -22,7 +23,6 @@ public class WynnbindsClient implements ClientModInitializer {
     public static final String MOD_ID = "wynnbinds";
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
-    private static final String DUMMY_CHARACTER_ID = "-";
     private static final int CHECK_INTERVAL_TICKS = 20;
     private static final HashMap<String, WynnbindsMetadata> SCAN_KEYS = new HashMap<>();
 
@@ -71,10 +71,12 @@ public class WynnbindsClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        Configurator.setLevel(LOGGER.getName(), Level.DEBUG);
+
         LOGGER.info("Initializing Wynnbinds client mod");
         instance = this;
         tickCounter = 0;
-        oldCharacterId = DUMMY_CHARACTER_ID;
+        oldCharacterId = WynnbindsUtils.DUMMY_CHARACTER_ID;
 
         AutoConfig.register(WynnbindsConfig.class, GsonConfigSerializer::new);
         config = AutoConfig.getConfigHolder(WynnbindsConfig.class).getConfig();
@@ -96,10 +98,11 @@ public class WynnbindsClient implements ClientModInitializer {
             if (client.player == null)
                 return;
 
-            String newCharacterId = Models.Character.getId();
+            String newCharacterId = WynnbindsUtils.getCharacterId();
+            LOGGER.debug("Checking character ID: old='{}', new='{}'", oldCharacterId, newCharacterId);
 
             // Is it a valid character?
-            if (newCharacterId.equals(DUMMY_CHARACTER_ID))
+            if (newCharacterId.equals(WynnbindsUtils.DUMMY_CHARACTER_ID))
                 return;
 
             updateKeys(client, newCharacterId);
@@ -119,17 +122,22 @@ public class WynnbindsClient implements ClientModInitializer {
     private void loadKeys(MinecraftClient client, String newCharacterId) {
         if (!config.hasCharacter(newCharacterId)) {
             LOGGER.info("Setting up new character: {}", newCharacterId);
-            config.setKeyBinds(newCharacterId, new HashMap<>());
+
+            HashMap<String, String> defaultBinds = SCAN_KEYS.entrySet().stream().collect(HashMap::new,
+                    (map, entry) -> map.put(entry.getKey(), entry.getValue().getDefaultKey()), HashMap::putAll);
+            config.setKeyBinds(newCharacterId, defaultBinds);
+            saveConfig();
+
             if (config.isNotificationsEnabled())
                 SystemToast.add(
                         MinecraftClient.getInstance().getToastManager(),
                         SystemToast.Type.WORLD_BACKUP,
                         Text.of("New Character Detected"),
                         Text.of("Default keybinds created for character '" + newCharacterId + "'."));
-            return;
         }
 
         LOGGER.info("Loading keybinds for character: {}", newCharacterId);
+
         HashMap<String, String> keyMappings = config.getKeyBinds(newCharacterId);
         for (String translationKey : keyMappings.keySet()) {
             String boundKey = keyMappings.get(translationKey);
@@ -143,6 +151,13 @@ public class WynnbindsClient implements ClientModInitializer {
             }
         }
 
+        if (config.isNotificationsEnabled())
+            SystemToast.add(
+                    MinecraftClient.getInstance().getToastManager(),
+                    SystemToast.Type.WORLD_BACKUP,
+                    Text.of("Keybinds Applied"),
+                    Text.of("Keybinds for character '" + newCharacterId + "' have been loaded and applied."));
+
         // Force a refresh of the keybinding system
         LOGGER.debug("Refreshing keybinding system");
         KeyBinding.updateKeysByCode();
@@ -155,14 +170,6 @@ public class WynnbindsClient implements ClientModInitializer {
         // Save changes to options.txt
         LOGGER.debug("Writing keybindings to options.txt");
         client.options.write();
-
-        // Notify the player
-        if (config.isNotificationsEnabled())
-            SystemToast.add(
-                    MinecraftClient.getInstance().getToastManager(),
-                    SystemToast.Type.WORLD_BACKUP,
-                    Text.of("Keybinds Applied"),
-                    Text.of("Keybinds for character '" + newCharacterId + "' have been loaded and applied."));
     }
 
     private void updateKeys(MinecraftClient client, String newCharacterId) {
