@@ -25,10 +25,12 @@ public class WynnbindsModMenu implements ModMenuApi {
             configCategory.addEntry(entryBuilder.startTextDescription(Text.of("General")).build());
             configCategory.addEntry(entryBuilder
                     .startBooleanToggle(Text.of("Enable Mod"), config.isModEnabled())
+                    .setTooltip(Text.of("Enable or disable the Wynnbinds mod"))
                     .setDefaultValue(true)
                     .setSaveConsumer(value -> config.setEnableMod(value)).build());
             configCategory.addEntry(entryBuilder
                     .startBooleanToggle(Text.of("Enable Notifications"), config.isNotificationsEnabled())
+                    .setTooltip(Text.of("Enable or disable bind notifications"))
                     .setDefaultValue(true)
                     .setSaveConsumer(value -> config.setEnableNotifications(value))
                     .build());
@@ -42,6 +44,7 @@ public class WynnbindsModMenu implements ModMenuApi {
                 InputUtil.Key defaultKey = InputUtil.fromTranslationKey(bind.getDefaultBoundKey());
                 configCategory.addEntry(entryBuilder
                         .startKeyCodeField(Text.of(bind.getDisplayName()), currentKey)
+                        .setTooltip(Text.of(String.format("Set default keybind for %s", bind.getDisplayName())))
                         .setDefaultValue(defaultKey)
                         .setKeySaveConsumer(value -> {
                             String boundKey = value.getTranslationKey();
