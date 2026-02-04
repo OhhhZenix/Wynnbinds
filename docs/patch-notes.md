@@ -8,6 +8,7 @@ Here's what's changed:
 - Apply default keybinds for new characters
 - Add source page link
 - Update home page to Modrinth
+- Update config menu
 
 ## Release 1.1.0
 
