@@ -89,7 +89,7 @@ public class WynnbindsClient implements ClientModInitializer {
             config.setKeyBinds(newCharacterId, config.getDefaultKeyBinds());
             saveConfig();
 
-            if (config.isNotificationsEnabled())
+            if (config.isBindNotificationsEnabled())
                 SystemToast.add(
                         MinecraftClient.getInstance().getToastManager(),
                         SystemToast.Type.WORLD_BACKUP,
@@ -112,7 +112,7 @@ public class WynnbindsClient implements ClientModInitializer {
             }
         }
 
-        if (config.isNotificationsEnabled())
+        if (config.isBindNotificationsEnabled())
             SystemToast.add(
                     MinecraftClient.getInstance().getToastManager(),
                     SystemToast.Type.WORLD_BACKUP,
@@ -169,7 +169,7 @@ public class WynnbindsClient implements ClientModInitializer {
             keyMappings.put(translationKey, newBoundKey);
             shouldSaveConfig = true;
 
-            if (config.isNotificationsEnabled())
+            if (config.isBindNotificationsEnabled())
                 SystemToast.add(
                         client.getToastManager(),
                         SystemToast.Type.WORLD_BACKUP,

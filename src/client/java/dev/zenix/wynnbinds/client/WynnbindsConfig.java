@@ -10,7 +10,8 @@ import java.util.HashMap;
 public class WynnbindsConfig implements ConfigData {
 
     private boolean enableMod = true;
-    private boolean enableNotifications = true;
+    private boolean enableBindNotifications = true;
+    private boolean enableUpdateNotifications = true;
     private HashMap<String, String> defaultKeyBinds = Wynnbinds.getDefaultKeyBinds();
 
     @ConfigEntry.Gui.Excluded
@@ -24,12 +25,20 @@ public class WynnbindsConfig implements ConfigData {
         enableMod = enabled;
     }
 
-    public boolean isNotificationsEnabled() {
-        return enableNotifications;
+    public boolean isBindNotificationsEnabled() {
+        return enableBindNotifications;
     }
 
-    public void setEnableNotifications(boolean enabled) {
-        enableNotifications = enabled;
+    public void setEnableBindNotifications(boolean enabled) {
+        enableBindNotifications = enabled;
+    }
+
+    public boolean isUpdateNotificationsEnabled() {
+        return enableUpdateNotifications;
+    }
+
+    public void setEnableUpdateNotifications(boolean enabled) {
+        enableUpdateNotifications = enabled;
     }
 
     public boolean hasCharacter(String characterId) {

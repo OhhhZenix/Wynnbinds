@@ -29,10 +29,10 @@ public class WynnbindsModMenu implements ModMenuApi {
                     .setDefaultValue(true)
                     .setSaveConsumer(value -> config.setEnableMod(value)).build());
             configCategory.addEntry(entryBuilder
-                    .startBooleanToggle(Text.of("Enable Notifications"), config.isNotificationsEnabled())
+                    .startBooleanToggle(Text.of("Enable Notifications"), config.isBindNotificationsEnabled())
                     .setTooltip(Text.of("Enable or disable bind notifications"))
                     .setDefaultValue(true)
-                    .setSaveConsumer(value -> config.setEnableNotifications(value))
+                    .setSaveConsumer(value -> config.setEnableBindNotifications(value))
                     .build());
 
             // Keybinds
