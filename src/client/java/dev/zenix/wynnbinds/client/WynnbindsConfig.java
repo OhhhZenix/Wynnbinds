@@ -6,8 +6,6 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 
 import java.util.HashMap;
 
-import it.unimi.dsi.fastutil.Hash;
-
 @Config(name = "wynnbinds")
 public class WynnbindsConfig implements ConfigData {
 
