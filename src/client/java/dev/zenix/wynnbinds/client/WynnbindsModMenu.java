@@ -38,7 +38,7 @@ public class WynnbindsModMenu implements ModMenuApi {
             for (Wynnbinds bind : Wynnbinds.values()) {
                 String translationKey = bind.getTranslationKey();
                 InputUtil.Key currentKey = InputUtil
-                        .fromTranslationKey(config.getDefaultBoundKey(bind.getTranslationKey()));
+                        .fromTranslationKey(config.getDefaultKeyBind(bind.getTranslationKey()));
                 InputUtil.Key defaultKey = InputUtil.fromTranslationKey(bind.getDefaultBoundKey());
                 configCategory.addEntry(entryBuilder
                         .startKeyCodeField(Text.of(bind.getDisplayName()), currentKey)
@@ -48,7 +48,7 @@ public class WynnbindsModMenu implements ModMenuApi {
                             WynnbindsClient.LOGGER.debug(
                                     "Setting keybind for {} to {}",
                                     translationKey, boundKey);
-                            config.setDefaultBoundKey(translationKey, boundKey);
+                            config.setDefaultKeyBind(translationKey, boundKey);
                         })
                         .build());
             }

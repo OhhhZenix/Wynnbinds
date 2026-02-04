@@ -44,15 +44,15 @@ public class WynnbindsConfig implements ConfigData {
         characterMappings.put(characterId, keybinds);
     }
 
-    public String getDefaultBoundKey(String translationKey) {
+    public String getDefaultKeyBind(String translationKey) {
         return defaultKeyBinds.get(translationKey);
-    }
-
-    public void setDefaultBoundKey(String translationKey, String boundKey) {
-        defaultKeyBinds.put(translationKey, boundKey);
     }
 
     public HashMap<String, String> getDefaultKeyBinds() {
         return defaultKeyBinds;
+    }
+
+    public void setDefaultKeyBind(String translationKey, String boundKey) {
+        defaultKeyBinds.put(translationKey, boundKey);
     }
 }
