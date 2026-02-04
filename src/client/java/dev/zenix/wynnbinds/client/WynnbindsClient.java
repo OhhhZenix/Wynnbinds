@@ -71,7 +71,7 @@ public class WynnbindsClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        Configurator.setLevel(LOGGER.getName(), Level.DEBUG);
+        Configurator.setLevel(LOGGER.getName(), Level.INFO);
 
         LOGGER.info("Initializing Wynnbinds client mod");
         instance = this;
