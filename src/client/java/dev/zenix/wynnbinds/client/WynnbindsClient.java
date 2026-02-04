@@ -99,6 +99,10 @@ public class WynnbindsClient implements ClientModInitializer {
     }
 
     private void checkForUpdates(MinecraftClient client) {
+        // update timer
+        lastUpdateCheckTime = System.currentTimeMillis();
+
+        // try to fetch latest version from GitHub API
         try {
             final String API_URL = "https://api.github.com/repos/OhhhZenix/Wynnbinds/releases/latest";
             HttpClient httpClient = HttpClient.newHttpClient();
@@ -133,8 +137,6 @@ public class WynnbindsClient implements ClientModInitializer {
         } catch (Exception e) {
             LOGGER.warn("Failed to check for updates", e);
         }
-
-        lastUpdateCheckTime = System.currentTimeMillis();
     }
 
     private void loadKeys(MinecraftClient client, String newCharacterId) {
