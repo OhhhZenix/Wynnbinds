@@ -18,7 +18,6 @@ public class WynnbindsModMenu implements ModMenuApi {
 
             ConfigEntryBuilder entryBuilder = builder.entryBuilder();
             ConfigCategory configCategory = builder.getOrCreateCategory(Text.of("Config"));
-
             var config = WynnbindsClient.getInstance().getConfig();
 
             // General
@@ -33,6 +32,12 @@ public class WynnbindsModMenu implements ModMenuApi {
                     .setTooltip(Text.of("Enable or disable bind notifications"))
                     .setDefaultValue(true)
                     .setSaveConsumer(value -> config.setEnableBindNotifications(value))
+                    .build());
+            configCategory.addEntry(entryBuilder
+                    .startBooleanToggle(Text.of("Enable Update Notifications"), config.isUpdateNotificationsEnabled())
+                    .setTooltip(Text.of("Enable or disable update notifications"))
+                    .setDefaultValue(true)
+                    .setSaveConsumer(value -> config.setEnableUpdateNotifications(value))
                     .build());
 
             // Keybinds
