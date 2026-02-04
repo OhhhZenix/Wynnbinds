@@ -88,19 +88,19 @@ public enum Wynnbinds {
                 return this.displayName;
         }
 
-        public static HashSet<String> getAllTranslationKeys() {
-                HashSet<String> keys = new HashSet<>();
-                for (Wynnbinds bind : Wynnbinds.values()) {
-                        keys.add(bind.getTranslationKey());
-                }
-                return keys;
-        }
-
         public static HashMap<String, String> getDefaultKeyBinds() {
                 HashMap<String, String> defaultBinds = new HashMap<>();
                 for (Wynnbinds bind : Wynnbinds.values()) {
                         defaultBinds.put(bind.getTranslationKey(), bind.getDefaultBoundKey());
                 }
                 return defaultBinds;
+        }
+
+        public static HashMap<String, Wynnbinds> getAll() {
+                HashMap<String, Wynnbinds> result = new HashMap<>();
+                for (Wynnbinds bind : Wynnbinds.values()) {
+                        result.put(bind.getTranslationKey(), bind);
+                }
+                return result;
         }
 }

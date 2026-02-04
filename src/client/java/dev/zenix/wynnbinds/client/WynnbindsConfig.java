@@ -6,6 +6,8 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 
 import java.util.HashMap;
 
+import it.unimi.dsi.fastutil.Hash;
+
 @Config(name = "wynnbinds")
 public class WynnbindsConfig implements ConfigData {
 
@@ -44,4 +46,15 @@ public class WynnbindsConfig implements ConfigData {
         characterMappings.put(characterId, keybinds);
     }
 
+    public String getDefaultBoundKey(String translationKey) {
+        return defaultKeyBinds.get(translationKey);
+    }
+
+    public void setDefaultBoundKey(String translationKey, String boundKey) {
+        defaultKeyBinds.put(translationKey, boundKey);
+    }
+
+    public HashMap<String, String> getDefaultKeyBinds() {
+        return defaultKeyBinds;
+    }
 }
