@@ -1,6 +1,8 @@
 package dev.zenix.wynnbinds.client;
 
 import com.wynntils.core.components.Models;
+
+import dev.zenix.wynnbinds.WynnbindsUtils;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
@@ -204,7 +206,8 @@ public class WynnbindsClient implements ClientModInitializer {
                         SystemToast.Type.WORLD_BACKUP,
                         Text.of("Keybinds Updated"),
                         Text.of(String.format("Updated '%s' from '%s' to '%s' and saved configurations.",
-                                SCAN_KEYS.get(translationKey).getDisplayName(), oldBoundKey, newBoundKey)));
+                                SCAN_KEYS.get(translationKey).getDisplayName(), WynnbindsUtils.getKeyName(oldBoundKey),
+                                WynnbindsUtils.getKeyName(newBoundKey))));
             LOGGER.info("Updated keybind for '{}' from '{}' to '{}'", translationKey, oldBoundKey, newBoundKey);
         }
 
