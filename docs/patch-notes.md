@@ -9,6 +9,9 @@ What this release brings:
 - Ability to set custom default binds
 - Update config menu
 
+**New settings menu**
+![](./images/5.png)
+
 ## Release 1.2.0
 
 Here's what's changed:
