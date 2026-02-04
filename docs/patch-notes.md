@@ -9,6 +9,7 @@ Here's what's changed:
 - Add source page link
 - Update home page to Modrinth
 - Update config menu
+- New & improved detection
 
 ## Release 1.1.0
 
