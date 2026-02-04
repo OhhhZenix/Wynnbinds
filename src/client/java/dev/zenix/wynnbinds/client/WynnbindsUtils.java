@@ -1,4 +1,4 @@
-package dev.zenix.wynnbinds;
+package dev.zenix.wynnbinds.client;
 
 import java.lang.reflect.Field;
 import java.util.Locale;
@@ -6,8 +6,6 @@ import java.util.regex.Pattern;
 
 import com.wynntils.core.components.Models;
 import com.wynntils.models.character.CharacterModel;
-
-import dev.zenix.wynnbinds.client.WynnbindsClient;
 
 public class WynnbindsUtils {
 
