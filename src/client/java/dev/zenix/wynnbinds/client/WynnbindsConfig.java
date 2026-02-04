@@ -11,6 +11,7 @@ public class WynnbindsConfig implements ConfigData {
 
     private boolean enableMod = true;
     private boolean enableNotifications = true;
+    private HashMap<String, String> defaultKeyBinds = Wynnbinds.getDefaultKeyBinds();
 
     @ConfigEntry.Gui.Excluded
     private HashMap<String, HashMap<String, String>> characterMappings = new HashMap<>();
@@ -42,4 +43,5 @@ public class WynnbindsConfig implements ConfigData {
     public void setKeyBinds(String characterId, HashMap<String, String> keybinds) {
         characterMappings.put(characterId, keybinds);
     }
+
 }
