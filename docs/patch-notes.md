@@ -1,6 +1,12 @@
 # Patch Notes
 Here is a history of the project's patch notes.
 
+## Release 1.3.2
+
+Small update:
+
+- Tidy up config menu
+
 ## Release 1.3.1
 
 Just a change:
