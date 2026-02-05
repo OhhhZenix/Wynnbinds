@@ -44,7 +44,7 @@ public class WynnbindsModMenu implements ModMenuApi {
 
                         builder.getOrCreateCategory(Text.of("Default Keybinds"));
 
-                        // Keybinds
+                        // Default Keybinds
                         ConfigCategory defaultKeyBindsCategory = builder
                                         .getOrCreateCategory(Text.of("Default Keybinds"));
                         for (Wynnbinds bind : Wynnbinds.values()) {
