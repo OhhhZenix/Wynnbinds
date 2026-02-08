@@ -66,7 +66,7 @@ public class WynnbindsUpdateChecker implements Runnable {
                                 latestVersion, currentVersion, homepageUrl)),
                         false);
         } catch (Exception e) {
-            WynnbindsClient.getInstance().getLogger().warn("Failed to check for updates", e);
+            WynnbindsClient.LOGGER.warn("Failed to check for updates", e);
         }
     }
 
