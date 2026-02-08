@@ -78,14 +78,14 @@ public class WynnbindsUtils {
     }
 
     public static HashMap<String, ArrayList<String>> getAllKeysByCategory() {
-        HashMap<String, ArrayList<String>> result = new HashMap<>();
+        var result = new HashMap<String, ArrayList<String>>();
+
         for (KeyBinding keyBinding : MinecraftClient.getInstance().options.allKeys) {
-            String category = keyBinding.getCategory();
-            if (!result.containsKey(category)) {
-                result.put(category, new ArrayList<>());
-            }
-            result.get(category).add(keyBinding.getTranslationKey());
+            result
+                    .computeIfAbsent(keyBinding.getCategory(), category -> new ArrayList<>())
+                    .add(keyBinding.getTranslationKey());
         }
+
         return result;
     }
 
