@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
+import com.wynntils.utils.wynn.WynnUtils;
 
 import it.unimi.dsi.fastutil.Hash;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
@@ -51,22 +52,14 @@ public class WynnbindsModMenu implements ModMenuApi {
                                         .build());
 
                         // Capture
-                        HashMap<String, ArrayList<String>> keysByCategories = new HashMap<>();
-                        for (KeyBinding keyBinding : MinecraftClient.getInstance().options.allKeys) {
-                                String category = keyBinding.getCategory();
-                                if (!keysByCategories.containsKey(category)) {
-                                        keysByCategories.put(category, new ArrayList<>());
-                                }
-                                keysByCategories.get(category).add(keyBinding.getTranslationKey());
-                        }
-
                         ConfigCategory captureCategory = builder
                                         .getOrCreateCategory(Text.of("Capture"));
-                        for (String category : keysByCategories.keySet()) {
+                        HashMap<String, ArrayList<String>> keysByCategory = WynnbindsUtils.getAllKeysByCategory();
+                        for (String category : keysByCategory.keySet()) {
                                 SubCategoryBuilder keyCategory = entryBuilder
                                                 .startSubCategory(Text.translatable(category));
 
-                                for (String translationKey : keysByCategories.get(category)) {
+                                for (String translationKey : keysByCategory.get(category)) {
                                         keyCategory.add(entryBuilder
                                                         .startBooleanToggle(Text.translatable(translationKey),
                                                                         config.isCaptureKeybind(translationKey))
