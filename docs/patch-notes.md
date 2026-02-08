@@ -3,6 +3,8 @@ Here is a history of the project's patch notes.
 
 ## Release 1.4.0
 
+Warning! This update will likely break your current settings. It is recommended you check and redo your settings.
+
 Changes brought with this release:
 
 - Ability to capture any key
