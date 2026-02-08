@@ -29,19 +29,6 @@ public class WynnbindsUtils {
         return output;
     }
 
-    public static String getKeyName(String key) {
-        if (key.equals("key.keyboard.unknown"))
-            return "Unbound";
-
-        if (key.startsWith("key.keyboard."))
-            return capitalizeStartOfEachWord(key.substring("key.keyboard.".length()));
-
-        if (key.startsWith("key.mouse."))
-            return capitalizeStartOfEachWord(String.format("MOUSE BUTTON %s", key.substring("key.mouse.".length())));
-
-        return "Unknown";
-    }
-
     // A bit slower of method but more reliable
     public static String getCharacterId() {
         try {
