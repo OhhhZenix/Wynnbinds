@@ -80,7 +80,12 @@ public class WynnbindsConfig implements ConfigData {
     }
 
     public HashMap<String, String> getDefaultKeys() {
-        return defaultKeys;
+        HashMap<String, String> result = new HashMap<>();
+        for (String translationKey : captureKeys) {
+            String boundKey = getDefaultKey(translationKey);
+            result.put(translationKey, boundKey);
+        }
+        return result;
     }
 
     public void setDefaultKey(String translationKey, String boundKey) {
