@@ -68,16 +68,16 @@ public class WynnbindsModMenu implements ModMenuApi {
                                         Text keyText = Text.translatable(translationKey);
                                         subCategory.add(entryBuilder
                                                         .startBooleanToggle(keyText,
-                                                                        config.isCaptureKeybind(translationKey))
+                                                                        config.isCaptureKey(translationKey))
                                                         .setTooltip(Text.of(String.format(
                                                                         "Enable or disable capture for %s",
                                                                         keyText.getString())))
                                                         .setDefaultValue(false)
                                                         .setSaveConsumer((value) -> {
                                                                 if (value) {
-                                                                        config.addCaptureKeybind(translationKey);
+                                                                        config.addCaptureKey(translationKey);
                                                                 } else {
-                                                                        config.removeCaptureKeybind(translationKey);
+                                                                        config.removeCaptureKey(translationKey);
                                                                 }
                                                         })
                                                         .build());
@@ -92,7 +92,7 @@ public class WynnbindsModMenu implements ModMenuApi {
                         for (Wynnbinds bind : Wynnbinds.values()) {
                                 String translationKey = bind.getTranslationKey();
                                 InputUtil.Key currentKey = InputUtil
-                                                .fromTranslationKey(config.getDefaultKeyBind(bind.getTranslationKey()));
+                                                .fromTranslationKey(config.getDefaultKey(bind.getTranslationKey()));
                                 InputUtil.Key defaultKey = InputUtil.fromTranslationKey(bind.getDefaultBoundKey());
                                 defaultKeyBindsCategory.addEntry(entryBuilder
                                                 .startKeyCodeField(Text.of(bind.getDisplayName()), currentKey)
@@ -104,7 +104,7 @@ public class WynnbindsModMenu implements ModMenuApi {
                                                         WynnbindsClient.LOGGER.debug(
                                                                         "Setting keybind for {} to {}",
                                                                         translationKey, boundKey);
-                                                        config.setDefaultKeyBind(translationKey, boundKey);
+                                                        config.setDefaultKey(translationKey, boundKey);
                                                 })
                                                 .build());
                         }

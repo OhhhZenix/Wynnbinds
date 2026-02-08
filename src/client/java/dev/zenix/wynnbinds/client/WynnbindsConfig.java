@@ -12,9 +12,9 @@ public class WynnbindsConfig implements ConfigData {
     private boolean enableMod = true;
     private boolean enableBindNotifications = true;
     private boolean enableUpdateNotifications = true;
-    private HashSet<String> captureKeybinds = new HashSet<>();
-    private HashMap<String, String> defaultKeyBinds = Wynnbinds.getDefaultKeyBinds();
-    private HashMap<String, HashMap<String, String>> characterMappings = new HashMap<>();
+    private HashSet<String> captureKeys = new HashSet<>();
+    private HashMap<String, String> defaultKeys = Wynnbinds.getDefaultKeyBinds();
+    private HashMap<String, HashMap<String, String>> characters = new HashMap<>();
 
     public boolean isModEnabled() {
         return enableMod;
@@ -41,38 +41,38 @@ public class WynnbindsConfig implements ConfigData {
     }
 
     public boolean hasCharacter(String characterId) {
-        return characterMappings.containsKey(characterId);
+        return characters.containsKey(characterId);
     }
 
-    public HashMap<String, String> getKeyBinds(String characterId) {
-        return characterMappings.get(characterId);
+    public HashMap<String, String> getKeys(String characterId) {
+        return characters.get(characterId);
     }
 
-    public void setKeyBinds(String characterId, HashMap<String, String> keybinds) {
-        characterMappings.put(characterId, keybinds);
+    public void setKeys(String characterId, HashMap<String, String> keybinds) {
+        characters.put(characterId, keybinds);
     }
 
-    public boolean isCaptureKeybind(String translationKey) {
-        return captureKeybinds.contains(translationKey);
+    public boolean isCaptureKey(String translationKey) {
+        return captureKeys.contains(translationKey);
     }
 
-    public void addCaptureKeybind(String translationKey) {
-        captureKeybinds.add(translationKey);
+    public void addCaptureKey(String translationKey) {
+        captureKeys.add(translationKey);
     }
 
-    public void removeCaptureKeybind(String translationKey) {
-        captureKeybinds.remove(translationKey);
+    public void removeCaptureKey(String translationKey) {
+        captureKeys.remove(translationKey);
     }
 
-    public String getDefaultKeyBind(String translationKey) {
-        return defaultKeyBinds.get(translationKey);
+    public String getDefaultKey(String translationKey) {
+        return defaultKeys.get(translationKey);
     }
 
-    public HashMap<String, String> getDefaultKeyBinds() {
-        return defaultKeyBinds;
+    public HashMap<String, String> getDefaultKeys() {
+        return defaultKeys;
     }
 
-    public void setDefaultKeyBind(String translationKey, String boundKey) {
-        defaultKeyBinds.put(translationKey, boundKey);
+    public void setDefaultKey(String translationKey, String boundKey) {
+        defaultKeys.put(translationKey, boundKey);
     }
 }

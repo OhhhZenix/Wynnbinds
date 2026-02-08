@@ -144,7 +144,7 @@ public class WynnbindsClient implements ClientModInitializer {
         if (!config.hasCharacter(newCharacterId)) {
             LOGGER.info("Setting up new character: {}", newCharacterId);
 
-            config.setKeyBinds(newCharacterId, config.getDefaultKeyBinds());
+            config.setKeys(newCharacterId, config.getDefaultKeys());
             saveConfig();
 
             if (config.isBindNotificationsEnabled())
@@ -157,7 +157,7 @@ public class WynnbindsClient implements ClientModInitializer {
 
         LOGGER.info("Loading keybinds for character: {}", newCharacterId);
 
-        HashMap<String, String> keyMappings = config.getKeyBinds(newCharacterId);
+        HashMap<String, String> keyMappings = config.getKeys(newCharacterId);
         for (String translationKey : keyMappings.keySet()) {
             String boundKey = keyMappings.get(translationKey);
 
@@ -206,7 +206,7 @@ public class WynnbindsClient implements ClientModInitializer {
             if (!metadata.containsKey(keyBinding.getTranslationKey()))
                 continue;
 
-            HashMap<String, String> keyMappings = config.getKeyBinds(newCharacterId);
+            HashMap<String, String> keyMappings = config.getKeys(newCharacterId);
             String translationKey = keyBinding.getTranslationKey();
             String newBoundKey = keyBinding.getBoundKeyTranslationKey();
 
