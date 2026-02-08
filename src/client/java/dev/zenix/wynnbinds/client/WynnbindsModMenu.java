@@ -1,6 +1,7 @@
 package dev.zenix.wynnbinds.client;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
@@ -52,35 +53,43 @@ public class WynnbindsModMenu implements ModMenuApi {
                                         .build());
 
                         // Capture
-                        ConfigCategory captureCategory = builder
-                                        .getOrCreateCategory(Text.of("Capture"));
+                        ConfigCategory captureCategory = builder.getOrCreateCategory(Text.of("Capture"));
                         // TODO: add description
-                        HashMap<String, ArrayList<String>> keysByCategory = WynnbindsUtils.getAllKeysByCategory();
-                        for (String category : keysByCategory.keySet()) {
+                        var keysByCategory = WynnbindsUtils.getAllKeysByCategory();
+
+                        for (var entry : keysByCategory.entrySet()) {
+                                String category = entry.getKey();
+                                var translationKeys = entry.getValue();
+
                                 Text categoryText = Text.translatable(category);
-                                SubCategoryBuilder subCategory = entryBuilder
-                                                .startSubCategory(categoryText);
+                                SubCategoryBuilder subCategory = entryBuilder.startSubCategory(categoryText);
 
-                                subCategory.setTooltip(Text
-                                                .of(String.format("Keys relating to %s", categoryText.getString())));
+                                subCategory.setTooltip(
+                                                Text.of("Keys relating to " + categoryText.getString()));
 
-                                for (String translationKey : keysByCategory.get(category)) {
+                                for (String translationKey : translationKeys) {
                                         Text keyText = Text.translatable(translationKey);
-                                        subCategory.add(entryBuilder
-                                                        .startBooleanToggle(keyText,
-                                                                        config.isCaptureKey(translationKey))
-                                                        .setTooltip(Text.of(String.format(
-                                                                        "Enable or disable capture for %s",
-                                                                        keyText.getString())))
-                                                        .setDefaultValue(false)
-                                                        .setSaveConsumer((value) -> {
-                                                                if (value) {
-                                                                        config.addCaptureKey(translationKey);
-                                                                } else {
-                                                                        config.removeCaptureKey(translationKey);
-                                                                }
-                                                        })
-                                                        .build());
+
+                                        subCategory.add(
+                                                        entryBuilder
+                                                                        .startBooleanToggle(
+                                                                                        keyText,
+                                                                                        config.isCaptureKey(
+                                                                                                        translationKey))
+                                                                        .setTooltip(Text.of(
+                                                                                        "Enable or disable capture for "
+                                                                                                        + keyText.getString()))
+                                                                        .setDefaultValue(false)
+                                                                        .setSaveConsumer(value -> {
+                                                                                if (value) {
+                                                                                        config.addCaptureKey(
+                                                                                                        translationKey);
+                                                                                } else {
+                                                                                        config.removeCaptureKey(
+                                                                                                        translationKey);
+                                                                                }
+                                                                        })
+                                                                        .build());
                                 }
 
                                 captureCategory.addEntry(subCategory.build());
@@ -89,6 +98,7 @@ public class WynnbindsModMenu implements ModMenuApi {
                         // Default
                         ConfigCategory defaultKeyBindsCategory = builder
                                         .getOrCreateCategory(Text.of("Default"));
+
                         for (Wynnbinds bind : Wynnbinds.values()) {
                                 String translationKey = bind.getTranslationKey();
                                 InputUtil.Key currentKey = InputUtil
