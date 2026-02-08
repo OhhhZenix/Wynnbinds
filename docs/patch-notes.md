@@ -1,11 +1,13 @@
 # Patch Notes
 Here is a history of the project's patch notes.
 
-## Release 1.3.2
+## Release 1.4.0
 
-Small update:
+Changes brought with this release:
 
-- Tidy up config menu
+- Ability to capture any key
+- Ability to edit current binds 
+- Clean up config screen for default binds
 
 ## Release 1.3.1
 
