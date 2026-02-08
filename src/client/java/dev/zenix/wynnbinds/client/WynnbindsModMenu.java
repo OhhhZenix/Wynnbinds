@@ -50,8 +50,6 @@ public class WynnbindsModMenu implements ModMenuApi {
                                         .setSaveConsumer(value -> config.setEnableUpdateNotifications(value))
                                         .build());
 
-                        builder.getOrCreateCategory(Text.of("Default Keybinds"));
-
                         // Capture
                         HashMap<String, ArrayList<String>> keysByCategories = new HashMap<>();
                         for (KeyBinding keyBinding : MinecraftClient.getInstance().options.allKeys) {
