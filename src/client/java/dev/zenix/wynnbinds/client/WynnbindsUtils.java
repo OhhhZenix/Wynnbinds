@@ -43,7 +43,7 @@ public class WynnbindsUtils {
 
             return id;
         } catch (Exception e) {
-            WynnbindsClient.LOGGER.error("Failed to retrieve character ID: {}", e.getMessage());
+            WynnbindsClient.getInstance().getLogger().error("Failed to retrieve character ID: {}", e.getMessage());
             return DUMMY_CHARACTER_ID;
         }
     }
