@@ -46,10 +46,6 @@ public class WynnbindsConfig implements ConfigData {
         return characters.containsKey(characterId);
     }
 
-    public HashMap<String, String> getKeys(String characterId) {
-        return characters.get(characterId);
-    }
-
     public String getKey(String characterId, String translationKey) {
         var keys = characters.get(characterId);
         return keys.get(translationKey);
@@ -58,6 +54,10 @@ public class WynnbindsConfig implements ConfigData {
     public void setKey(String characterId, String translationKey, String boundKey) {
         var keys = characters.get(characterId);
         keys.put(translationKey, boundKey);
+    }
+
+    public HashMap<String, String> getKeys(String characterId) {
+        return characters.get(characterId);
     }
 
     public void setKeys(String characterId, HashMap<String, String> keybinds) {
