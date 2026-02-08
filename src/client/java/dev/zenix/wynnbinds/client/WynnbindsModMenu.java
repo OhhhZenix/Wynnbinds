@@ -1,10 +1,18 @@
 package dev.zenix.wynnbinds.client;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
+
+import it.unimi.dsi.fastutil.Hash;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
+import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 
@@ -43,6 +51,41 @@ public class WynnbindsModMenu implements ModMenuApi {
                                         .build());
 
                         builder.getOrCreateCategory(Text.of("Default Keybinds"));
+
+                        // Capture Keybinds
+                        HashMap<String, ArrayList<String>> keysByCategories = new HashMap<>();
+                        for (KeyBinding keyBinding : MinecraftClient.getInstance().options.allKeys) {
+                                String category = keyBinding.getCategory();
+                                if (!keysByCategories.containsKey(category)) {
+                                        keysByCategories.put(category, new ArrayList<>());
+                                }
+                                keysByCategories.get(category).add(keyBinding.getTranslationKey());
+                        }
+
+                        // Capture
+                        ConfigCategory captureCategory = builder
+                                        .getOrCreateCategory(Text.of("Capture"));
+                        for (String category : keysByCategories.keySet()) {
+                                SubCategoryBuilder keyCategory = entryBuilder
+                                                .startSubCategory(Text.translatable(category));
+
+                                for (String translationKey : keysByCategories.get(category)) {
+                                        keyCategory.add(entryBuilder
+                                                        .startBooleanToggle(Text.translatable(translationKey),
+                                                                        config.isCaptureKeybind(translationKey))
+                                                        .setDefaultValue(false)
+                                                        .setSaveConsumer((value) -> {
+                                                                if (value) {
+                                                                        config.addCaptureKeybind(translationKey);
+                                                                } else {
+                                                                        config.removeCaptureKeybind(translationKey);
+                                                                }
+                                                        })
+                                                        .build());
+                                }
+
+                                captureCategory.addEntry(keyCategory.build());
+                        }
 
                         // Default Keybinds
                         ConfigCategory defaultKeyBindsCategory = builder
