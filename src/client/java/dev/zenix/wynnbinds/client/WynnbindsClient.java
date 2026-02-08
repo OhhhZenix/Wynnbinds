@@ -27,7 +27,14 @@ public class WynnbindsClient implements ClientModInitializer {
         instance = this;
         loadLogger();
         loadConfig();
+        startUpdateChecker();
         ClientTickEvents.END_CLIENT_TICK.register(client -> onEndClientTick(client));
+    }
+
+    private void startUpdateChecker() {
+        Thread thread = new Thread(new WynnbindsUpdateChecker());
+        thread.setDaemon(true);
+        thread.start();
     }
 
     public Logger getLogger() {
