@@ -2,9 +2,11 @@ package dev.zenix.wynnbinds.client;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import com.wynntils.core.components.Models;
 import com.wynntils.models.character.CharacterModel;
@@ -89,4 +91,18 @@ public class WynnbindsUtils {
         return result;
     }
 
+    public static HashMap<String, ArrayList<String>> getCaptureKeysByCategory() {
+        var result = new HashMap<String, ArrayList<String>>();
+        var config = WynnbindsClient.getInstance().getConfig();
+        var keysByCategory = getAllKeysByCategory();
+
+        for (var entry : keysByCategory.entrySet()) {
+            var captureKeys = entry.getValue().stream()
+                    .filter(config::isCaptureKey)
+                    .collect(Collectors.toCollection(ArrayList::new));
+            result.put(entry.getKey(), captureKeys);
+        }
+
+        return result;
+    }
 }
