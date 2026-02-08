@@ -5,6 +5,7 @@ import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.option.KeyBinding;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -42,7 +43,7 @@ public class WynnbindsClient implements ClientModInitializer {
     }
 
     private void loadLogger() {
-        Configurator.setLevel(logger.getName(), Level.INFO);
+        Configurator.setLevel(logger.getName(), Level.DEBUG);
         logger = LogManager.getLogger(MOD_ID);
     }
 
@@ -63,6 +64,7 @@ public class WynnbindsClient implements ClientModInitializer {
 
     private void onEndClientTick(MinecraftClient client) {
         String currentCharacter = WynnbindsUtils.getCharacterId();
+        var shouldSaveConfig = false;
 
         // Is it a valid character?
         if (currentCharacter.equals(WynnbindsUtils.DUMMY_CHARACTER_ID)) {
@@ -70,7 +72,54 @@ public class WynnbindsClient implements ClientModInitializer {
         }
 
         // Is it a new character?
+        if (!config.hasCharacter(currentCharacter)) {
+            config.setKeys(currentCharacter, config.getDefaultKeys());
+            shouldSaveConfig = true;
+        }
 
+        var keys = config.getKeys(currentCharacter);
+        for (KeyBinding keyBinding : WynnbindsUtils.getKeybindingsFromCaptureKeys()) {
+            String translationKey = keyBinding.getTranslationKey();
+
+            // Is it a new keybind?
+            if (keys.containsKey(translationKey)) {
+                var defaultKey = config.getDefaultKey(translationKey);
+                keys.put(translationKey, defaultKey);
+                shouldSaveConfig = true;
+                logger.debug("Detected new keybind: {} = {}", translationKey, defaultKey);
+                continue;
+            }
+
+            String newBoundKey = keyBinding.getBoundKeyTranslationKey();
+            String oldBoundKey = keys.get(translationKey);
+
+            // Has the mapping changed?
+            if (newBoundKey.equals(oldBoundKey)) {
+                continue;
+            }
+
+            keys.put(translationKey, newBoundKey);
+            shouldSaveConfig = true;
+
+            logger.debug("Updated keybind for '{}' from '{}' to '{}'", translationKey, oldBoundKey, newBoundKey);
+        }
+
+        if (shouldSaveConfig) {
+            saveConfig();
+
+            // Force a refresh of the keybinding system
+            logger.debug("Refreshing keybinding system");
+            KeyBinding.updateKeysByCode();
+
+            // Update the internal state of keybindings
+            for (KeyBinding keyBinding : client.options.allKeys) {
+                keyBinding.setPressed(false);
+            }
+
+            // Save changes to options.txt
+            logger.debug("Writing keybindings to options.txt");
+            client.options.write();
+        }
     }
 
 }
