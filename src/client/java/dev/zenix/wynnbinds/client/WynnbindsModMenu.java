@@ -7,6 +7,8 @@ import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 
@@ -111,7 +113,7 @@ public class WynnbindsModMenu implements ModMenuApi {
                                                         .setDefaultValue(InputUtil.UNKNOWN_KEY)
                                                         .setKeySaveConsumer(value -> {
                                                                 String boundKey = value.getTranslationKey();
-                                                                WynnbindsClient.LOGGER.debug(
+                                                                WynnbindsClient.getInstance().getLogger().debug(
                                                                                 "Setting keybind for {} to {}",
                                                                                 translationKey, boundKey);
                                                                 config.setDefaultKey(translationKey, boundKey);
@@ -155,6 +157,22 @@ public class WynnbindsModMenu implements ModMenuApi {
                                                                         config.setKey(currentCharacterId,
                                                                                         translationKey,
                                                                                         boundKey);
+
+                                                                        var client = MinecraftClient.getInstance();
+                                                                        // Force a refresh of the keybinding system
+                                                                        WynnbindsClient.getInstance().getLogger().debug(
+                                                                                        "Refreshing keybinding system");
+                                                                        KeyBinding.updateKeysByCode();
+
+                                                                        // Update the internal state of keybindings
+                                                                        for (KeyBinding keyBinding : client.options.allKeys) {
+                                                                                keyBinding.setPressed(false);
+                                                                        }
+
+                                                                        // Save changes to options.txt
+                                                                        WynnbindsClient.getInstance().getLogger().debug(
+                                                                                        "Writing keybindings to options.txt");
+                                                                        client.options.write();
                                                                 })
                                                                 .build());
                                         }
