@@ -52,7 +52,7 @@ public class WynnbindsModMenu implements ModMenuApi {
 
                         builder.getOrCreateCategory(Text.of("Default Keybinds"));
 
-                        // Capture Keybinds
+                        // Capture
                         HashMap<String, ArrayList<String>> keysByCategories = new HashMap<>();
                         for (KeyBinding keyBinding : MinecraftClient.getInstance().options.allKeys) {
                                 String category = keyBinding.getCategory();
@@ -62,7 +62,6 @@ public class WynnbindsModMenu implements ModMenuApi {
                                 keysByCategories.get(category).add(keyBinding.getTranslationKey());
                         }
 
-                        // Capture
                         ConfigCategory captureCategory = builder
                                         .getOrCreateCategory(Text.of("Capture"));
                         for (String category : keysByCategories.keySet()) {
