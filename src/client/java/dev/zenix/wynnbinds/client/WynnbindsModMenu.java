@@ -31,19 +31,19 @@ public class WynnbindsModMenu implements ModMenuApi {
                         // General
                         ConfigCategory generalCategory = builder.getOrCreateCategory(Text.of("General"));
                         generalCategory.addEntry(entryBuilder
-                                        .startBooleanToggle(Text.of("Enable Mod"), config.isModEnabled())
-                                        .setTooltip(Text.of("Enable or disable the Wynnbinds mod"))
+                                        .startBooleanToggle(Text.of("Wynnbinds"), config.isModEnabled())
+                                        .setTooltip(Text.of("Enable or disable the mod"))
                                         .setDefaultValue(true)
                                         .setSaveConsumer(value -> config.setEnableMod(value)).build());
                         generalCategory.addEntry(entryBuilder
-                                        .startBooleanToggle(Text.of("Enable Bind Notifications"),
+                                        .startBooleanToggle(Text.of("Bind Notifications"),
                                                         config.isBindNotificationsEnabled())
                                         .setTooltip(Text.of("Enable or disable bind notifications"))
                                         .setDefaultValue(true)
                                         .setSaveConsumer(value -> config.setEnableBindNotifications(value))
                                         .build());
                         generalCategory.addEntry(entryBuilder
-                                        .startBooleanToggle(Text.of("Enable Update Notifications"),
+                                        .startBooleanToggle(Text.of("Update Notifications"),
                                                         config.isUpdateNotificationsEnabled())
                                         .setTooltip(Text.of("Enable or disable update notifications"))
                                         .setDefaultValue(true)
