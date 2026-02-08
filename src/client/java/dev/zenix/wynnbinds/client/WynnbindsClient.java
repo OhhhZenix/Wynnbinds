@@ -199,13 +199,7 @@ public class WynnbindsClient implements ClientModInitializer {
         }
 
         boolean shouldSaveConfig = false;
-        final var metadata = Wynnbinds.getAll();
-
-        for (KeyBinding keyBinding : client.options.allKeys) {
-            // is this a keybind we care?
-            if (!metadata.containsKey(keyBinding.getTranslationKey()))
-                continue;
-
+        for (KeyBinding keyBinding : WynnbindsUtils.getKeybindingsFromCaptureKeys()) {
             HashMap<String, String> keyMappings = config.getKeys(newCharacterId);
             String translationKey = keyBinding.getTranslationKey();
             String newBoundKey = keyBinding.getBoundKeyTranslationKey();
@@ -227,14 +221,17 @@ public class WynnbindsClient implements ClientModInitializer {
             keyMappings.put(translationKey, newBoundKey);
             shouldSaveConfig = true;
 
-            if (config.isBindNotificationsEnabled())
+            if (config.isBindNotificationsEnabled()) {
+                Text categoryText = Text.translatable(keyBinding.getCategory());
+                Text keyText = Text.translatable(keyBinding.getTranslationKey());
                 SystemToast.add(
                         client.getToastManager(),
                         SystemToast.Type.WORLD_BACKUP,
                         Text.of("Keybinds Updated"),
-                        Text.of(String.format("Updated '%s' from '%s' to '%s' and saved configurations.",
-                                metadata.get(translationKey).getDisplayName(), WynnbindsUtils.getKeyName(oldBoundKey),
+                        Text.of(String.format("Updated '%s (%s)' from '%s' to '%s' and saved configurations.",
+                                keyText.getString(), categoryText.getString(), WynnbindsUtils.getKeyName(oldBoundKey),
                                 WynnbindsUtils.getKeyName(newBoundKey))));
+            }
             LOGGER.info("Updated keybind for '{}' from '{}' to '{}'", translationKey, oldBoundKey, newBoundKey);
         }
 
