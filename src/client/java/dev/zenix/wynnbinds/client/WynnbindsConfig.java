@@ -2,7 +2,6 @@ package dev.zenix.wynnbinds.client;
 
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
-import me.shedaniel.autoconfig.annotation.ConfigEntry;
 
 import java.util.HashMap;
 
@@ -13,8 +12,6 @@ public class WynnbindsConfig implements ConfigData {
     private boolean enableBindNotifications = true;
     private boolean enableUpdateNotifications = true;
     private HashMap<String, String> defaultKeyBinds = Wynnbinds.getDefaultKeyBinds();
-
-    @ConfigEntry.Gui.Excluded
     private HashMap<String, HashMap<String, String>> characterMappings = new HashMap<>();
 
     public boolean isModEnabled() {
