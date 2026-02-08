@@ -86,9 +86,9 @@ public class WynnbindsModMenu implements ModMenuApi {
                                 captureCategory.addEntry(subCategory.build());
                         }
 
-                        // Default Keybinds
+                        // Default
                         ConfigCategory defaultKeyBindsCategory = builder
-                                        .getOrCreateCategory(Text.of("Default Keybinds"));
+                                        .getOrCreateCategory(Text.of("Default"));
                         for (Wynnbinds bind : Wynnbinds.values()) {
                                 String translationKey = bind.getTranslationKey();
                                 InputUtil.Key currentKey = InputUtil
