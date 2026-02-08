@@ -108,4 +108,14 @@ public class WynnbindsUtils {
 
         return result;
     }
+
+    public static ArrayList<KeyBinding> getKeybindingsFromCaptureKeys() {
+        ArrayList<KeyBinding> result = new ArrayList<>();
+        for (KeyBinding keyBinding : MinecraftClient.getInstance().options.allKeys) {
+            if (!WynnbindsClient.getInstance().getConfig().isCaptureKey(keyBinding.getTranslationKey()))
+                continue;
+            result.add(keyBinding);
+        }
+        return result;
+    }
 }
