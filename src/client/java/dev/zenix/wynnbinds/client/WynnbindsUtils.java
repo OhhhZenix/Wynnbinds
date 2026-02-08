@@ -1,11 +1,16 @@
 package dev.zenix.wynnbinds.client;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
 import com.wynntils.core.components.Models;
 import com.wynntils.models.character.CharacterModel;
+
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.option.KeyBinding;
 
 public class WynnbindsUtils {
 
@@ -70,6 +75,18 @@ public class WynnbindsUtils {
             }
         }
         return 0;
+    }
+
+    public static HashMap<String, ArrayList<String>> getAllKeysByCategory() {
+        HashMap<String, ArrayList<String>> result = new HashMap<>();
+        for (KeyBinding keyBinding : MinecraftClient.getInstance().options.allKeys) {
+            String category = keyBinding.getCategory();
+            if (!result.containsKey(category)) {
+                result.put(category, new ArrayList<>());
+            }
+            result.get(category).add(keyBinding.getTranslationKey());
+        }
+        return result;
     }
 
 }
