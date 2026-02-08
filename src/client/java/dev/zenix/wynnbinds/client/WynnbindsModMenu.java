@@ -103,10 +103,10 @@ public class WynnbindsModMenu implements ModMenuApi {
 
                                 for (String translationKey : translationKeys) {
                                         Text keyText = Text.translatable(translationKey);
-                                        InputUtil.Key currentKey = InputUtil
-                                                        .fromTranslationKey(
-                                                                        config.getDefaultKey(translationKey));
-                                        subCategory.add(entryBuilder.startKeyCodeField(keyText, currentKey)
+                                        // InputUtil.Key currentKey = InputUtil
+                                        // .fromTranslationKey(
+                                        // config.getDefaultKey(translationKey));
+                                        subCategory.add(entryBuilder.startKeyCodeField(keyText, InputUtil.UNKNOWN_KEY)
                                                         .setTooltip(Text.of(String.format("Set default keybind for %s",
                                                                         keyText.getString())))
                                                         .setDefaultValue(InputUtil.UNKNOWN_KEY)
@@ -122,26 +122,6 @@ public class WynnbindsModMenu implements ModMenuApi {
 
                                 defaultKeyBindsCategory.addEntry(subCategory.build());
                         }
-                        // for (Wynnbinds bind : Wynnbinds.values()) {
-                        // String translationKey = bind.getTranslationKey();
-                        // InputUtil.Key currentKey = InputUtil
-                        // .fromTranslationKey(config.getDefaultKey(bind.getTranslationKey()));
-                        // InputUtil.Key defaultKey =
-                        // InputUtil.fromTranslationKey(bind.getDefaultBoundKey());
-                        // defaultKeyBindsCategory.addEntry(entryBuilder
-                        // .startKeyCodeField(Text.of(bind.getDisplayName()), currentKey)
-                        // .setTooltip(Text.of(String.format("Set default keybind for %s",
-                        // bind.getDisplayName())))
-                        // .setDefaultValue(defaultKey)
-                        // .setKeySaveConsumer(value -> {
-                        // String boundKey = value.getTranslationKey();
-                        // WynnbindsClient.LOGGER.debug(
-                        // "Setting keybind for {} to {}",
-                        // translationKey, boundKey);
-                        // config.setDefaultKey(translationKey, boundKey);
-                        // })
-                        // .build());
-                        // }
 
                         return builder.build();
                 };
