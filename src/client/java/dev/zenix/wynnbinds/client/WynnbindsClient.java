@@ -13,7 +13,7 @@ import org.apache.logging.log4j.core.config.Configurator;
 
 public class WynnbindsClient implements ClientModInitializer {
 
-    private static final String MOD_ID = "wynnbinds";
+    public static final String MOD_ID = "wynnbinds";
     private static WynnbindsClient instance = null;
     private Logger logger;
     private WynnbindsConfig config;
