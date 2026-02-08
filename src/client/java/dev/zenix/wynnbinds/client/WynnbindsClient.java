@@ -221,17 +221,16 @@ public class WynnbindsClient implements ClientModInitializer {
             keyMappings.put(translationKey, newBoundKey);
             shouldSaveConfig = true;
 
-            if (config.isBindNotificationsEnabled()) {
-                Text categoryText = Text.translatable(keyBinding.getCategory());
-                Text keyText = Text.translatable(keyBinding.getTranslationKey());
+            if (config.isBindNotificationsEnabled())
                 SystemToast.add(
                         client.getToastManager(),
                         SystemToast.Type.WORLD_BACKUP,
                         Text.of("Keybinds Updated"),
                         Text.of(String.format("Updated '%s (%s)' from '%s' to '%s' and saved configurations.",
-                                keyText.getString(), categoryText.getString(), WynnbindsUtils.getKeyName(oldBoundKey),
-                                WynnbindsUtils.getKeyName(newBoundKey))));
-            }
+                                Text.translatable(keyBinding.getTranslationKey()).getString(),
+                                Text.translatable(keyBinding.getCategory()).getString(),
+                                Text.translatable(oldBoundKey).getString(),
+                                Text.translatable(newBoundKey).getString())));
             LOGGER.info("Updated keybind for '{}' from '{}' to '{}'", translationKey, oldBoundKey, newBoundKey);
         }
 
