@@ -54,15 +54,24 @@ public class WynnbindsModMenu implements ModMenuApi {
                         // Capture
                         ConfigCategory captureCategory = builder
                                         .getOrCreateCategory(Text.of("Capture"));
+                        // TODO: add description
                         HashMap<String, ArrayList<String>> keysByCategory = WynnbindsUtils.getAllKeysByCategory();
                         for (String category : keysByCategory.keySet()) {
+                                Text categoryText = Text.translatable(category);
                                 SubCategoryBuilder subCategory = entryBuilder
-                                                .startSubCategory(Text.translatable(category));
+                                                .startSubCategory(categoryText);
+
+                                subCategory.setTooltip(Text
+                                                .of(String.format("Keys relating to %s", categoryText.getString())));
 
                                 for (String translationKey : keysByCategory.get(category)) {
+                                        Text keyText = Text.translatable(translationKey);
                                         subCategory.add(entryBuilder
-                                                        .startBooleanToggle(Text.translatable(translationKey),
+                                                        .startBooleanToggle(keyText,
                                                                         config.isCaptureKeybind(translationKey))
+                                                        .setTooltip(Text.of(String.format(
+                                                                        "Enable or disable capture for %s",
+                                                                        keyText.getString())))
                                                         .setDefaultValue(false)
                                                         .setSaveConsumer((value) -> {
                                                                 if (value) {
