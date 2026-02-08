@@ -80,7 +80,7 @@ public class WynnbindsClient implements ClientModInitializer {
             if (newCharacterId.equals(WynnbindsUtils.DUMMY_CHARACTER_ID))
                 return;
 
-            updateKeys(client, newCharacterId);
+            applyKeys(client, newCharacterId);
             oldCharacterId = newCharacterId;
         });
     }
@@ -191,7 +191,7 @@ public class WynnbindsClient implements ClientModInitializer {
         client.options.write();
     }
 
-    private void updateKeys(MinecraftClient client, String newCharacterId) {
+    private void applyKeys(MinecraftClient client, String newCharacterId) {
         // Is it a different character?
         if (!newCharacterId.equals(oldCharacterId)) {
             LOGGER.info("Character changed from '{}' to '{}'", oldCharacterId, newCharacterId);
