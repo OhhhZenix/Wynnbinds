@@ -1,20 +1,12 @@
 package dev.zenix.wynnbinds.client;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import com.wynntils.utils.wynn.WynnUtils;
 
-import it.unimi.dsi.fastutil.Hash;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 
@@ -98,26 +90,58 @@ public class WynnbindsModMenu implements ModMenuApi {
                         // Default
                         ConfigCategory defaultKeyBindsCategory = builder
                                         .getOrCreateCategory(Text.of("Default"));
+                        var captureKeysByCategory = WynnbindsUtils.getCaptureKeysByCategory();
+                        for (var entry : captureKeysByCategory.entrySet()) {
+                                String category = entry.getKey();
+                                var translationKeys = entry.getValue();
 
-                        for (Wynnbinds bind : Wynnbinds.values()) {
-                                String translationKey = bind.getTranslationKey();
-                                InputUtil.Key currentKey = InputUtil
-                                                .fromTranslationKey(config.getDefaultKey(bind.getTranslationKey()));
-                                InputUtil.Key defaultKey = InputUtil.fromTranslationKey(bind.getDefaultBoundKey());
-                                defaultKeyBindsCategory.addEntry(entryBuilder
-                                                .startKeyCodeField(Text.of(bind.getDisplayName()), currentKey)
-                                                .setTooltip(Text.of(String.format("Set default keybind for %s",
-                                                                bind.getDisplayName())))
-                                                .setDefaultValue(defaultKey)
-                                                .setKeySaveConsumer(value -> {
-                                                        String boundKey = value.getTranslationKey();
-                                                        WynnbindsClient.LOGGER.debug(
-                                                                        "Setting keybind for {} to {}",
-                                                                        translationKey, boundKey);
-                                                        config.setDefaultKey(translationKey, boundKey);
-                                                })
-                                                .build());
+                                Text categoryText = Text.translatable(category);
+                                SubCategoryBuilder subCategory = entryBuilder.startSubCategory(categoryText);
+
+                                subCategory.setTooltip(
+                                                Text.of("Keys relating to " + categoryText.getString()));
+
+                                for (String translationKey : translationKeys) {
+                                        Text keyText = Text.translatable(translationKey);
+                                        InputUtil.Key currentKey = InputUtil
+                                                        .fromTranslationKey(
+                                                                        config.getDefaultKey(translationKey));
+                                        subCategory.add(entryBuilder.startKeyCodeField(keyText, currentKey)
+                                                        .setTooltip(Text.of(String.format("Set default keybind for %s",
+                                                                        keyText.getString())))
+                                                        .setDefaultValue(InputUtil.UNKNOWN_KEY)
+                                                        .setKeySaveConsumer(value -> {
+                                                                String boundKey = value.getTranslationKey();
+                                                                WynnbindsClient.LOGGER.debug(
+                                                                                "Setting keybind for {} to {}",
+                                                                                translationKey, boundKey);
+                                                                config.setDefaultKey(translationKey, boundKey);
+                                                        })
+                                                        .build());
+                                }
+
+                                defaultKeyBindsCategory.addEntry(subCategory.build());
                         }
+                        // for (Wynnbinds bind : Wynnbinds.values()) {
+                        // String translationKey = bind.getTranslationKey();
+                        // InputUtil.Key currentKey = InputUtil
+                        // .fromTranslationKey(config.getDefaultKey(bind.getTranslationKey()));
+                        // InputUtil.Key defaultKey =
+                        // InputUtil.fromTranslationKey(bind.getDefaultBoundKey());
+                        // defaultKeyBindsCategory.addEntry(entryBuilder
+                        // .startKeyCodeField(Text.of(bind.getDisplayName()), currentKey)
+                        // .setTooltip(Text.of(String.format("Set default keybind for %s",
+                        // bind.getDisplayName())))
+                        // .setDefaultValue(defaultKey)
+                        // .setKeySaveConsumer(value -> {
+                        // String boundKey = value.getTranslationKey();
+                        // WynnbindsClient.LOGGER.debug(
+                        // "Setting keybind for {} to {}",
+                        // translationKey, boundKey);
+                        // config.setDefaultKey(translationKey, boundKey);
+                        // })
+                        // .build());
+                        // }
 
                         return builder.build();
                 };
