@@ -4,6 +4,7 @@ import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 @Config(name = "wynnbinds")
 public class WynnbindsConfig implements ConfigData {
@@ -11,6 +12,7 @@ public class WynnbindsConfig implements ConfigData {
     private boolean enableMod = true;
     private boolean enableBindNotifications = true;
     private boolean enableUpdateNotifications = true;
+    private HashSet<String> captureKeybinds = new HashSet<>();
     private HashMap<String, String> defaultKeyBinds = Wynnbinds.getDefaultKeyBinds();
     private HashMap<String, HashMap<String, String>> characterMappings = new HashMap<>();
 
@@ -48,6 +50,18 @@ public class WynnbindsConfig implements ConfigData {
 
     public void setKeyBinds(String characterId, HashMap<String, String> keybinds) {
         characterMappings.put(characterId, keybinds);
+    }
+
+    public boolean isCaptureKeybind(String translationKey) {
+        return captureKeybinds.contains(translationKey);
+    }
+
+    public void addCaptureKeybind(String translationKey) {
+        captureKeybinds.add(translationKey);
+    }
+
+    public void removeCaptureKeybind(String translationKey) {
+        captureKeybinds.remove(translationKey);
     }
 
     public String getDefaultKeyBind(String translationKey) {
