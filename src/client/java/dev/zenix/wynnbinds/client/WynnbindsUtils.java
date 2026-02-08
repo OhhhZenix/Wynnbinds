@@ -99,6 +99,10 @@ public class WynnbindsUtils {
             var captureKeys = entry.getValue().stream()
                     .filter(config::isCaptureKey)
                     .collect(Collectors.toCollection(ArrayList::new));
+
+            if (captureKeys.isEmpty())
+                continue;
+
             result.put(entry.getKey(), captureKeys);
         }
 
