@@ -45,11 +45,10 @@ public class WynnbindsModMenu implements ModMenuApi {
                                         .build());
 
                         // Capture
-                        ConfigCategory captureCategory = builder.getOrCreateCategory(Text.of("Capture"));
-                        // TODO: add description
-                        var keysByCategory = WynnbindsUtils.getAllKeysByCategory();
+                        ConfigCategory captureKeysCategory = builder.getOrCreateCategory(Text.of("Capture"));
+                        var allKeysByCategory = WynnbindsUtils.getAllKeysByCategory();
 
-                        for (var entry : keysByCategory.entrySet()) {
+                        for (var entry : allKeysByCategory.entrySet()) {
                                 String category = entry.getKey();
                                 var translationKeys = entry.getValue();
 
@@ -84,11 +83,11 @@ public class WynnbindsModMenu implements ModMenuApi {
                                                                         .build());
                                 }
 
-                                captureCategory.addEntry(subCategory.build());
+                                captureKeysCategory.addEntry(subCategory.build());
                         }
 
                         // Default
-                        ConfigCategory defaultKeyBindsCategory = builder
+                        ConfigCategory defaultKeysCategory = builder
                                         .getOrCreateCategory(Text.of("Default"));
                         var captureKeysByCategory = WynnbindsUtils.getCaptureKeysByCategory();
                         for (var entry : captureKeysByCategory.entrySet()) {
@@ -106,6 +105,7 @@ public class WynnbindsModMenu implements ModMenuApi {
                                         // InputUtil.Key currentKey = InputUtil
                                         // .fromTranslationKey(
                                         // config.getDefaultKey(translationKey));
+                                        config.getDefaultKey(translationKey);
                                         subCategory.add(entryBuilder.startKeyCodeField(keyText, InputUtil.UNKNOWN_KEY)
                                                         .setTooltip(Text.of(String.format("Set default keybind for %s",
                                                                         keyText.getString())))
@@ -120,7 +120,7 @@ public class WynnbindsModMenu implements ModMenuApi {
                                                         .build());
                                 }
 
-                                defaultKeyBindsCategory.addEntry(subCategory.build());
+                                defaultKeysCategory.addEntry(subCategory.build());
                         }
 
                         return builder.build();
