@@ -73,10 +73,12 @@ public class WynnbindsClient implements ClientModInitializer {
 
         // Is it a new character?
         if (!config.hasCharacter(currentCharacter)) {
+            // from wynnbinds to minecraft
             config.setKeys(currentCharacter, config.getDefaultKeys());
             shouldSaveConfig = true;
         }
 
+        // from minecraft to wynnbinds
         var keys = config.getKeys(currentCharacter);
         for (KeyBinding keyBinding : WynnbindsUtils.getKeybindingsFromCaptureKeys()) {
             String translationKey = keyBinding.getTranslationKey();
@@ -106,19 +108,6 @@ public class WynnbindsClient implements ClientModInitializer {
 
         if (shouldSaveConfig) {
             saveConfig();
-
-            // Force a refresh of the keybinding system
-            logger.debug("Refreshing keybinding system");
-            KeyBinding.updateKeysByCode();
-
-            // Update the internal state of keybindings
-            for (KeyBinding keyBinding : client.options.allKeys) {
-                keyBinding.setPressed(false);
-            }
-
-            // Save changes to options.txt
-            logger.debug("Writing keybindings to options.txt");
-            client.options.write();
         }
     }
 
