@@ -102,11 +102,10 @@ public class WynnbindsModMenu implements ModMenuApi {
 
                                 for (String translationKey : translationKeys) {
                                         Text keyText = Text.translatable(translationKey);
-                                        // InputUtil.Key currentKey = InputUtil
-                                        // .fromTranslationKey(
-                                        // config.getDefaultKey(translationKey));
+                                        InputUtil.Key currentKey = InputUtil
+                                                        .fromTranslationKey(config.getDefaultKey(translationKey));
                                         config.getDefaultKey(translationKey);
-                                        subCategory.add(entryBuilder.startKeyCodeField(keyText, InputUtil.UNKNOWN_KEY)
+                                        subCategory.add(entryBuilder.startKeyCodeField(keyText, currentKey)
                                                         .setTooltip(Text.of(String.format("Set default keybind for %s",
                                                                         keyText.getString())))
                                                         .setDefaultValue(InputUtil.UNKNOWN_KEY)
