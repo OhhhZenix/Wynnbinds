@@ -56,11 +56,11 @@ public class WynnbindsModMenu implements ModMenuApi {
                                         .getOrCreateCategory(Text.of("Capture"));
                         HashMap<String, ArrayList<String>> keysByCategory = WynnbindsUtils.getAllKeysByCategory();
                         for (String category : keysByCategory.keySet()) {
-                                SubCategoryBuilder keyCategory = entryBuilder
+                                SubCategoryBuilder subCategory = entryBuilder
                                                 .startSubCategory(Text.translatable(category));
 
                                 for (String translationKey : keysByCategory.get(category)) {
-                                        keyCategory.add(entryBuilder
+                                        subCategory.add(entryBuilder
                                                         .startBooleanToggle(Text.translatable(translationKey),
                                                                         config.isCaptureKeybind(translationKey))
                                                         .setDefaultValue(false)
@@ -74,7 +74,7 @@ public class WynnbindsModMenu implements ModMenuApi {
                                                         .build());
                                 }
 
-                                captureCategory.addEntry(keyCategory.build());
+                                captureCategory.addEntry(subCategory.build());
                         }
 
                         // Default Keybinds
