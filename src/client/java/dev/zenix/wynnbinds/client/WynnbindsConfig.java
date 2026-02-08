@@ -2,6 +2,10 @@ package dev.zenix.wynnbinds.client;
 
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.util.InputUtil;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,7 +17,7 @@ public class WynnbindsConfig implements ConfigData {
     private boolean enableBindNotifications = true;
     private boolean enableUpdateNotifications = true;
     private HashSet<String> captureKeys = new HashSet<>();
-    private HashMap<String, String> defaultKeys = Wynnbinds.getDefaultKeyBinds();
+    private HashMap<String, String> defaultKeys = new HashMap<>();
     private HashMap<String, HashMap<String, String>> characters = new HashMap<>();
 
     public boolean isModEnabled() {
@@ -65,6 +69,13 @@ public class WynnbindsConfig implements ConfigData {
     }
 
     public String getDefaultKey(String translationKey) {
+        // if key does not exists, take current keybind
+        if (!defaultKeys.containsKey(translationKey)) {
+            String boundKey = KeyBindingHelper
+                    .getBoundKeyOf(KeyBinding.byId(translationKey))
+                    .getTranslationKey();
+            defaultKeys.put(translationKey, boundKey);
+        }
         return defaultKeys.get(translationKey);
     }
 
