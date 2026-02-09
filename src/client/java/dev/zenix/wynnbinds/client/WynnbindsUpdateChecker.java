@@ -56,10 +56,11 @@ public class WynnbindsUpdateChecker implements Runnable {
                     .getModContainer(WynnbindsClient.MOD_ID).map(modContainer -> modContainer
                             .getMetadata().getVersion().getFriendlyString())
                     .orElse("0.0.0");
-            String homepageUrl = FabricLoader.getInstance().getModContainer(WynnbindsClient.MOD_ID)
-                    .flatMap(
-                            modContainer -> modContainer.getMetadata().getContact().get("homepage"))
-                    .orElse("https://github.com/OhhhZenix/Wynnbinds");
+            // String homepageUrl =
+            // FabricLoader.getInstance().getModContainer(WynnbindsClient.MOD_ID)
+            // .flatMap(
+            // modContainer -> modContainer.getMetadata().getContact().get("homepage"))
+            // .orElse("https://github.com/OhhhZenix/Wynnbinds");
 
             if (WynnbindsUtils.compareSemver(latestVersion, currentVersion) <= 0) {
                 return;
