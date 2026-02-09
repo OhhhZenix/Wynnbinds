@@ -21,9 +21,7 @@ public class WynnbindsUtils {
         if (input == null || input.isEmpty())
             return input;
 
-        String output = Pattern
-                .compile("\\b\\p{L}")
-                .matcher(input.toLowerCase())
+        String output = Pattern.compile("\\b\\p{L}").matcher(input.toLowerCase())
                 .replaceAll(match -> match.group().toUpperCase(Locale.ROOT));
 
         return output;
@@ -69,8 +67,7 @@ public class WynnbindsUtils {
         var result = new HashMap<String, ArrayList<String>>();
 
         for (KeyBinding keyBinding : MinecraftClient.getInstance().options.allKeys) {
-            result
-                    .computeIfAbsent(keyBinding.getCategory(), category -> new ArrayList<>())
+            result.computeIfAbsent(keyBinding.getCategory(), category -> new ArrayList<>())
                     .add(keyBinding.getTranslationKey());
         }
 
@@ -83,8 +80,7 @@ public class WynnbindsUtils {
         var keysByCategory = getAllKeysByCategory();
 
         for (var entry : keysByCategory.entrySet()) {
-            var captureKeys = entry.getValue().stream()
-                    .filter(config::isCaptureKey)
+            var captureKeys = entry.getValue().stream().filter(config::isCaptureKey)
                     .collect(Collectors.toCollection(ArrayList::new));
 
             if (captureKeys.isEmpty())
@@ -99,7 +95,8 @@ public class WynnbindsUtils {
     public static ArrayList<KeyBinding> getKeybindingsFromCaptureKeys() {
         ArrayList<KeyBinding> result = new ArrayList<>();
         for (KeyBinding keyBinding : MinecraftClient.getInstance().options.allKeys) {
-            if (!WynnbindsClient.getInstance().getConfig().isCaptureKey(keyBinding.getTranslationKey()))
+            if (!WynnbindsClient.getInstance().getConfig()
+                    .isCaptureKey(keyBinding.getTranslationKey()))
                 continue;
             result.add(keyBinding);
         }

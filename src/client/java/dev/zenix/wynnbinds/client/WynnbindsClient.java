@@ -119,7 +119,8 @@ public class WynnbindsClient implements ClientModInitializer {
 
             keys.put(translationKey, newBoundKey);
             shouldSaveConfig = true;
-            LOGGER.debug("Updated keybind for {} from {} to {}", translationKey, oldBoundKey, newBoundKey);
+            LOGGER.debug("Updated keybind for {} from {} to {}", translationKey, oldBoundKey,
+                    newBoundKey);
         }
 
         if (shouldSaveConfig) {

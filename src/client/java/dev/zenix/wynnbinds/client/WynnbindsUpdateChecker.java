@@ -35,13 +35,13 @@ public class WynnbindsUpdateChecker implements Runnable {
 
         // try to fetch latest version from GitHub API
         try {
-            final String API_URL = "https://api.github.com/repos/OhhhZenix/Wynnbinds/releases/latest";
+            final String API_URL =
+                    "https://api.github.com/repos/OhhhZenix/Wynnbinds/releases/latest";
             HttpClient httpClient = HttpClient.newHttpClient();
-            HttpRequest httpRequest = HttpRequest.newBuilder()
-                    .uri(URI.create(API_URL))
-                    .header("Accept", "application/json")
-                    .build();
-            HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+            HttpRequest httpRequest = HttpRequest.newBuilder().uri(URI.create(API_URL))
+                    .header("Accept", "application/json").build();
+            HttpResponse<String> httpResponse =
+                    httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
 
             if (httpResponse.statusCode() != 200) {
                 System.out.println("Failed to fetch. Status code: " + httpResponse.statusCode());
@@ -52,19 +52,19 @@ public class WynnbindsUpdateChecker implements Runnable {
             Gson gson = new Gson();
             var json = gson.fromJson(body, HashMap.class);
             String latestVersion = (String) json.get("tag_name");
-            String currentVersion = FabricLoader.getInstance().getModContainer(WynnbindsClient.MOD_ID)
-                    .map(modContainer -> modContainer.getMetadata().getVersion().getFriendlyString())
+            String currentVersion = FabricLoader.getInstance()
+                    .getModContainer(WynnbindsClient.MOD_ID).map(modContainer -> modContainer
+                            .getMetadata().getVersion().getFriendlyString())
                     .orElse("0.0.0");
             String homepageUrl = FabricLoader.getInstance().getModContainer(WynnbindsClient.MOD_ID)
-                    .flatMap(modContainer -> modContainer.getMetadata().getContact().get("homepage"))
+                    .flatMap(
+                            modContainer -> modContainer.getMetadata().getContact().get("homepage"))
                     .orElse("https://github.com/OhhhZenix/Wynnbinds");
 
             if (WynnbindsUtils.compareSemver(latestVersion, currentVersion) > 0)
-                MinecraftClient.getInstance().player.sendMessage(
-                        Text.of(String.format(
-                                "Wynnbinds v%s is now available. You're running v%s. Visit %s to download.",
-                                latestVersion, currentVersion, homepageUrl)),
-                        false);
+                MinecraftClient.getInstance().player.sendMessage(Text.of(String.format(
+                        "Wynnbinds v%s is now available. You're running v%s. Visit %s to download.",
+                        latestVersion, currentVersion, homepageUrl)), false);
         } catch (Exception e) {
             WynnbindsClient.LOGGER.warn("Failed to check for updates", e);
         }

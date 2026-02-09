@@ -80,9 +80,7 @@ public class WynnbindsConfig implements ConfigData {
         // if key does not exists, take current keybind
         if (!defaultKeys.containsKey(translationKey)) {
             var keyBinding = KeyBinding.byId(translationKey);
-            var boundKey = KeyBindingHelper
-                    .getBoundKeyOf(keyBinding)
-                    .getTranslationKey();
+            var boundKey = KeyBindingHelper.getBoundKeyOf(keyBinding).getTranslationKey();
             defaultKeys.put(translationKey, boundKey);
         }
         return defaultKeys.get(translationKey);
