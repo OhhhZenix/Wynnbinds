@@ -80,10 +80,9 @@ public class WynnbindsClient implements ClientModInitializer {
                 saveConfig();
 
                 // notify
-                if (config.isBindNotificationsEnabled()) {
-                    WynnbindsUtils.sendNotification(
-                            Text.of(String.format("Creating new profile for %s", newCharacterId)));
-                }
+                WynnbindsUtils.sendNotification(
+                        Text.of(String.format("Creating new profile for %s", newCharacterId)),
+                        config.isBindNotificationsEnabled());
             }
 
             // load keybinds
@@ -100,10 +99,9 @@ public class WynnbindsClient implements ClientModInitializer {
             WynnbindsUtils.saveKeyBindings();
 
             // notify
-            if (config.isBindNotificationsEnabled()) {
-                WynnbindsUtils.sendNotification(
-                        Text.of(String.format("Loaded keybinds for %s", newCharacterId)));
-            }
+            WynnbindsUtils.sendNotification(
+                    Text.of(String.format("Loaded keybinds for %s", newCharacterId)),
+                    config.isBindNotificationsEnabled());
         }
 
         LOGGER.debug("Scanning for keybind changes.");
@@ -139,10 +137,10 @@ public class WynnbindsClient implements ClientModInitializer {
                     newBoundKey);
 
             // notify
-            if (config.isBindNotificationsEnabled()) {
-                WynnbindsUtils.sendNotification(Text.of(String.format("Updated keybind for %s",
-                        Text.translatable(translationKey).getString())));
-            }
+            WynnbindsUtils.sendNotification(
+                    Text.of(String.format("Updated keybind for %s",
+                            Text.translatable(translationKey).getString())),
+                    config.isBindNotificationsEnabled());
         }
 
         if (shouldSaveConfig) {
