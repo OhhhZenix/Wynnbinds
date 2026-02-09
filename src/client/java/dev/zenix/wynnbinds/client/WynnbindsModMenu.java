@@ -125,61 +125,6 @@ public class WynnbindsModMenu implements ModMenuApi {
                         }
 
                         // Current
-                        // String currentCharacterId = WynnbindsUtils.getCharacterId();
-                        // if (currentCharacterId != null && !currentCharacterId.isEmpty()
-                        // && !currentCharacterId.equals(WynnbindsUtils.DUMMY_CHARACTER_ID)) {
-                        // ConfigCategory currentKeysCategory = builder
-                        // .getOrCreateCategory(Text.of("Current"));
-                        // for (var entry : captureKeysByCategory.entrySet()) {
-                        // String category = entry.getKey();
-                        // var translationKeys = entry.getValue();
-
-                        // Text categoryText = Text.translatable(category);
-                        // SubCategoryBuilder subCategory = entryBuilder.startSubCategory(categoryText);
-
-                        // subCategory.setTooltip(
-                        // Text.of("Keys relating to " + categoryText.getString()));
-
-                        // for (String translationKey : translationKeys) {
-                        // Text keyText = Text.translatable(translationKey);
-                        // InputUtil.Key currentKey = InputUtil.fromTranslationKey(
-                        // config.getKey(currentCharacterId, translationKey));
-                        // InputUtil.Key defaultKey = InputUtil
-                        // .fromTranslationKey(
-                        // config.getDefaultKey(translationKey));
-                        // subCategory.add(entryBuilder.startKeyCodeField(keyText, currentKey)
-                        // .setTooltip(Text.of(
-                        // String.format("Set keybind for %s",
-                        // keyText.getString())))
-                        // .setDefaultValue(defaultKey)
-                        // .setKeySaveConsumer(value -> {
-                        // String boundKey = value.getTranslationKey();
-                        // config.setKey(currentCharacterId,
-                        // translationKey,
-                        // boundKey);
-
-                        // var client = MinecraftClient.getInstance();
-                        // // Force a refresh of the keybinding system
-                        // WynnbindsClient.LOGGER.debug(
-                        // "Refreshing keybinding system");
-                        // KeyBinding.updateKeysByCode();
-
-                        // // Update the internal state of keybindings
-                        // for (KeyBinding keyBinding : client.options.allKeys) {
-                        // keyBinding.setPressed(false);
-                        // }
-
-                        // // Save changes to options.txt
-                        // WynnbindsClient.LOGGER.debug(
-                        // "Writing keybindings to options.txt");
-                        // client.options.write();
-                        // })
-                        // .build());
-                        // }
-
-                        // currentKeysCategory.addEntry(subCategory.build());
-                        // }
-                        // }
 
                         return builder.build();
                 };
