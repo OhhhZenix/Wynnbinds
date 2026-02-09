@@ -81,7 +81,7 @@ public class WynnbindsClient implements ClientModInitializer {
             // load keybinds
             for (var keyBinding : WynnbindsUtils.getKeybindingsFromCaptureKeys()) {
                 var translationKey = keyBinding.getTranslationKey();
-                var boundKey = config.getDefaultKey(translationKey);
+                var boundKey = config.getKey(newCharacterId, translationKey);
                 var key = InputUtil.fromTranslationKey(boundKey);
                 keyBinding.setBoundKey(key);
                 LOGGER.debug("Loaded keybind for {}", translationKey);
