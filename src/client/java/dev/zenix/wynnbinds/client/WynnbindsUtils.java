@@ -33,11 +33,13 @@ public class WynnbindsUtils {
     public static String getCharacterId() {
         var serverEntry = MinecraftClient.getInstance().getCurrentServerEntry();
 
-        if (serverEntry == null)
+        if (serverEntry == null) {
             return DUMMY_CHARACTER_ID;
+        }
 
-        if (!serverEntry.address.toLowerCase().contains("wynncraft"))
+        if (!serverEntry.address.toLowerCase().contains("wynncraft")) {
             return DUMMY_CHARACTER_ID;
+        }
 
         try {
             // Get the field
