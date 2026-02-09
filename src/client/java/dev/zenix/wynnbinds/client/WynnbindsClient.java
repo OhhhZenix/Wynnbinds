@@ -34,7 +34,7 @@ public class WynnbindsClient implements ClientModInitializer {
     }
 
     private void setupLogger() {
-        Configurator.setLevel(LOGGER.getName(), Level.DEBUG);
+        Configurator.setLevel(LOGGER.getName(), Level.INFO);
     }
 
     private void startUpdateChecker() {
