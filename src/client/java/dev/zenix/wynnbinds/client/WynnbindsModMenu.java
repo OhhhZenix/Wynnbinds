@@ -142,6 +142,14 @@ public class WynnbindsModMenu implements ModMenuApi {
                                     WynnbindsClient.LOGGER.debug(
                                             "character: {} translation: {} bound: {}",
                                             currentCharacterId, translationKey, boundKey);
+
+                                    // notify
+                                    WynnbindsUtils
+                                            .sendNotification(
+                                                    Text.of(String.format("Updated keybind for %s",
+                                                            Text.translatable(translationKey)
+                                                                    .getString())),
+                                                    config.isBindNotificationsEnabled());
                                 }).build());
                     }
 
