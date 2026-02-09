@@ -105,4 +105,14 @@ public class WynnbindsUtils {
         }
         return result;
     }
+
+    public static void refreshKeyBindings() {
+        KeyBinding.updateKeysByCode();
+        WynnbindsClient.LOGGER.debug("Refreshed keybinds.");
+    }
+
+    public static void saveKeyBindings() {
+        MinecraftClient.getInstance().options.write();
+        WynnbindsClient.LOGGER.debug("Saved keybinds.");
+    }
 }
