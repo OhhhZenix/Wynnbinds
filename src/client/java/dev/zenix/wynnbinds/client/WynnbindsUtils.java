@@ -31,6 +31,14 @@ public class WynnbindsUtils {
 
     // A bit slower of method but more reliable
     public static String getCharacterId() {
+        var serverEntry = MinecraftClient.getInstance().getCurrentServerEntry();
+
+        if (serverEntry == null)
+            return DUMMY_CHARACTER_ID;
+
+        if (!serverEntry.address.toLowerCase().contains("wynncraft"))
+            return DUMMY_CHARACTER_ID;
+
         try {
             // Get the field
             Field idField = CharacterModel.class.getDeclaredField("id");
