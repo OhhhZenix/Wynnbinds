@@ -115,8 +115,8 @@ public class WynnbindsUtils {
         WynnbindsClient.LOGGER.debug("Saved keybinds.");
     }
 
-    public static void sendNotification(Text title, Text description) {
+    public static void sendNotification(Text description) {
         SystemToast.add(MinecraftClient.getInstance().getToastManager(),
-                SystemToast.Type.WORLD_BACKUP, title, description);
+                SystemToast.Type.WORLD_BACKUP, Text.of("Wynnbinds"), description);
     }
 }
