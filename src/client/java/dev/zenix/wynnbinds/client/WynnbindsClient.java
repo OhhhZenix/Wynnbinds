@@ -94,9 +94,6 @@ public class WynnbindsClient implements ClientModInitializer {
             // save
             client.options.write();
             LOGGER.debug("Saved keybinds.");
-
-            // update tracking
-            oldCharacterId = newCharacterId;
         }
 
         LOGGER.debug("Scanning for keybind changes.");
@@ -131,6 +128,9 @@ public class WynnbindsClient implements ClientModInitializer {
         if (shouldSaveConfig) {
             saveConfig();
         }
+
+        // update tracking
+        oldCharacterId = newCharacterId;
     }
 
 }
