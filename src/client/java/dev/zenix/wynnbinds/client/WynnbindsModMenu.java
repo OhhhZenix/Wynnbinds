@@ -138,6 +138,7 @@ public class WynnbindsModMenu implements ModMenuApi {
                                     WynnbindsUtils.refreshKeyBindings();
                                     WynnbindsUtils.saveKeyBindings();
 
+                                    // log
                                     WynnbindsClient.LOGGER.debug(
                                             "character: {} translation: {} bound: {}",
                                             currentCharacterId, translationKey, boundKey);
