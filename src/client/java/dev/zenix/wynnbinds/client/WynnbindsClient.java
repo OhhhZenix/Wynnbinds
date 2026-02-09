@@ -79,7 +79,7 @@ public class WynnbindsClient implements ClientModInitializer {
             }
 
             // load keybinds
-            for (KeyBinding keyBinding : WynnbindsUtils.getKeybindingsFromCaptureKeys()) {
+            for (var keyBinding : WynnbindsUtils.getKeybindingsFromCaptureKeys()) {
                 var translationKey = keyBinding.getTranslationKey();
                 var boundKey = config.getDefaultKey(translationKey);
                 var key = InputUtil.fromTranslationKey(boundKey);
@@ -99,39 +99,38 @@ public class WynnbindsClient implements ClientModInitializer {
             oldCharacterId = newCharacterId;
         }
 
-        // from minecraft to wynnbinds
-        // var keys = config.getKeys(newCharacterId);
-        // for (KeyBinding keyBinding : WynnbindsUtils.getKeybindingsFromCaptureKeys())
-        // {
-        // String translationKey = keyBinding.getTranslationKey();
+        LOGGER.debug("Scanning for keybind changes.");
+        var keys = config.getKeys(newCharacterId);
+        var shouldSaveConfig = false;
+        for (var keyBinding : WynnbindsUtils.getKeybindingsFromCaptureKeys()) {
+            var translationKey = keyBinding.getTranslationKey();
 
-        // // Is it a new keybind?
-        // if (keys.containsKey(translationKey)) {
-        // var defaultKey = config.getDefaultKey(translationKey);
-        // keys.put(translationKey, defaultKey);
-        // shouldSaveConfig = true;
-        // logger.debug("Detected new keybind: {} = {}", translationKey, defaultKey);
-        // continue;
-        // }
+            // Is it an exisiting keybind?
+            if (!keys.containsKey(translationKey)) {
+                LOGGER.debug("Missing keybind for {}", translationKey);
+                var boundKey = config.getDefaultKey(translationKey);
+                keys.put(translationKey, boundKey);
+                LOGGER.debug("Set {} keybind as {}", translationKey, boundKey);
+                continue;
+            }
 
-        // String newBoundKey = keyBinding.getBoundKeyTranslationKey();
-        // String oldBoundKey = keys.get(translationKey);
+            var newBoundKey = keyBinding.getBoundKeyTranslationKey();
+            var oldBoundKey = keys.get(translationKey);
 
-        // // Has the mapping changed?
-        // if (newBoundKey.equals(oldBoundKey)) {
-        // continue;
-        // }
+            // Is it a different key?
+            if (oldBoundKey.equals(newBoundKey)) {
+                LOGGER.debug("Keybind for {} has not changed yet.", translationKey);
+                continue;
+            }
 
-        // keys.put(translationKey, newBoundKey);
-        // shouldSaveConfig = true;
+            keys.put(translationKey, newBoundKey);
+            shouldSaveConfig = true;
+            LOGGER.debug("Updated keybind for {} from {} to {}", translationKey, oldBoundKey, newBoundKey);
+        }
 
-        // logger.debug("Updated keybind for '{}' from '{}' to '{}'", translationKey,
-        // oldBoundKey, newBoundKey);
-        // }
-
-        // if (shouldSaveConfig) {
-        // saveConfig();
-        // }
+        if (shouldSaveConfig) {
+            saveConfig();
+        }
     }
 
 }
