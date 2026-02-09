@@ -6,7 +6,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
-
+import net.minecraft.text.Text;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -72,9 +72,18 @@ public class WynnbindsClient implements ClientModInitializer {
 
             // Is it an existing character?
             if (!config.hasCharacter(newCharacterId)) {
+                // log
                 LOGGER.debug("Not an existing character. Using default keybinds.");
+
+                // update & save
                 config.setKeys(newCharacterId, config.getDefaultKeys());
                 saveConfig();
+
+                // notify
+                if (config.isBindNotificationsEnabled()) {
+                    WynnbindsUtils.sendNotification(
+                            Text.of(String.format("Creating new profile for %s", newCharacterId)));
+                }
             }
 
             // load keybinds
@@ -86,11 +95,15 @@ public class WynnbindsClient implements ClientModInitializer {
                 LOGGER.debug("Loaded keybind for {}", translationKey);
             }
 
-            // update
+            // refresh & save binds
             WynnbindsUtils.refreshKeyBindings();
-
-            // save
             WynnbindsUtils.saveKeyBindings();
+
+            // notify
+            if (config.isBindNotificationsEnabled()) {
+                WynnbindsUtils.sendNotification(
+                        Text.of(String.format("Loaded keybinds for %s", newCharacterId)));
+            }
         }
 
         LOGGER.debug("Scanning for keybind changes.");
@@ -117,10 +130,19 @@ public class WynnbindsClient implements ClientModInitializer {
                 continue;
             }
 
+            // update & save
             keys.put(translationKey, newBoundKey);
             shouldSaveConfig = true;
+
+            // log
             LOGGER.debug("Updated keybind for {} from {} to {}", translationKey, oldBoundKey,
                     newBoundKey);
+
+            // notify
+            if (config.isBindNotificationsEnabled()) {
+                WynnbindsUtils.sendNotification(Text.of(String.format("Updated keybind for %s",
+                        Text.translatable(translationKey).getString())));
+            }
         }
 
         if (shouldSaveConfig) {
