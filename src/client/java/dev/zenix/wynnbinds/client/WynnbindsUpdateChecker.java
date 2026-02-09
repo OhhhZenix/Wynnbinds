@@ -61,11 +61,18 @@ public class WynnbindsUpdateChecker implements Runnable {
                             modContainer -> modContainer.getMetadata().getContact().get("homepage"))
                     .orElse("https://github.com/OhhhZenix/Wynnbinds");
 
-            if (WynnbindsUtils.compareSemver(latestVersion, currentVersion) > 0) {
-                MinecraftClient.getInstance().player.sendMessage(Text.of(String.format(
-                        "Wynnbinds v%s is now available. You're running v%s. Visit %s to download.",
-                        latestVersion, currentVersion, homepageUrl)), false);
+            if (WynnbindsUtils.compareSemver(latestVersion, currentVersion) <= 0) {
+                return;
             }
+
+            if (!WynnbindsClient.getInstance().getConfig().isUpdateNotificationsEnabled()) {
+                return;
+            }
+
+            WynnbindsUtils.sendNotification(Text.of("New update available now."));
+            MinecraftClient.getInstance().player.sendMessage(Text.of(String.format(
+                    "Wynnbinds v%s is now available. You're running v%s. Visit %s to download.",
+                    latestVersion, currentVersion, homepageUrl)), false);
         } catch (Exception e) {
             WynnbindsClient.LOGGER.warn("Failed to check for updates", e);
         }
