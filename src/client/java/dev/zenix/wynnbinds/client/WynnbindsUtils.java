@@ -12,6 +12,8 @@ import com.wynntils.models.character.CharacterModel;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.toast.SystemToast;
+import net.minecraft.text.Text;
 
 public class WynnbindsUtils {
 
@@ -111,5 +113,10 @@ public class WynnbindsUtils {
     public static void saveKeyBindings() {
         MinecraftClient.getInstance().options.write();
         WynnbindsClient.LOGGER.debug("Saved keybinds.");
+    }
+
+    public static void sendNotification(Text title, Text description) {
+        SystemToast.add(MinecraftClient.getInstance().getToastManager(),
+                SystemToast.Type.WORLD_BACKUP, title, description);
     }
 }
