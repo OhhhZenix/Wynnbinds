@@ -65,14 +65,12 @@ public class WynnbindsUpdateChecker implements Runnable {
                 return;
             }
 
-            if (!WynnbindsClient.getInstance().getConfig().isUpdateNotificationsEnabled()) {
-                return;
-            }
+            WynnbindsUtils.sendNotification(Text.of("New update available now."),
+                    WynnbindsClient.getInstance().getConfig().isUpdateNotificationsEnabled());
 
-            WynnbindsUtils.sendNotification(Text.of("New update available now."));
-            MinecraftClient.getInstance().player.sendMessage(Text.of(String.format(
-                    "Wynnbinds v%s is now available. You're running v%s. Visit %s to download.",
-                    latestVersion, currentVersion, homepageUrl)), false);
+            // MinecraftClient.getInstance().player.sendMessage(Text.of(String.format(
+            // "Wynnbinds v%s is now available. You're running v%s. Visit %s to download.",
+            // latestVersion, currentVersion, homepageUrl)), false);
         } catch (Exception e) {
             WynnbindsClient.LOGGER.warn("Failed to check for updates", e);
         }
