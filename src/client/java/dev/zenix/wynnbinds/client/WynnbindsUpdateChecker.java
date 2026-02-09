@@ -9,7 +9,6 @@ import java.util.HashMap;
 import com.google.gson.Gson;
 
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
 
 public class WynnbindsUpdateChecker implements Runnable {
