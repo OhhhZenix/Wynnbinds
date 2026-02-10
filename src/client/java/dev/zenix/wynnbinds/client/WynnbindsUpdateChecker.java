@@ -55,11 +55,10 @@ public class WynnbindsUpdateChecker implements Runnable {
                     .getModContainer(WynnbindsClient.MOD_ID).map(modContainer -> modContainer
                             .getMetadata().getVersion().getFriendlyString())
                     .orElse("0.0.0");
-            // String homepageUrl =
-            // FabricLoader.getInstance().getModContainer(WynnbindsClient.MOD_ID)
-            // .flatMap(
-            // modContainer -> modContainer.getMetadata().getContact().get("homepage"))
-            // .orElse("https://github.com/OhhhZenix/Wynnbinds");
+            String homepageUrl = FabricLoader.getInstance().getModContainer(WynnbindsClient.MOD_ID)
+                    .flatMap(
+                            modContainer -> modContainer.getMetadata().getContact().get("homepage"))
+                    .orElse("https://github.com/OhhhZenix/Wynnbinds");
 
             if (WynnbindsUtils.compareSemver(latestVersion, currentVersion) <= 0) {
                 return;
@@ -71,6 +70,10 @@ public class WynnbindsUpdateChecker implements Runnable {
             // MinecraftClient.getInstance().player.sendMessage(Text.of(String.format(
             // "Wynnbinds v%s is now available. You're running v%s. Visit %s to download.",
             // latestVersion, currentVersion, homepageUrl)), false);
+
+            WynnbindsClient.LOGGER.info(
+                    "Wynnbinds v{} is now available. You're running v{}. Visit {} to download.",
+                    latestVersion, currentVersion, homepageUrl);
         } catch (Exception e) {
             WynnbindsClient.LOGGER.warn("Failed to check for updates", e);
         }
