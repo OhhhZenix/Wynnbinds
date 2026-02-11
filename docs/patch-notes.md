@@ -1,11 +1,18 @@
 # Patch Notes
 Here is a history of the project's patch notes.
 
-## Release 1.3.2
+## Release 1.4.0
 
-Small update:
+Warning! This update will likely break your current settings. It is recommended you check and redo your settings.
 
-- Tidy up config menu
+Changes brought with this release:
+
+- Ability to capture any key
+- Ability to edit current binds 
+- Clean up config screen for default binds
+- Fully independent detection
+- Remove Wynntils as dependency
+- Add open config keybind
 
 ## Release 1.3.1
 

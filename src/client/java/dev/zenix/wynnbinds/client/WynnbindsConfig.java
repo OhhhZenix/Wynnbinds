@@ -2,9 +2,10 @@ package dev.zenix.wynnbinds.client;
 
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
-import me.shedaniel.autoconfig.annotation.ConfigEntry;
-
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.minecraft.client.option.KeyBinding;
 import java.util.HashMap;
+import java.util.HashSet;
 
 @Config(name = "wynnbinds")
 public class WynnbindsConfig implements ConfigData {
@@ -12,10 +13,9 @@ public class WynnbindsConfig implements ConfigData {
     private boolean enableMod = true;
     private boolean enableBindNotifications = true;
     private boolean enableUpdateNotifications = true;
-    private HashMap<String, String> defaultKeyBinds = Wynnbinds.getDefaultKeyBinds();
-
-    @ConfigEntry.Gui.Excluded
-    private HashMap<String, HashMap<String, String>> characterMappings = new HashMap<>();
+    private HashSet<String> captureKeys = new HashSet<>();
+    private HashMap<String, String> defaultKeys = new HashMap<>();
+    private HashMap<String, HashMap<String, String>> characters = new HashMap<>();
 
     public boolean isModEnabled() {
         return enableMod;
@@ -42,26 +42,60 @@ public class WynnbindsConfig implements ConfigData {
     }
 
     public boolean hasCharacter(String characterId) {
-        return characterMappings.containsKey(characterId);
+        return characters.containsKey(characterId);
     }
 
-    public HashMap<String, String> getKeyBinds(String characterId) {
-        return characterMappings.get(characterId);
+    public String getKey(String characterId, String translationKey) {
+        var keys = characters.get(characterId);
+        return keys.get(translationKey);
     }
 
-    public void setKeyBinds(String characterId, HashMap<String, String> keybinds) {
-        characterMappings.put(characterId, keybinds);
+    public void setKey(String characterId, String translationKey, String boundKey) {
+        var keys = characters.get(characterId);
+        keys.put(translationKey, boundKey);
     }
 
-    public String getDefaultKeyBind(String translationKey) {
-        return defaultKeyBinds.get(translationKey);
+    public HashMap<String, String> getKeys(String characterId) {
+        return characters.get(characterId);
     }
 
-    public HashMap<String, String> getDefaultKeyBinds() {
-        return defaultKeyBinds;
+    public void setKeys(String characterId, HashMap<String, String> keybinds) {
+        characters.put(characterId, keybinds);
     }
 
-    public void setDefaultKeyBind(String translationKey, String boundKey) {
-        defaultKeyBinds.put(translationKey, boundKey);
+    public boolean isCaptureKey(String translationKey) {
+        return captureKeys.contains(translationKey);
+    }
+
+    public void addCaptureKey(String translationKey) {
+        captureKeys.add(translationKey);
+    }
+
+    public void removeCaptureKey(String translationKey) {
+        captureKeys.remove(translationKey);
+    }
+
+    public String getDefaultKey(String translationKey) {
+        // if key does not exists, take current keybind
+        if (!defaultKeys.containsKey(translationKey)) {
+            var keyBinding = KeyBinding.byId(translationKey);
+            var boundKey = KeyBindingHelper.getBoundKeyOf(keyBinding).getTranslationKey();
+            defaultKeys.put(translationKey, boundKey);
+        }
+        return defaultKeys.get(translationKey);
+    }
+
+    public HashMap<String, String> getDefaultKeys() {
+        // return only the keys that are being captured
+        HashMap<String, String> result = new HashMap<>();
+        for (String translationKey : captureKeys) {
+            String boundKey = getDefaultKey(translationKey);
+            result.put(translationKey, boundKey);
+        }
+        return result;
+    }
+
+    public void setDefaultKey(String translationKey, String boundKey) {
+        defaultKeys.put(translationKey, boundKey);
     }
 }
