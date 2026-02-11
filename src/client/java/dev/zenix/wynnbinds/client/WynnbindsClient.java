@@ -4,21 +4,28 @@ import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.Configurator;
+import org.lwjgl.glfw.GLFW;
 
 public class WynnbindsClient implements ClientModInitializer {
 
     public static final String MOD_ID = "wynnbinds";
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
+    private static final KeyBinding OPEN_CONFIG_KEYBINDING =
+            KeyBindingHelper.registerKeyBinding(new KeyBinding("key.wynnbinds.config",
+                    InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "key.category.wynnbinds"));
     private static WynnbindsClient instance = null;
     private WynnbindsConfig config = null;
     private String oldCharacterId = WynnbindsUtils.DUMMY_CHARACTER_ID;
+
 
     public static WynnbindsClient getInstance() {
         return instance;
@@ -59,6 +66,7 @@ public class WynnbindsClient implements ClientModInitializer {
     }
 
     private void onEndClientTick(MinecraftClient client) {
+        handleOpenConfig(client);
         var newCharacterId = WynnbindsUtils.getCharacterId();
 
         // Is it a valid character?
@@ -150,4 +158,10 @@ public class WynnbindsClient implements ClientModInitializer {
         oldCharacterId = newCharacterId;
     }
 
+    private void handleOpenConfig(MinecraftClient client) {
+        if (OPEN_CONFIG_KEYBINDING.isPressed()) {
+            OPEN_CONFIG_KEYBINDING.setPressed(false);
+            client.setScreen(ConfigScreen.create(client.currentScreen));
+        }
+    }
 }
