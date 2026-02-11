@@ -12,9 +12,7 @@ Ever felt annoyed with your keybinds in Wynncraft? They often feel uncomfortable
 
 ## Compatibility
 
-- [Wynntils](https://modrinth.com/mod/wynntils)
-- [Wynncraft Spell Caster](https://modrinth.com/mod/wynncraft-spell-caster)
-- [BetterWynnMacros](https://modrinth.com/mod/better-wynn-macros)
+The mod should be compatible with just about any keybinds in any mod. That includes mods like [Wynntils](https://modrinth.com/mod/wynntils), [Wynncraft Spell Caster](https://modrinth.com/mod/wynncraft-spell-caster), [BetterWynnMacros](https://modrinth.com/mod/better-wynn-macros), etc.
 
 ## Todo
 
