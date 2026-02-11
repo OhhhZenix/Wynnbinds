@@ -10,7 +10,7 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 
-public class ConfigScreen {
+public class WynnbindsConfigScreen {
 
     public static Screen create(Screen parent) {
         ConfigBuilder builder =

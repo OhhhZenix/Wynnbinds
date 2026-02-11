@@ -161,7 +161,7 @@ public class WynnbindsClient implements ClientModInitializer {
     private void handleOpenConfig(MinecraftClient client) {
         if (OPEN_CONFIG_KEYBINDING.isPressed()) {
             OPEN_CONFIG_KEYBINDING.setPressed(false);
-            client.setScreen(ConfigScreen.create(client.currentScreen));
+            client.setScreen(WynnbindsConfigScreen.create(client.currentScreen));
         }
     }
 }

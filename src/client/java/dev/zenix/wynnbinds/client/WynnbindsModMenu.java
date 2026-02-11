@@ -7,6 +7,6 @@ public class WynnbindsModMenu implements ModMenuApi {
 
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        return parent -> ConfigScreen.create(parent);
+        return parent -> WynnbindsConfigScreen.create(parent);
     }
 }
