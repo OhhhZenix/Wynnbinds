@@ -67,6 +67,17 @@ public class WynnbindsClient implements ClientModInitializer {
 
     private void onEndClientTick(MinecraftClient client) {
         handleOpenConfig(client);
+        handleKeybinds(client);
+    }
+
+    private void handleOpenConfig(MinecraftClient client) {
+        if (OPEN_CONFIG_KEYBINDING.isPressed()) {
+            OPEN_CONFIG_KEYBINDING.setPressed(false);
+            client.setScreen(WynnbindsConfigScreen.create(client.currentScreen));
+        }
+    }
+
+    private void handleKeybinds(MinecraftClient client) {
         var newCharacterId = WynnbindsUtils.getCharacterId();
 
         // Is it a valid character?
@@ -156,12 +167,5 @@ public class WynnbindsClient implements ClientModInitializer {
 
         // update tracking
         oldCharacterId = newCharacterId;
-    }
-
-    private void handleOpenConfig(MinecraftClient client) {
-        if (OPEN_CONFIG_KEYBINDING.isPressed()) {
-            OPEN_CONFIG_KEYBINDING.setPressed(false);
-            client.setScreen(WynnbindsConfigScreen.create(client.currentScreen));
-        }
     }
 }
