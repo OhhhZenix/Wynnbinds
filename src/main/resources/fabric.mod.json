@@ -30,7 +30,6 @@
     "fabricloader": ">=${loader_version}",
     "fabric-api": "*",
     "minecraft": "${minecraft_version}",
-    "wynntils": ">=${wynntils_version}",
     "cloth-config": ">=${cloth_config_version}"
   }
 }

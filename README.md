@@ -3,9 +3,6 @@ Ever felt annoyed with your keybinds in Wynncraft? They often feel uncomfortable
 
 ## Dependenices
 
-- [Wynntils](https://modrinth.com/mod/wynntils) (**Required**)
-  - Mod Version: 3.4.4
-  - MC Version: 1.21.4
 - [Cloth Config API](https://modrinth.com/mod/cloth-config) (**Required**)
   - Mod Version: 17.0.144
   - MC Version: 1.21.4
