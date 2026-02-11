@@ -95,8 +95,7 @@ public class WynnbindsClient implements ClientModInitializer {
             }
 
             // refresh & save binds
-            WynnbindsUtils.refreshKeyBindings();
-            WynnbindsUtils.saveKeyBindings();
+            WynnbindsUtils.refreshAndSaveKeyBindings();
 
             // notify
             WynnbindsUtils.sendNotification(
