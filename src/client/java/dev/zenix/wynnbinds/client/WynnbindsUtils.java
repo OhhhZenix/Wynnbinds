@@ -48,13 +48,11 @@ public class WynnbindsUtils {
             return DUMMY_CHARACTER_ID;
         }
 
-        // ItemStack compassItem = McUtils.inventory().getStack(CHARACTER_INFO_SLOT);
         ItemStack compassItem = client.player.getInventory().getStack(CHARACTER_INFO_SLOT);
         if (compassItem == null) {
             return DUMMY_CHARACTER_ID;
         }
 
-        // List<StyledText> compassLore = LoreUtils.getLore(compassItem);
         List<Text> compassLore =
                 compassItem.getOrDefault(DataComponentTypes.LORE, LoreComponent.DEFAULT).lines();
         if (compassLore.isEmpty()) {
