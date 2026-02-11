@@ -12,6 +12,7 @@ Changes brought with this release:
 - Clean up config screen for default binds
 - Fully independent detection
 - Remove Wynntils as dependency
+- Add open config keybind
 
 ## Release 1.3.1
 
