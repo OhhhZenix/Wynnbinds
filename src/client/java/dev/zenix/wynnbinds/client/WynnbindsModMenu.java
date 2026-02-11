@@ -135,8 +135,7 @@ public class WynnbindsModMenu implements ModMenuApi {
                                     // update minecraft bind
                                     var keyBinding = KeyBinding.byId(translationKey);
                                     keyBinding.setBoundKey(value);
-                                    WynnbindsUtils.refreshKeyBindings();
-                                    WynnbindsUtils.saveKeyBindings();
+                                    WynnbindsUtils.refreshAndSaveKeyBindings();
 
                                     // log
                                     WynnbindsClient.LOGGER.debug(
