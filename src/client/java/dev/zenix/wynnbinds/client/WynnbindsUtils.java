@@ -3,21 +3,29 @@ package dev.zenix.wynnbinds.client;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
+import com.wynntils.core.WynntilsMod;
 import com.wynntils.core.components.Models;
+import com.wynntils.core.text.StyledText;
 import com.wynntils.models.character.CharacterModel;
-
+import com.wynntils.utils.mc.LoreUtils;
+import com.wynntils.utils.mc.McUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.toast.SystemToast;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.LoreComponent;
+import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 
 public class WynnbindsUtils {
 
     public static final String DUMMY_CHARACTER_ID = "-";
+    private static final Pattern CHARACTER_ID_PATTERN = Pattern.compile("^[a-z0-9]{8}$");
+    private static final int CHARACTER_INFO_SLOT = 7;
 
     public static String capitalizeStartOfEachWord(String input) {
         if (input == null || input.isEmpty())
@@ -31,7 +39,8 @@ public class WynnbindsUtils {
 
     // A bit slower of method but more reliable
     public static String getCharacterId() {
-        var serverEntry = MinecraftClient.getInstance().getCurrentServerEntry();
+        var client = MinecraftClient.getInstance();
+        var serverEntry = client.getCurrentServerEntry();
 
         if (serverEntry == null) {
             return DUMMY_CHARACTER_ID;
@@ -41,21 +50,52 @@ public class WynnbindsUtils {
             return DUMMY_CHARACTER_ID;
         }
 
-        try {
-            // Get the field
-            Field idField = CharacterModel.class.getDeclaredField("id");
-
-            // Make it accessible (bypass private modifier)
-            idField.setAccessible(true);
-
-            // Get the value from an instance
-            String id = (String) idField.get(Models.Character);
-
-            return id;
-        } catch (Exception e) {
-            WynnbindsClient.LOGGER.error("Failed to retrieve character ID: {}", e.getMessage());
+        if (client.player == null) {
             return DUMMY_CHARACTER_ID;
         }
+
+        // ItemStack compassItem = McUtils.inventory().getStack(CHARACTER_INFO_SLOT);
+        ItemStack compassItem = client.player.getInventory().getStack(CHARACTER_INFO_SLOT);
+        if (compassItem == null) {
+            return DUMMY_CHARACTER_ID;
+        }
+
+        // List<StyledText> compassLore = LoreUtils.getLore(compassItem);
+        List<Text> compassLore =
+                compassItem.getOrDefault(DataComponentTypes.LORE, LoreComponent.DEFAULT).lines();
+        if (compassLore.isEmpty()) {
+            return DUMMY_CHARACTER_ID;
+        }
+
+        // StyledText idLine = compassLore.getFirst();
+        int colorCodeLength = 2;
+        String idLine = compassLore.getFirst().getString().substring(colorCodeLength);
+        WynnbindsClient.LOGGER.info("{} ", idLine);
+        if (idLine == null || !CHARACTER_ID_PATTERN.matcher(idLine).matches()) {
+            WynnbindsClient.LOGGER.warn("Compass item had unexpected character ID line: " + idLine);
+            return DUMMY_CHARACTER_ID;
+        }
+
+        return idLine;
+
+        // Models.Character.getId();
+
+
+        // try {
+        // // Get the field
+        // Field idField = CharacterModel.class.getDeclaredField("id");
+
+        // // Make it accessible (bypass private modifier)
+        // idField.setAccessible(true);
+
+        // // Get the value from an instance
+        // String id = (String) idField.get(Models.Character);
+
+        // return id;
+        // } catch (Exception e) {
+        // WynnbindsClient.LOGGER.error("Failed to retrieve character ID: {}", e.getMessage());
+        // return DUMMY_CHARACTER_ID;
+        // }
     }
 
     public static int compareSemver(String v1, String v2) {
