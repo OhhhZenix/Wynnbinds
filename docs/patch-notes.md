@@ -10,6 +10,8 @@ Changes brought with this release:
 - Ability to capture any key
 - Ability to edit current binds 
 - Clean up config screen for default binds
+- Fully independent detection
+- Remove Wynntils as dependency
 
 ## Release 1.3.1
 
