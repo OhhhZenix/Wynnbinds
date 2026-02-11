@@ -26,7 +26,6 @@ public class WynnbindsClient implements ClientModInitializer {
     private WynnbindsConfig config = null;
     private String oldCharacterId = WynnbindsUtils.DUMMY_CHARACTER_ID;
 
-
     public static WynnbindsClient getInstance() {
         return instance;
     }
