@@ -125,6 +125,11 @@ public class WynnbindsUtils {
         WynnbindsClient.LOGGER.debug("Saved keybinds.");
     }
 
+    public static void refreshAndSaveKeyBindings() {
+        refreshKeyBindings();
+        saveKeyBindings();
+    }
+
     public static void sendNotification(Text description, Boolean shouldSend) {
         if (!shouldSend) {
             return;
