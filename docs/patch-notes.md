@@ -1,6 +1,13 @@
 # Patch Notes
 Here is a history of the project's patch notes.
 
+## Release 1.5.0
+
+Just some changes:
+
+- Officially move to Minecraft version 1.21.11
+- Update dependencies
+
 ## Release 1.4.0
 
 Warning! This update will likely break your current settings. It is recommended you check and redo your settings.
