@@ -3,11 +3,11 @@ package dev.zenix.wynnbinds.client;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
+import java.util.Map.Entry;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ServerInfo;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.toast.SystemToast;
 import net.minecraft.component.DataComponentTypes;
@@ -23,8 +23,8 @@ public class WynnbindsUtils {
     private static final int CHARACTER_COLOR_CODE_LENGTH = 2;
 
     public static String getCharacterId() {
-        var client = MinecraftClient.getInstance();
-        var serverEntry = client.getCurrentServerEntry();
+        MinecraftClient client = MinecraftClient.getInstance();
+        ServerInfo serverEntry = client.getCurrentServerEntry();
 
         if (serverEntry == null) {
             return DUMMY_CHARACTER_ID;
@@ -76,29 +76,44 @@ public class WynnbindsUtils {
     }
 
     public static HashMap<String, ArrayList<String>> getAllKeysByCategory() {
-        var result = new HashMap<String, ArrayList<String>>();
+        HashMap<String, ArrayList<String>> result = new HashMap<>();
 
         for (KeyBinding keyBinding : MinecraftClient.getInstance().options.allKeys) {
-            result.computeIfAbsent(keyBinding.getCategory().getLabel().getString(),
-                    category -> new ArrayList<>()).add(keyBinding.getId());
+            String category = keyBinding.getCategory().getLabel().getString();
+            ArrayList<String> keys = result.get(category);
+
+            // are the keys valid? if not, make empty list
+            if (keys == null) {
+                keys = new ArrayList<>();
+                result.put(category, keys);
+            }
+
+            String translationKey = keyBinding.getId();
+            keys.add(translationKey);
         }
 
         return result;
     }
 
     public static HashMap<String, ArrayList<String>> getCaptureKeysByCategory() {
-        var result = new HashMap<String, ArrayList<String>>();
-        var config = WynnbindsClient.getInstance().getConfig();
-        var keysByCategory = getAllKeysByCategory();
+        HashMap<String, ArrayList<String>> result = new HashMap<>();
+        WynnbindsConfig config = WynnbindsClient.getInstance().getConfig();
+        HashMap<String, ArrayList<String>> keysByCategory = getAllKeysByCategory();
 
-        for (var entry : keysByCategory.entrySet()) {
-            var captureKeys = entry.getValue().stream().filter(config::isCaptureKey)
-                    .collect(Collectors.toCollection(ArrayList::new));
+        for (Entry<String, ArrayList<String>> entry : keysByCategory.entrySet()) {
+            String category = entry.getKey();
+            ArrayList<String> keys = entry.getValue();
+            ArrayList<String> captureKeys = new ArrayList<>();
 
-            if (captureKeys.isEmpty())
-                continue;
+            for (String key : keys) {
+                if (config.isCaptureKey(key)) {
+                    captureKeys.add(key);
+                }
+            }
 
-            result.put(entry.getKey(), captureKeys);
+            if (!captureKeys.isEmpty()) {
+                result.put(category, captureKeys);
+            }
         }
 
         return result;
