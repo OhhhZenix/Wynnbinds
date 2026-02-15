@@ -46,12 +46,12 @@ public class WynnbindsConfig implements ConfigData {
     }
 
     public String getKey(String characterId, String translationKey) {
-        var keys = characters.get(characterId);
+        HashMap<String, String> keys = characters.get(characterId);
         return keys.get(translationKey);
     }
 
     public void setKey(String characterId, String translationKey, String boundKey) {
-        var keys = characters.get(characterId);
+        HashMap<String, String> keys = characters.get(characterId);
         keys.put(translationKey, boundKey);
     }
 
@@ -78,8 +78,8 @@ public class WynnbindsConfig implements ConfigData {
     public String getDefaultKey(String translationKey) {
         // if key does not exists, take current keybind
         if (!defaultKeys.containsKey(translationKey)) {
-            var keyBinding = KeyBinding.byId(translationKey);
-            var boundKey = KeyBindingHelper.getBoundKeyOf(keyBinding).getTranslationKey();
+            KeyBinding keyBinding = KeyBinding.byId(translationKey);
+            String boundKey = KeyBindingHelper.getBoundKeyOf(keyBinding).getTranslationKey();
             defaultKeys.put(translationKey, boundKey);
         }
         return defaultKeys.get(translationKey);
