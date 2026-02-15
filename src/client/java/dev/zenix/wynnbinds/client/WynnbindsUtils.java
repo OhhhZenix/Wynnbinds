@@ -22,16 +22,6 @@ public class WynnbindsUtils {
     private static final int CHARACTER_INFO_SLOT = 7;
     private static final int CHARACTER_COLOR_CODE_LENGTH = 2;
 
-    public static String capitalizeStartOfEachWord(String input) {
-        if (input == null || input.isEmpty())
-            return input;
-
-        String output = Pattern.compile("\\b\\p{L}").matcher(input.toLowerCase())
-                .replaceAll(match -> match.group().toUpperCase(Locale.ROOT));
-
-        return output;
-    }
-
     public static String getCharacterId() {
         var client = MinecraftClient.getInstance();
         var serverEntry = client.getCurrentServerEntry();
