@@ -90,7 +90,7 @@ public class WynnbindsUtils {
 
         for (KeyBinding keyBinding : MinecraftClient.getInstance().options.allKeys) {
             result.computeIfAbsent(keyBinding.getCategory().getLabel().getString(),
-                    category -> new ArrayList<>()).add(keyBinding.getBoundKeyTranslationKey());
+                    category -> new ArrayList<>()).add(keyBinding.getId());
         }
 
         return result;
