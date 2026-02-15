@@ -7,8 +7,10 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.option.KeyBinding.Category;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,9 +21,10 @@ public class WynnbindsClient implements ClientModInitializer {
 
     public static final String MOD_ID = "wynnbinds";
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
+    private static final Category KEY_CATEGORY = Category.create(Identifier.of(MOD_ID));
     private static final KeyBinding OPEN_CONFIG_KEYBINDING =
             KeyBindingHelper.registerKeyBinding(new KeyBinding("key.wynnbinds.config",
-                    InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "key.category.wynnbinds"));
+                    InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, KEY_CATEGORY));
     private static WynnbindsClient instance = null;
     private WynnbindsConfig config = null;
     private String oldCharacterId = WynnbindsUtils.DUMMY_CHARACTER_ID;
