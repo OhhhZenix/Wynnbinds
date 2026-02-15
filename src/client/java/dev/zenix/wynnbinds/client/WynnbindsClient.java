@@ -108,7 +108,7 @@ public class WynnbindsClient implements ClientModInitializer {
 
             // load keybinds
             for (var keyBinding : WynnbindsUtils.getKeybindingsFromCaptureKeys()) {
-                var translationKey = keyBinding.getTranslationKey();
+                var translationKey = keyBinding.getId();
                 var boundKey = config.getKey(newCharacterId, translationKey);
                 var key = InputUtil.fromTranslationKey(boundKey);
                 keyBinding.setBoundKey(key);
@@ -128,7 +128,7 @@ public class WynnbindsClient implements ClientModInitializer {
         var keys = config.getKeys(newCharacterId);
         var shouldSaveConfig = false;
         for (var keyBinding : WynnbindsUtils.getKeybindingsFromCaptureKeys()) {
-            var translationKey = keyBinding.getTranslationKey();
+            var translationKey = keyBinding.getId();
 
             // Is it an exisiting keybind?
             if (!keys.containsKey(translationKey)) {
