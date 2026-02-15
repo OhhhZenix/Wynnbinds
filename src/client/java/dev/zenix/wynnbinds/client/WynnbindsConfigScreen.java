@@ -1,5 +1,8 @@
 package dev.zenix.wynnbinds.client;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map.Entry;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
@@ -17,7 +20,7 @@ public class WynnbindsConfigScreen {
                 ConfigBuilder.create().setParentScreen(parent).setTitle(Text.of("Wynnbinds"));
         builder.setSavingRunnable(WynnbindsClient.getInstance()::saveConfig);
 
-        var config = WynnbindsClient.getInstance().getConfig();
+        WynnbindsConfig config = WynnbindsClient.getInstance().getConfig();
         ConfigEntryBuilder entryBuilder = builder.entryBuilder();
 
         // General
@@ -39,11 +42,12 @@ public class WynnbindsConfigScreen {
 
         // Capture
         ConfigCategory captureKeysCategory = builder.getOrCreateCategory(Text.of("Capture"));
-        var allKeysByCategory = WynnbindsUtils.getAllKeysByCategory();
+        HashMap<String, ArrayList<String>> allKeysByCategory =
+                WynnbindsUtils.getAllKeysByCategory();
 
-        for (var entry : allKeysByCategory.entrySet()) {
+        for (Entry<String, ArrayList<String>> entry : allKeysByCategory.entrySet()) {
             String category = entry.getKey();
-            var translationKeys = entry.getValue();
+            ArrayList<String> translationKeys = entry.getValue();
 
             Text categoryText = Text.translatable(category);
             SubCategoryBuilder subCategory = entryBuilder.startSubCategory(categoryText);
@@ -70,9 +74,10 @@ public class WynnbindsConfigScreen {
 
         // Default
         ConfigCategory defaultKeysCategory = builder.getOrCreateCategory(Text.of("Default"));
-        for (var entry : WynnbindsUtils.getCaptureKeysByCategory().entrySet()) {
+        for (Entry<String, ArrayList<String>> entry : WynnbindsUtils.getCaptureKeysByCategory()
+                .entrySet()) {
             String category = entry.getKey();
-            var translationKeys = entry.getValue();
+            ArrayList<String> translationKeys = entry.getValue();
 
             Text categoryText = Text.translatable(category);
             SubCategoryBuilder subCategory = entryBuilder.startSubCategory(categoryText);
@@ -99,12 +104,13 @@ public class WynnbindsConfigScreen {
         }
 
         // Current
-        var currentCharacterId = WynnbindsUtils.getCharacterId();
+        String currentCharacterId = WynnbindsUtils.getCharacterId();
         if (!currentCharacterId.equals(WynnbindsUtils.DUMMY_CHARACTER_ID)) {
             ConfigCategory currentKeysCategory = builder.getOrCreateCategory(Text.of("Current"));
-            for (var entry : WynnbindsUtils.getCaptureKeysByCategory().entrySet()) {
-                var category = entry.getKey();
-                var translationKeys = entry.getValue();
+            for (Entry<String, ArrayList<String>> entry : WynnbindsUtils.getCaptureKeysByCategory()
+                    .entrySet()) {
+                String category = entry.getKey();
+                ArrayList<String> translationKeys = entry.getValue();
 
                 Text categoryText = Text.translatable(category);
                 SubCategoryBuilder subCategory = entryBuilder.startSubCategory(categoryText);
@@ -112,21 +118,21 @@ public class WynnbindsConfigScreen {
                 subCategory.setTooltip(Text.of("Keys relating to " + categoryText.getString()));
 
                 for (String translationKey : translationKeys) {
-                    var currentKey = InputUtil
+                    InputUtil.Key currentKey = InputUtil
                             .fromTranslationKey(config.getKey(currentCharacterId, translationKey));
-                    var defaultKey =
+                    InputUtil.Key defaultKey =
                             InputUtil.fromTranslationKey(config.getDefaultKey(translationKey));
-                    var keyText = Text.translatable(translationKey);
+                    Text keyText = Text.translatable(translationKey);
                     subCategory.add(entryBuilder.startKeyCodeField(keyText, currentKey)
                             .setTooltip(Text
                                     .of(String.format("Set keybind for %s", keyText.getString())))
                             .setDefaultValue(defaultKey).setKeySaveConsumer(value -> {
                                 // update our bind
-                                var boundKey = value.getTranslationKey();
+                                String boundKey = value.getTranslationKey();
                                 config.setKey(currentCharacterId, translationKey, boundKey);
 
                                 // update minecraft bind
-                                var keyBinding = KeyBinding.byId(translationKey);
+                                KeyBinding keyBinding = KeyBinding.byId(translationKey);
                                 keyBinding.setBoundKey(value);
                                 WynnbindsUtils.refreshAndSaveKeyBindings();
 
