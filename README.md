@@ -4,14 +4,14 @@ Ever felt annoyed with your keybinds in Wynncraft? They often feel uncomfortable
 ## Dependenices
 
 - [Fabric API](https://modrinth.com/mod/fabric-api) (**Required**)
-  - Mod Version: 0.119.4
-  - MC Version: 1.21.4
+  - Mod Version: 0.141.3
+  - MC Version: 1.21.11
 - [Cloth Config API](https://modrinth.com/mod/cloth-config) (**Required**)
-  - Mod Version: 17.0.144
-  - MC Version: 1.21.4
+  - Mod Version: 21.11.153
+  - MC Version: 1.21.11
 - [Mod Menu](https://modrinth.com/mod/modmenu) (Optional)
-  - Mod Version: 13.0.3
-  - MC Version: 1.21.4
+  - Mod Version: 17.0.0-beta.2
+  - MC Version: 1.21.11
 
 ## Compatibility
 
