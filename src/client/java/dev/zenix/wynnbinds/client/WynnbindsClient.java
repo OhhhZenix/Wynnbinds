@@ -11,6 +11,7 @@ import net.minecraft.client.option.KeyBinding.Category;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import java.util.HashMap;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -80,7 +81,7 @@ public class WynnbindsClient implements ClientModInitializer {
     }
 
     private void handleKeybinds(MinecraftClient client) {
-        var newCharacterId = WynnbindsUtils.getCharacterId();
+        String newCharacterId = WynnbindsUtils.getCharacterId();
 
         // Is it a valid character?
         if (newCharacterId.equals(WynnbindsUtils.DUMMY_CHARACTER_ID)) {
@@ -107,10 +108,10 @@ public class WynnbindsClient implements ClientModInitializer {
             }
 
             // load keybinds
-            for (var keyBinding : WynnbindsUtils.getKeybindingsFromCaptureKeys()) {
-                var translationKey = keyBinding.getId();
-                var boundKey = config.getKey(newCharacterId, translationKey);
-                var key = InputUtil.fromTranslationKey(boundKey);
+            for (KeyBinding keyBinding : WynnbindsUtils.getKeybindingsFromCaptureKeys()) {
+                String translationKey = keyBinding.getId();
+                String boundKey = config.getKey(newCharacterId, translationKey);
+                InputUtil.Key key = InputUtil.fromTranslationKey(boundKey);
                 keyBinding.setBoundKey(key);
                 LOGGER.debug("Loaded keybind for {}", translationKey);
             }
@@ -125,22 +126,22 @@ public class WynnbindsClient implements ClientModInitializer {
         }
 
         LOGGER.debug("Scanning for keybind changes.");
-        var keys = config.getKeys(newCharacterId);
-        var shouldSaveConfig = false;
-        for (var keyBinding : WynnbindsUtils.getKeybindingsFromCaptureKeys()) {
-            var translationKey = keyBinding.getId();
+        HashMap<String, String> keys = config.getKeys(newCharacterId);
+        boolean shouldSaveConfig = false;
+        for (KeyBinding keyBinding : WynnbindsUtils.getKeybindingsFromCaptureKeys()) {
+            String translationKey = keyBinding.getId();
 
             // Is it an exisiting keybind?
             if (!keys.containsKey(translationKey)) {
                 LOGGER.debug("Missing keybind for {}", translationKey);
-                var boundKey = config.getDefaultKey(translationKey);
+                String boundKey = config.getDefaultKey(translationKey);
                 keys.put(translationKey, boundKey);
                 LOGGER.debug("Set {} keybind as {}", translationKey, boundKey);
                 continue;
             }
 
-            var newBoundKey = keyBinding.getBoundKeyTranslationKey();
-            var oldBoundKey = keys.get(translationKey);
+            String newBoundKey = keyBinding.getBoundKeyTranslationKey();
+            String oldBoundKey = keys.get(translationKey);
 
             // Is it a different key?
             if (oldBoundKey.equals(newBoundKey)) {
