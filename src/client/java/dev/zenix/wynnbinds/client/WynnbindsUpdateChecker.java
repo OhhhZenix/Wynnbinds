@@ -49,7 +49,7 @@ public class WynnbindsUpdateChecker implements Runnable {
 
             String body = httpResponse.body();
             Gson gson = new Gson();
-            var json = gson.fromJson(body, HashMap.class);
+            HashMap<?, ?> json = gson.fromJson(body, HashMap.class);
             String latestVersion = (String) json.get("tag_name");
             String currentVersion = FabricLoader.getInstance()
                     .getModContainer(WynnbindsClient.MOD_ID).map(modContainer -> modContainer
