@@ -5,8 +5,8 @@ Here is a history of the project's patch notes.
 
 Just some changes:
 
-- Officially move to Minecraft version 1.21.11
-- Update dependencies
+- Move to Minecraft version 1.21.11
+- Update dependencies version
 
 ## Release 1.4.0
 
