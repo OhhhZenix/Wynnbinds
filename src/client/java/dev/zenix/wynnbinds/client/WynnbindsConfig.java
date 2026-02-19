@@ -47,6 +47,9 @@ public class WynnbindsConfig implements ConfigData {
 
     public String getKey(String characterId, String translationKey) {
         HashMap<String, String> keys = characters.get(characterId);
+        if (!keys.containsKey(translationKey)) {
+            setKey(characterId, translationKey, getDefaultKey(translationKey));
+        }
         return keys.get(translationKey);
     }
 
