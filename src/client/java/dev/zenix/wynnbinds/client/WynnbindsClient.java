@@ -141,8 +141,7 @@ public class WynnbindsClient implements ClientModInitializer {
             }
 
             String newBoundKey = keyBinding.getBoundKeyTranslationKey();
-            String oldBoundKey =
-                    keys.getOrDefault(translationKey, config.getDefaultKey(translationKey));
+            String oldBoundKey = keys.get(translationKey);
 
             // Is it a different key?
             if (oldBoundKey.equals(newBoundKey)) {
