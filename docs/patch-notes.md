@@ -1,6 +1,11 @@
 # Patch Notes
 Here is a history of the project's patch notes.
 
+## Release 1.5.1
+
+- Fix game crashing when loading a character with new capture keys
+- Fix update checker checking only once
+
 ## Release 1.5.0
 
 Just some changes:
