@@ -3,6 +3,7 @@ package dev.zenix.wynnbinds.client;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
@@ -12,6 +13,7 @@ import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,13 +22,18 @@ import org.lwjgl.glfw.GLFW;
 
 public class WynnbindsClient implements ClientModInitializer {
 
+    public static final String MOD_NAME = "Wynnbinds";
     public static final String MOD_ID = "wynnbinds";
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
+
     private static final Category KEY_CATEGORY = Category.create(Identifier.of(MOD_ID, "all"));
     private static final KeyBinding OPEN_CONFIG_KEYBINDING =
             KeyBindingHelper.registerKeyBinding(new KeyBinding("key.wynnbinds.config",
                     InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, KEY_CATEGORY));
+
     private static WynnbindsClient instance = null;
+
+    private AtomicBoolean running = new AtomicBoolean(true);
     private WynnbindsConfig config = null;
     private String oldCharacterId = WynnbindsUtils.DUMMY_CHARACTER_ID;
 
@@ -39,18 +46,13 @@ public class WynnbindsClient implements ClientModInitializer {
         instance = this;
         setupLogger();
         loadConfig();
-        startUpdateChecker();
+        ClientLifecycleEvents.CLIENT_STARTED.register(client -> onClientStart(client));
+        ClientLifecycleEvents.CLIENT_STOPPING.register(client -> onClientStop(client));
         ClientTickEvents.END_CLIENT_TICK.register(client -> onEndClientTick(client));
     }
 
     private void setupLogger() {
         Configurator.setLevel(LOGGER.getName(), Level.INFO);
-    }
-
-    private void startUpdateChecker() {
-        Thread thread = new Thread(new WynnbindsUpdateChecker());
-        thread.setDaemon(true);
-        thread.start();
     }
 
     public WynnbindsConfig getConfig() {
@@ -66,6 +68,16 @@ public class WynnbindsClient implements ClientModInitializer {
         AutoConfig.register(WynnbindsConfig.class, GsonConfigSerializer::new);
         config = AutoConfig.getConfigHolder(WynnbindsConfig.class).getConfig();
         LOGGER.info("Config loaded successfully");
+    }
+
+    private void onClientStart(MinecraftClient client) {
+        Thread updateChecker = new Thread(new WynnbindsUpdateChecker(running));
+        updateChecker.setDaemon(true);
+        updateChecker.start();
+    }
+
+    private void onClientStop(MinecraftClient client) {
+        running.set(false);
     }
 
     private void onEndClientTick(MinecraftClient client) {
