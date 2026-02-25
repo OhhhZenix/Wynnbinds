@@ -1,5 +1,7 @@
-# Patch Notes
-Here is a history of the project's patch notes.
+# Changelog
+
+All the changes in Wynnbinds.
+
 
 ## Release 1.5.1
 
