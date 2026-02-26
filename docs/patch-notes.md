@@ -2,6 +2,10 @@
 
 All the changes in Wynnbinds.
 
+## Release 1.5.2
+
+- Improve update checker
+- Clean up backend
 
 ## Release 1.5.1
 
