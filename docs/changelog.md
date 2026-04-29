@@ -14,16 +14,12 @@ All the changes in Wynnbinds.
 
 ## Release 1.5.0
 
-Just some changes:
-
 - Move to Minecraft version 1.21.11
 - Update dependencies version
 
 ## Release 1.4.0
 
 Warning! This update will likely break your current settings. It is recommended you check and redo your settings.
-
-Changes brought with this release:
 
 - Ability to capture any key
 - Ability to edit current binds 
@@ -34,13 +30,9 @@ Changes brought with this release:
 
 ## Release 1.3.1
 
-Just a change:
-
 - Change log level from debug to info
 
 ## Release 1.3.0
-
-What this release brings:
 
 - Update checker
 - Ability to set custom default binds
@@ -51,8 +43,6 @@ What this release brings:
 
 ## Release 1.2.0
 
-Here's what's changed:
-
 - Apply default keybinds for new characters
 - Add source page link
 - Update home page to Modrinth
@@ -60,8 +50,6 @@ Here's what's changed:
 - New & improved detection
 
 ## Release 1.1.0
-
-Here’s what’s included:
 
 - Fix notifications
 - Update scan keys' data structure
