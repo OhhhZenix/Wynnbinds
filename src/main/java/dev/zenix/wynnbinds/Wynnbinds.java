@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 public class Wynnbinds implements ModInitializer {
 
+	public static final String MOD_NAME = "Wynnbinds";
 	public static final String MOD_ID = "wynnbinds";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
