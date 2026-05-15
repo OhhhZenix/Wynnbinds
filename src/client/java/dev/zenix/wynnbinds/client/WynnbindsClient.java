@@ -29,7 +29,6 @@ public class WynnbindsClient implements ClientModInitializer {
 
     private static WynnbindsClient instance = null;
 
-    private AtomicBoolean running = new AtomicBoolean(true);
     private WynnbindsConfig config = null;
     private WynnbindsUpdateChecker updateChecker;
     private String oldCharacterId = WynnbindsUtils.DUMMY_CHARACTER_ID;
@@ -69,7 +68,6 @@ public class WynnbindsClient implements ClientModInitializer {
 
     private void onClientStop(Minecraft client) {
         updateChecker.stop();
-        running.set(false);
     }
 
     private void onEndClientTick(Minecraft client) {
