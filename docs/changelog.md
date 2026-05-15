@@ -2,6 +2,10 @@
 
 All the changes in Wynnbinds.
 
+## Release 2.0.1
+
+- Improved update checker
+
 ## Release 2.0.0
 
 - Switch backend to mojang mappings
