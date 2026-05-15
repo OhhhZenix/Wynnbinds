@@ -31,14 +31,12 @@ public class WynnbindsUpdateChecker implements Runnable {
     public void run() {
         while (running.get()) {
             try {
-                final String API_URL =
-                        "https://api.github.com/repos/OhhhZenix/Wynnbinds/releases/latest";
+                final String API_URL = "https://api.github.com/repos/OhhhZenix/Wynnbinds/releases/latest";
 
                 HttpRequest request = HttpRequest.newBuilder().uri(URI.create(API_URL))
                         .header("Accept", "application/json").build();
 
-                HttpResponse<String> response =
-                        httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+                HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
                 if (response.statusCode() != 200) {
                     WynnbindsClient.LOGGER.warn("Failed to fetch update info. Status code: {}",
@@ -58,11 +56,10 @@ public class WynnbindsUpdateChecker implements Runnable {
                                 .getMetadata().getVersion().getFriendlyString())
                         .orElse("0.0.0");
 
-                String homepageUrl =
-                        FabricLoader.getInstance().getModContainer(WynnbindsClient.MOD_ID)
-                                .flatMap(modContainer -> modContainer.getMetadata().getContact()
-                                        .get("homepage"))
-                                .orElse("https://github.com/OhhhZenix/Wynnbinds");
+                String homepageUrl = FabricLoader.getInstance().getModContainer(WynnbindsClient.MOD_ID)
+                        .flatMap(modContainer -> modContainer.getMetadata().getContact()
+                                .get("homepage"))
+                        .orElse("https://github.com/OhhhZenix/Wynnbinds");
 
                 // Normalize versions before compare
                 if (compareSemver(latestVersion, currentVersion) > 0
