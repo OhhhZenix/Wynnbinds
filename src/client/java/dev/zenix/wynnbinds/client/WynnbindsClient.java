@@ -27,8 +27,8 @@ public class WynnbindsClient implements ClientModInitializer {
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
     private static final Category KEY_CATEGORY = Category.create(Identifier.of(MOD_ID, "all"));
-    private static final KeyBinding OPEN_CONFIG_KEYBINDING =
-            KeyBindingHelper.registerKeyBinding(new KeyBinding("key.wynnbinds.config",
+    private static final KeyBinding OPEN_CONFIG_KEYBINDING = KeyBindingHelper
+            .registerKeyBinding(new KeyBinding("key.wynnbinds.config",
                     InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, KEY_CATEGORY));
 
     private static WynnbindsClient instance = null;
