@@ -9,6 +9,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.google.gson.Gson;
 
+import dev.zenix.wynnbinds.Wynnbinds;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.chat.Component;
 
@@ -39,7 +40,7 @@ public class WynnbindsUpdateChecker implements Runnable {
                 HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
                 if (response.statusCode() != 200) {
-                    WynnbindsClient.LOGGER.warn("Failed to fetch update info. Status code: {}",
+                    Wynnbinds.LOGGER.warn("Failed to fetch update info. Status code: {}",
                             response.statusCode());
                     continue;
                 }
@@ -52,11 +53,11 @@ public class WynnbindsUpdateChecker implements Runnable {
                 }
 
                 String currentVersion = FabricLoader.getInstance()
-                        .getModContainer(WynnbindsClient.MOD_ID).map(modContainer -> modContainer
+                        .getModContainer(Wynnbinds.MOD_ID).map(modContainer -> modContainer
                                 .getMetadata().getVersion().getFriendlyString())
                         .orElse("0.0.0");
 
-                String homepageUrl = FabricLoader.getInstance().getModContainer(WynnbindsClient.MOD_ID)
+                String homepageUrl = FabricLoader.getInstance().getModContainer(Wynnbinds.MOD_ID)
                         .flatMap(modContainer -> modContainer.getMetadata().getContact()
                                 .get("homepage"))
                         .orElse("https://github.com/OhhhZenix/Wynnbinds");
@@ -71,13 +72,13 @@ public class WynnbindsUpdateChecker implements Runnable {
                             Component.nullToEmpty("New update available: " + latestVersion), WynnbindsClient
                                     .getInstance().getConfig().isUpdateNotificationsEnabled());
 
-                    WynnbindsClient.LOGGER.info(
+                    Wynnbinds.LOGGER.info(
                             "{} v{} is now available. You're running v{}. Visit {} to download.",
-                            WynnbindsClient.MOD_NAME, latestVersion, currentVersion, homepageUrl);
+                            Wynnbinds.MOD_NAME, latestVersion, currentVersion, homepageUrl);
                 }
 
             } catch (Exception e) {
-                WynnbindsClient.LOGGER.warn("Failed to check for updates", e);
+                Wynnbinds.LOGGER.warn("Failed to check for updates", e);
             }
 
             try {
