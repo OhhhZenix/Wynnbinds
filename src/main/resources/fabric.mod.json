@@ -14,9 +14,8 @@
   "icon": "assets/wynnbinds/icon.png",
   "environment": "client",
   "entrypoints": {
-    "fabric-datagen": ["dev.zenix.wynnbinds.client.WynnbindsDataGenerator"],
-    "client": ["dev.zenix.wynnbinds.client.WynnbindsClient"],
     "main": ["dev.zenix.wynnbinds.Wynnbinds"],
+    "client": ["dev.zenix.wynnbinds.client.WynnbindsClient"],
     "modmenu": ["dev.zenix.wynnbinds.client.WynnbindsModMenu"]
   },
   "mixins": [
@@ -27,9 +26,10 @@
     }
   ],
   "depends": {
-    "fabricloader": ">=${loader_version}",
-    "fabric-api": "*",
+    "java": ">=21",
     "minecraft": "${minecraft_version}",
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": ">=${fabric_version}",
     "cloth-config": ">=${cloth_config_version}"
   },
   "recommends": {
