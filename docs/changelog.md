@@ -2,9 +2,10 @@
 
 All the changes in Wynnbinds.
 
-## Release 2.0.1
+## Release 2.1.0
 
 - Improved update checker
+- Tidy up backend
 
 ## Release 2.0.0
 
