@@ -12,21 +12,17 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import com.mojang.blaze3d.platform.InputConstants;
+
+import dev.zenix.wynnbinds.Wynnbinds;
+
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.Configurator;
 import org.lwjgl.glfw.GLFW;
 
 public class WynnbindsClient implements ClientModInitializer {
 
-    public static final String MOD_NAME = "Wynnbinds";
-    public static final String MOD_ID = "wynnbinds";
-    public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
-
-    private static final Category KEY_CATEGORY = Category.register(Identifier.fromNamespaceAndPath(MOD_ID, "all"));
+    private static final Category KEY_CATEGORY = Category
+            .register(Identifier.fromNamespaceAndPath(Wynnbinds.MOD_ID, "all"));
     private static final KeyMapping OPEN_CONFIG_KEYBINDING = KeyBindingHelper
             .registerKeyBinding(new KeyMapping("key.wynnbinds.config",
                     InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, KEY_CATEGORY));
@@ -44,15 +40,10 @@ public class WynnbindsClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         instance = this;
-        setupLogger();
         loadConfig();
         ClientLifecycleEvents.CLIENT_STARTED.register(client -> onClientStart(client));
         ClientLifecycleEvents.CLIENT_STOPPING.register(client -> onClientStop(client));
         ClientTickEvents.END_CLIENT_TICK.register(client -> onEndClientTick(client));
-    }
-
-    private void setupLogger() {
-        Configurator.setLevel(LOGGER.getName(), Level.INFO);
     }
 
     public WynnbindsConfig getConfig() {
@@ -60,14 +51,14 @@ public class WynnbindsClient implements ClientModInitializer {
     }
 
     public void saveConfig() {
-        LOGGER.debug("Saving configuration");
+        Wynnbinds.LOGGER.debug("Saving configuration");
         AutoConfig.getConfigHolder(WynnbindsConfig.class).save();
     }
 
     private void loadConfig() {
         AutoConfig.register(WynnbindsConfig.class, GsonConfigSerializer::new);
         config = AutoConfig.getConfigHolder(WynnbindsConfig.class).getConfig();
-        LOGGER.info("Config loaded successfully");
+        Wynnbinds.LOGGER.info("Config loaded successfully");
     }
 
     private void onClientStart(Minecraft client) {
@@ -102,12 +93,12 @@ public class WynnbindsClient implements ClientModInitializer {
 
         // Is it a new character?
         if (!oldCharacterId.equals(newCharacterId)) {
-            LOGGER.debug("Character changed from '{}' to '{}'", oldCharacterId, newCharacterId);
+            Wynnbinds.LOGGER.debug("Character changed from '{}' to '{}'", oldCharacterId, newCharacterId);
 
             // Is it an existing character?
             if (!config.hasCharacter(newCharacterId)) {
                 // log
-                LOGGER.debug("Not an existing character. Using default keybinds.");
+                Wynnbinds.LOGGER.debug("Not an existing character. Using default keybinds.");
 
                 // update & save
                 config.setKeys(newCharacterId, config.getDefaultKeys());
@@ -125,7 +116,7 @@ public class WynnbindsClient implements ClientModInitializer {
                 String boundKey = config.getKey(newCharacterId, translationKey);
                 InputConstants.Key key = InputConstants.getKey(boundKey);
                 keyBinding.setKey(key);
-                LOGGER.debug("Loaded keybind for {}", translationKey);
+                Wynnbinds.LOGGER.debug("Loaded keybind for {}", translationKey);
             }
 
             // refresh & save binds
@@ -137,7 +128,7 @@ public class WynnbindsClient implements ClientModInitializer {
                     config.isBindNotificationsEnabled());
         }
 
-        LOGGER.debug("Scanning for keybind changes.");
+        Wynnbinds.LOGGER.debug("Scanning for keybind changes.");
         HashMap<String, String> keys = config.getKeys(newCharacterId);
         boolean shouldSaveConfig = false;
         for (KeyMapping keyBinding : WynnbindsUtils.getKeybindingsFromCaptureKeys()) {
@@ -145,10 +136,10 @@ public class WynnbindsClient implements ClientModInitializer {
 
             // Is it an exisiting keybind?
             if (!keys.containsKey(translationKey)) {
-                LOGGER.debug("Missing keybind for {}", translationKey);
+                Wynnbinds.LOGGER.debug("Missing keybind for {}", translationKey);
                 String boundKey = config.getDefaultKey(translationKey);
                 keys.put(translationKey, boundKey);
-                LOGGER.debug("Set {} keybind as {}", translationKey, boundKey);
+                Wynnbinds.LOGGER.debug("Set {} keybind as {}", translationKey, boundKey);
                 continue;
             }
 
@@ -157,7 +148,7 @@ public class WynnbindsClient implements ClientModInitializer {
 
             // Is it a different key?
             if (oldBoundKey.equals(newBoundKey)) {
-                LOGGER.debug("Keybind for {} has not changed yet.", translationKey);
+                Wynnbinds.LOGGER.debug("Keybind for {} has not changed yet.", translationKey);
                 continue;
             }
 
@@ -166,7 +157,7 @@ public class WynnbindsClient implements ClientModInitializer {
             shouldSaveConfig = true;
 
             // log
-            LOGGER.debug("Updated keybind for {} from {} to {}", translationKey, oldBoundKey,
+            Wynnbinds.LOGGER.debug("Updated keybind for {} from {} to {}", translationKey, oldBoundKey,
                     newBoundKey);
 
             // notify
