@@ -4,7 +4,6 @@ All the changes in Wynnbinds.
 
 ## Release 2.0.0
 
-- Improve update checker
 - Switch backend to mojang mappings
 - Upgrade mod menu version requirement to 17.0.0
 
