@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
+
+import dev.zenix.wynnbinds.Wynnbinds;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.toasts.SystemToast;
@@ -49,7 +51,7 @@ public class WynnbindsUtils {
 
         String idLine = compassLore.getFirst().getString().substring(CHARACTER_COLOR_CODE_LENGTH);
         if (idLine == null || !CHARACTER_ID_PATTERN.matcher(idLine).matches()) {
-            WynnbindsClient.LOGGER.warn("Compass item had unexpected character ID line: " + idLine);
+            Wynnbinds.LOGGER.warn("Compass item had unexpected character ID line: " + idLine);
             return DUMMY_CHARACTER_ID;
         }
 
@@ -112,12 +114,12 @@ public class WynnbindsUtils {
 
     public static void refreshKeyBindings() {
         KeyMapping.resetMapping();
-        WynnbindsClient.LOGGER.debug("Refreshed keybinds.");
+        Wynnbinds.LOGGER.debug("Refreshed keybinds.");
     }
 
     public static void saveKeyBindings() {
         Minecraft.getInstance().options.save();
-        WynnbindsClient.LOGGER.debug("Saved keybinds.");
+        Wynnbinds.LOGGER.debug("Saved keybinds.");
     }
 
     public static void refreshAndSaveKeyBindings() {
@@ -131,6 +133,6 @@ public class WynnbindsUtils {
         }
 
         SystemToast.add(Minecraft.getInstance().getToastManager(),
-                SystemToast.SystemToastId.WORLD_BACKUP, Component.nullToEmpty(WynnbindsClient.MOD_NAME), description);
+                SystemToast.SystemToastId.WORLD_BACKUP, Component.nullToEmpty(Wynnbinds.MOD_NAME), description);
     }
 }
