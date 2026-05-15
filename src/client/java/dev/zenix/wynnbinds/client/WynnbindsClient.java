@@ -16,13 +16,13 @@ import com.mojang.blaze3d.platform.InputConstants;
 import dev.zenix.wynnbinds.Wynnbinds;
 
 import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicBoolean;
 import org.lwjgl.glfw.GLFW;
 
 public class WynnbindsClient implements ClientModInitializer {
 
     private static final Category KEY_CATEGORY = Category
             .register(Identifier.fromNamespaceAndPath(Wynnbinds.MOD_ID, "all"));
+
     private static final KeyMapping OPEN_CONFIG_KEYBINDING = KeyBindingHelper
             .registerKeyBinding(new KeyMapping("key.wynnbinds.config",
                     InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, KEY_CATEGORY));
@@ -30,7 +30,7 @@ public class WynnbindsClient implements ClientModInitializer {
     private static WynnbindsClient instance = null;
 
     private WynnbindsConfig config = null;
-    private WynnbindsUpdateChecker updateChecker;
+    private WynnbindsUpdateChecker updateChecker = null;
     private String oldCharacterId = WynnbindsUtils.DUMMY_CHARACTER_ID;
 
     public static WynnbindsClient getInstance() {
