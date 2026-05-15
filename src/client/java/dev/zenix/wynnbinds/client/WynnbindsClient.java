@@ -6,12 +6,12 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.option.KeyBinding.Category;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.KeyMapping.Category;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import com.mojang.blaze3d.platform.InputConstants;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.apache.logging.log4j.Level;
@@ -26,10 +26,10 @@ public class WynnbindsClient implements ClientModInitializer {
     public static final String MOD_ID = "wynnbinds";
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
-    private static final Category KEY_CATEGORY = Category.create(Identifier.of(MOD_ID, "all"));
-    private static final KeyBinding OPEN_CONFIG_KEYBINDING = KeyBindingHelper
-            .registerKeyBinding(new KeyBinding("key.wynnbinds.config",
-                    InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, KEY_CATEGORY));
+    private static final Category KEY_CATEGORY = Category.register(Identifier.fromNamespaceAndPath(MOD_ID, "all"));
+    private static final KeyMapping OPEN_CONFIG_KEYBINDING = KeyBindingHelper
+            .registerKeyBinding(new KeyMapping("key.wynnbinds.config",
+                    InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, KEY_CATEGORY));
 
     private static WynnbindsClient instance = null;
 
@@ -70,29 +70,29 @@ public class WynnbindsClient implements ClientModInitializer {
         LOGGER.info("Config loaded successfully");
     }
 
-    private void onClientStart(MinecraftClient client) {
+    private void onClientStart(Minecraft client) {
         Thread updateChecker = new Thread(new WynnbindsUpdateChecker(running));
         updateChecker.setDaemon(true);
         updateChecker.start();
     }
 
-    private void onClientStop(MinecraftClient client) {
+    private void onClientStop(Minecraft client) {
         running.set(false);
     }
 
-    private void onEndClientTick(MinecraftClient client) {
+    private void onEndClientTick(Minecraft client) {
         handleOpenConfig(client);
         handleKeybinds(client);
     }
 
-    private void handleOpenConfig(MinecraftClient client) {
-        if (OPEN_CONFIG_KEYBINDING.isPressed()) {
-            OPEN_CONFIG_KEYBINDING.setPressed(false);
-            client.setScreen(WynnbindsConfigScreen.create(client.currentScreen));
+    private void handleOpenConfig(Minecraft client) {
+        if (OPEN_CONFIG_KEYBINDING.isDown()) {
+            OPEN_CONFIG_KEYBINDING.setDown(false);
+            client.setScreen(WynnbindsConfigScreen.create(client.screen));
         }
     }
 
-    private void handleKeybinds(MinecraftClient client) {
+    private void handleKeybinds(Minecraft client) {
         String newCharacterId = WynnbindsUtils.getCharacterId();
 
         // Is it a valid character?
@@ -115,16 +115,16 @@ public class WynnbindsClient implements ClientModInitializer {
 
                 // notify
                 WynnbindsUtils.sendNotification(
-                        Text.of(String.format("Creating new profile for %s", newCharacterId)),
+                        Component.nullToEmpty(String.format("Creating new profile for %s", newCharacterId)),
                         config.isBindNotificationsEnabled());
             }
 
             // load keybinds
-            for (KeyBinding keyBinding : WynnbindsUtils.getKeybindingsFromCaptureKeys()) {
-                String translationKey = keyBinding.getId();
+            for (KeyMapping keyBinding : WynnbindsUtils.getKeybindingsFromCaptureKeys()) {
+                String translationKey = keyBinding.getName();
                 String boundKey = config.getKey(newCharacterId, translationKey);
-                InputUtil.Key key = InputUtil.fromTranslationKey(boundKey);
-                keyBinding.setBoundKey(key);
+                InputConstants.Key key = InputConstants.getKey(boundKey);
+                keyBinding.setKey(key);
                 LOGGER.debug("Loaded keybind for {}", translationKey);
             }
 
@@ -133,15 +133,15 @@ public class WynnbindsClient implements ClientModInitializer {
 
             // notify
             WynnbindsUtils.sendNotification(
-                    Text.of(String.format("Loaded keybinds for %s", newCharacterId)),
+                    Component.nullToEmpty(String.format("Loaded keybinds for %s", newCharacterId)),
                     config.isBindNotificationsEnabled());
         }
 
         LOGGER.debug("Scanning for keybind changes.");
         HashMap<String, String> keys = config.getKeys(newCharacterId);
         boolean shouldSaveConfig = false;
-        for (KeyBinding keyBinding : WynnbindsUtils.getKeybindingsFromCaptureKeys()) {
-            String translationKey = keyBinding.getId();
+        for (KeyMapping keyBinding : WynnbindsUtils.getKeybindingsFromCaptureKeys()) {
+            String translationKey = keyBinding.getName();
 
             // Is it an exisiting keybind?
             if (!keys.containsKey(translationKey)) {
@@ -152,7 +152,7 @@ public class WynnbindsClient implements ClientModInitializer {
                 continue;
             }
 
-            String newBoundKey = keyBinding.getBoundKeyTranslationKey();
+            String newBoundKey = keyBinding.saveString();
             String oldBoundKey = keys.get(translationKey);
 
             // Is it a different key?
@@ -171,8 +171,8 @@ public class WynnbindsClient implements ClientModInitializer {
 
             // notify
             WynnbindsUtils.sendNotification(
-                    Text.of(String.format("Updated keybind for %s",
-                            Text.translatable(translationKey).getString())),
+                    Component.nullToEmpty(String.format("Updated keybind for %s",
+                            Component.translatable(translationKey).getString())),
                     config.isBindNotificationsEnabled());
         }
 
