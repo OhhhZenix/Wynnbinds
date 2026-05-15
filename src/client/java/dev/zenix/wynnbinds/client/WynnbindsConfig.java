@@ -3,7 +3,7 @@ package dev.zenix.wynnbinds.client;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.KeyMapping;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -81,7 +81,7 @@ public class WynnbindsConfig implements ConfigData {
     public String getDefaultKey(String translationKey) {
         // if key does not exists, take current keybind
         if (!defaultKeys.containsKey(translationKey)) {
-            KeyBinding keyBinding = KeyBinding.byId(translationKey);
+            KeyMapping keyBinding = KeyMapping.get(translationKey);
             String boundKey = KeyBindingHelper.getBoundKeyOf(keyBinding).getTranslationKey();
             defaultKeys.put(translationKey, boundKey);
         }
