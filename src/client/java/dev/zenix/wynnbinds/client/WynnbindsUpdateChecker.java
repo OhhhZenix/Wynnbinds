@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.google.gson.Gson;
 
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 
 public class WynnbindsUpdateChecker implements Runnable {
 
@@ -68,7 +68,7 @@ public class WynnbindsUpdateChecker implements Runnable {
                     lastNotifiedVersion = latestVersion;
 
                     WynnbindsUtils.sendNotification(
-                            Text.of("New update available: " + latestVersion), WynnbindsClient
+                            Component.nullToEmpty("New update available: " + latestVersion), WynnbindsClient
                                     .getInstance().getConfig().isUpdateNotificationsEnabled());
 
                     WynnbindsClient.LOGGER.info(
