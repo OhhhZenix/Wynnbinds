@@ -5,15 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
-
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ServerInfo;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.toast.SystemToast;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.LoreComponent;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.toasts.SystemToast;
+import net.minecraft.client.multiplayer.ServerData;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemLore;
 
 public class WynnbindsUtils {
 
@@ -23,14 +22,14 @@ public class WynnbindsUtils {
     private static final int CHARACTER_COLOR_CODE_LENGTH = 2;
 
     public static String getCharacterId() {
-        MinecraftClient client = MinecraftClient.getInstance();
-        ServerInfo serverEntry = client.getCurrentServerEntry();
+        Minecraft client = Minecraft.getInstance();
+        ServerData serverEntry = client.getCurrentServer();
 
         if (serverEntry == null) {
             return DUMMY_CHARACTER_ID;
         }
 
-        if (!serverEntry.address.toLowerCase().contains("wynncraft")) {
+        if (!serverEntry.ip.toLowerCase().contains("wynncraft")) {
             return DUMMY_CHARACTER_ID;
         }
 
@@ -38,12 +37,12 @@ public class WynnbindsUtils {
             return DUMMY_CHARACTER_ID;
         }
 
-        ItemStack compassItem = client.player.getInventory().getStack(CHARACTER_INFO_SLOT);
+        ItemStack compassItem = client.player.getInventory().getItem(CHARACTER_INFO_SLOT);
         if (compassItem == null) {
             return DUMMY_CHARACTER_ID;
         }
 
-        List<Text> compassLore = compassItem.getOrDefault(DataComponentTypes.LORE, LoreComponent.DEFAULT).lines();
+        List<Component> compassLore = compassItem.getOrDefault(DataComponents.LORE, ItemLore.EMPTY).lines();
         if (compassLore.isEmpty()) {
             return DUMMY_CHARACTER_ID;
         }
@@ -60,8 +59,8 @@ public class WynnbindsUtils {
     public static HashMap<String, ArrayList<String>> getAllKeysByCategory() {
         HashMap<String, ArrayList<String>> result = new HashMap<>();
 
-        for (KeyBinding keyBinding : MinecraftClient.getInstance().options.allKeys) {
-            String category = keyBinding.getCategory().getLabel().getString();
+        for (KeyMapping keyBinding : Minecraft.getInstance().options.keyMappings) {
+            String category = keyBinding.getCategory().label().getString();
             ArrayList<String> keys = result.get(category);
 
             // are the keys valid? if not, make empty list
@@ -70,7 +69,7 @@ public class WynnbindsUtils {
                 result.put(category, keys);
             }
 
-            String translationKey = keyBinding.getId();
+            String translationKey = keyBinding.getName();
             keys.add(translationKey);
         }
 
@@ -101,10 +100,10 @@ public class WynnbindsUtils {
         return result;
     }
 
-    public static ArrayList<KeyBinding> getKeybindingsFromCaptureKeys() {
-        ArrayList<KeyBinding> result = new ArrayList<>();
-        for (KeyBinding keyBinding : MinecraftClient.getInstance().options.allKeys) {
-            if (!WynnbindsClient.getInstance().getConfig().isCaptureKey(keyBinding.getId()))
+    public static ArrayList<KeyMapping> getKeybindingsFromCaptureKeys() {
+        ArrayList<KeyMapping> result = new ArrayList<>();
+        for (KeyMapping keyBinding : Minecraft.getInstance().options.keyMappings) {
+            if (!WynnbindsClient.getInstance().getConfig().isCaptureKey(keyBinding.getName()))
                 continue;
             result.add(keyBinding);
         }
@@ -112,12 +111,12 @@ public class WynnbindsUtils {
     }
 
     public static void refreshKeyBindings() {
-        KeyBinding.updateKeysByCode();
+        KeyMapping.resetMapping();
         WynnbindsClient.LOGGER.debug("Refreshed keybinds.");
     }
 
     public static void saveKeyBindings() {
-        MinecraftClient.getInstance().options.write();
+        Minecraft.getInstance().options.save();
         WynnbindsClient.LOGGER.debug("Saved keybinds.");
     }
 
@@ -126,12 +125,12 @@ public class WynnbindsUtils {
         saveKeyBindings();
     }
 
-    public static void sendNotification(Text description, Boolean shouldSend) {
+    public static void sendNotification(Component description, Boolean shouldSend) {
         if (!shouldSend) {
             return;
         }
 
-        SystemToast.add(MinecraftClient.getInstance().getToastManager(),
-                SystemToast.Type.WORLD_BACKUP, Text.of(WynnbindsClient.MOD_NAME), description);
+        SystemToast.add(Minecraft.getInstance().getToastManager(),
+                SystemToast.SystemToastId.WORLD_BACKUP, Component.nullToEmpty(WynnbindsClient.MOD_NAME), description);
     }
 }
