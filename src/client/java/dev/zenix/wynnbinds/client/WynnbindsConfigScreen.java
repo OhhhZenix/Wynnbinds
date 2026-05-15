@@ -1,6 +1,9 @@
 package dev.zenix.wynnbinds.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
+
+import dev.zenix.wynnbinds.Wynnbinds;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -15,7 +18,8 @@ import net.minecraft.network.chat.Component;
 public class WynnbindsConfigScreen {
 
         public static Screen create(Screen parent) {
-                ConfigBuilder builder = ConfigBuilder.create().setParentScreen(parent).setTitle(Component.nullToEmpty("Wynnbinds"));
+                ConfigBuilder builder = ConfigBuilder.create().setParentScreen(parent)
+                                .setTitle(Component.nullToEmpty("Wynnbinds"));
                 builder.setSavingRunnable(WynnbindsClient.getInstance()::saveConfig);
 
                 WynnbindsConfig config = WynnbindsClient.getInstance().getConfig();
@@ -24,18 +28,22 @@ public class WynnbindsConfigScreen {
                 // General
                 ConfigCategory generalCategory = builder.getOrCreateCategory(Component.nullToEmpty("General"));
                 generalCategory.addEntry(
-                                entryBuilder.startBooleanToggle(Component.nullToEmpty("Wynnbinds"), config.isModEnabled())
-                                                .setTooltip(Component.nullToEmpty("Enable or disable the mod")).setDefaultValue(true)
+                                entryBuilder.startBooleanToggle(Component.nullToEmpty("Wynnbinds"),
+                                                config.isModEnabled())
+                                                .setTooltip(Component.nullToEmpty("Enable or disable the mod"))
+                                                .setDefaultValue(true)
                                                 .setSaveConsumer(value -> config.setEnableMod(value)).build());
                 generalCategory.addEntry(entryBuilder
                                 .startBooleanToggle(Component.nullToEmpty("Bind Notifications"),
                                                 config.isBindNotificationsEnabled())
-                                .setTooltip(Component.nullToEmpty("Enable or disable bind notifications")).setDefaultValue(true)
+                                .setTooltip(Component.nullToEmpty("Enable or disable bind notifications"))
+                                .setDefaultValue(true)
                                 .setSaveConsumer(value -> config.setEnableBindNotifications(value)).build());
                 generalCategory.addEntry(entryBuilder
                                 .startBooleanToggle(Component.nullToEmpty("Update Notifications"),
                                                 config.isUpdateNotificationsEnabled())
-                                .setTooltip(Component.nullToEmpty("Enable or disable update notifications")).setDefaultValue(true)
+                                .setTooltip(Component.nullToEmpty("Enable or disable update notifications"))
+                                .setDefaultValue(true)
                                 .setSaveConsumer(value -> config.setEnableUpdateNotifications(value)).build());
 
                 // Capture
@@ -93,7 +101,7 @@ public class WynnbindsConfigScreen {
                                                                                 keyText.getString())))
                                                 .setDefaultValue(InputConstants.UNKNOWN).setKeySaveConsumer(value -> {
                                                         String boundKey = value.getName();
-                                                        WynnbindsClient.LOGGER.debug("Setting keybind for {} to {}",
+                                                        Wynnbinds.LOGGER.debug("Setting keybind for {} to {}",
                                                                         translationKey, boundKey);
                                                         config.setDefaultKey(translationKey, boundKey);
                                                 }).build());
@@ -105,7 +113,8 @@ public class WynnbindsConfigScreen {
                 // Current
                 String currentCharacterId = WynnbindsUtils.getCharacterId();
                 if (!currentCharacterId.equals(WynnbindsUtils.DUMMY_CHARACTER_ID)) {
-                        ConfigCategory currentKeysCategory = builder.getOrCreateCategory(Component.nullToEmpty("Current"));
+                        ConfigCategory currentKeysCategory = builder
+                                        .getOrCreateCategory(Component.nullToEmpty("Current"));
                         for (Entry<String, ArrayList<String>> entry : WynnbindsUtils.getCaptureKeysByCategory()
                                         .entrySet()) {
                                 String category = entry.getKey();
@@ -114,7 +123,8 @@ public class WynnbindsConfigScreen {
                                 Component categoryText = Component.translatable(category);
                                 SubCategoryBuilder subCategory = entryBuilder.startSubCategory(categoryText);
 
-                                subCategory.setTooltip(Component.nullToEmpty("Keys relating to " + categoryText.getString()));
+                                subCategory.setTooltip(
+                                                Component.nullToEmpty("Keys relating to " + categoryText.getString()));
 
                                 for (String translationKey : translationKeys) {
                                         InputConstants.Key currentKey = InputConstants
@@ -139,7 +149,7 @@ public class WynnbindsConfigScreen {
                                                                 WynnbindsUtils.refreshAndSaveKeyBindings();
 
                                                                 // log
-                                                                WynnbindsClient.LOGGER.debug(
+                                                                Wynnbinds.LOGGER.debug(
                                                                                 "character: {} translation: {} bound: {}",
                                                                                 currentCharacterId, translationKey,
                                                                                 boundKey);
@@ -147,11 +157,12 @@ public class WynnbindsConfigScreen {
                                                                 // notify
                                                                 WynnbindsUtils
                                                                                 .sendNotification(
-                                                                                                Component.nullToEmpty(String.format(
-                                                                                                                "Updated keybind for %s",
-                                                                                                                Component.translatable(
-                                                                                                                                translationKey)
-                                                                                                                                .getString())),
+                                                                                                Component.nullToEmpty(
+                                                                                                                String.format(
+                                                                                                                                "Updated keybind for %s",
+                                                                                                                                Component.translatable(
+                                                                                                                                                translationKey)
+                                                                                                                                                .getString())),
                                                                                                 config.isBindNotificationsEnabled());
                                                         }).build());
                                 }
