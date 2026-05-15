@@ -37,7 +37,7 @@ public class WynnbindsUtils {
             return DUMMY_CHARACTER_ID;
         }
 
-        if (!serverEntry.address.toLowerCase().contains("wynncraft")) {
+        if (!serverEntry.ip.toLowerCase().contains("wynncraft")) {
             return DUMMY_CHARACTER_ID;
         }
 
