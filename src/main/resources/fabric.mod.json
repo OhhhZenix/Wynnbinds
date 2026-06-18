@@ -16,7 +16,7 @@
   "entrypoints": {
     "main": ["dev.zenix.wynnbinds.Wynnbinds"],
     "client": ["dev.zenix.wynnbinds.client.WynnbindsClient"],
-    "modmenu": ["dev.zenix.wynnbinds.client.WynnbindsModMenu"]
+    "modmenu": ["dev.zenix.wynnbinds.client.ModMenu"]
   },
   "mixins": [
     "wynnbinds.mixins.json",
