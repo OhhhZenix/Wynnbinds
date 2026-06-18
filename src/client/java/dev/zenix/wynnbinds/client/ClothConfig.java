@@ -1,14 +1,15 @@
 package dev.zenix.wynnbinds.client;
 
+import java.util.HashMap;
+import java.util.HashSet;
+
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;
-import java.util.HashMap;
-import java.util.HashSet;
 
 @Config(name = "wynnbinds")
-public class WynnbindsConfig implements ConfigData {
+public class ClothConfig implements ConfigData {
 
     private boolean enableMod = true;
     private boolean enableBindNotifications = true;

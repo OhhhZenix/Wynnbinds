@@ -1,5 +1,12 @@
 package dev.zenix.wynnbinds.client;
 
+import java.util.HashMap;
+
+import org.lwjgl.glfw.GLFW;
+
+import com.mojang.blaze3d.platform.InputConstants;
+
+import dev.zenix.wynnbinds.Wynnbinds;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
@@ -11,12 +18,6 @@ import net.minecraft.client.KeyMapping.Category;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import com.mojang.blaze3d.platform.InputConstants;
-
-import dev.zenix.wynnbinds.Wynnbinds;
-
-import java.util.HashMap;
-import org.lwjgl.glfw.GLFW;
 
 public class WynnbindsClient implements ClientModInitializer {
 
@@ -29,9 +30,9 @@ public class WynnbindsClient implements ClientModInitializer {
 
     private static WynnbindsClient instance = null;
 
-    private WynnbindsConfig config = null;
-    private WynnbindsUpdateChecker updateChecker = null;
-    private String oldCharacterId = WynnbindsUtils.DUMMY_CHARACTER_ID;
+    private ClothConfig config = null;
+    private UpdateChecker updateChecker = null;
+    private String oldCharacterId = Utils.DUMMY_CHARACTER_ID;
 
     public static WynnbindsClient getInstance() {
         return instance;
@@ -46,23 +47,23 @@ public class WynnbindsClient implements ClientModInitializer {
         ClientTickEvents.END_CLIENT_TICK.register(client -> onEndClientTick(client));
     }
 
-    public WynnbindsConfig getConfig() {
+    public ClothConfig getConfig() {
         return config;
     }
 
     public void saveConfig() {
         Wynnbinds.LOGGER.debug("Saving configuration");
-        AutoConfig.getConfigHolder(WynnbindsConfig.class).save();
+        AutoConfig.getConfigHolder(ClothConfig.class).save();
     }
 
     private void loadConfig() {
-        AutoConfig.register(WynnbindsConfig.class, GsonConfigSerializer::new);
-        config = AutoConfig.getConfigHolder(WynnbindsConfig.class).getConfig();
+        AutoConfig.register(ClothConfig.class, GsonConfigSerializer::new);
+        config = AutoConfig.getConfigHolder(ClothConfig.class).getConfig();
         Wynnbinds.LOGGER.info("Config loaded successfully");
     }
 
     private void onClientStart(Minecraft client) {
-        updateChecker = new WynnbindsUpdateChecker();
+        updateChecker = new UpdateChecker();
         updateChecker.start();
     }
 
@@ -78,15 +79,15 @@ public class WynnbindsClient implements ClientModInitializer {
     private void handleOpenConfig(Minecraft client) {
         if (OPEN_CONFIG_KEYBINDING.isDown()) {
             OPEN_CONFIG_KEYBINDING.setDown(false);
-            client.setScreen(WynnbindsConfigScreen.create(client.screen));
+            client.setScreen(ConfigScreen.create(client.screen));
         }
     }
 
     private void handleKeybinds(Minecraft client) {
-        String newCharacterId = WynnbindsUtils.getCharacterId();
+        String newCharacterId = Utils.getCharacterId();
 
         // Is it a valid character?
-        if (newCharacterId.equals(WynnbindsUtils.DUMMY_CHARACTER_ID)) {
+        if (newCharacterId.equals(Utils.DUMMY_CHARACTER_ID)) {
             return;
         }
 
@@ -104,13 +105,13 @@ public class WynnbindsClient implements ClientModInitializer {
                 saveConfig();
 
                 // notify
-                WynnbindsUtils.sendNotification(
+                Utils.sendNotification(
                         Component.nullToEmpty(String.format("Creating new profile for %s", newCharacterId)),
                         config.isBindNotificationsEnabled());
             }
 
             // load keybinds
-            for (KeyMapping keyBinding : WynnbindsUtils.getKeybindingsFromCaptureKeys()) {
+            for (KeyMapping keyBinding : Utils.getKeybindingsFromCaptureKeys()) {
                 String translationKey = keyBinding.getName();
                 String boundKey = config.getKey(newCharacterId, translationKey);
                 InputConstants.Key key = InputConstants.getKey(boundKey);
@@ -119,10 +120,10 @@ public class WynnbindsClient implements ClientModInitializer {
             }
 
             // refresh & save binds
-            WynnbindsUtils.refreshAndSaveKeyBindings();
+            Utils.refreshAndSaveKeyBindings();
 
             // notify
-            WynnbindsUtils.sendNotification(
+            Utils.sendNotification(
                     Component.nullToEmpty(String.format("Loaded keybinds for %s", newCharacterId)),
                     config.isBindNotificationsEnabled());
         }
@@ -130,7 +131,7 @@ public class WynnbindsClient implements ClientModInitializer {
         Wynnbinds.LOGGER.debug("Scanning for keybind changes.");
         HashMap<String, String> keys = config.getKeys(newCharacterId);
         boolean shouldSaveConfig = false;
-        for (KeyMapping keyBinding : WynnbindsUtils.getKeybindingsFromCaptureKeys()) {
+        for (KeyMapping keyBinding : Utils.getKeybindingsFromCaptureKeys()) {
             String translationKey = keyBinding.getName();
 
             // Is it an exisiting keybind?
@@ -160,7 +161,7 @@ public class WynnbindsClient implements ClientModInitializer {
                     newBoundKey);
 
             // notify
-            WynnbindsUtils.sendNotification(
+            Utils.sendNotification(
                     Component.nullToEmpty(String.format("Updated keybind for %s",
                             Component.translatable(translationKey).getString())),
                     config.isBindNotificationsEnabled());

@@ -16,7 +16,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemLore;
 
-public class WynnbindsUtils {
+public class Utils {
 
     public static final String DUMMY_CHARACTER_ID = "-";
     private static final Pattern CHARACTER_ID_PATTERN = Pattern.compile("^[a-z0-9]{8}$");
@@ -80,7 +80,7 @@ public class WynnbindsUtils {
 
     public static HashMap<String, ArrayList<String>> getCaptureKeysByCategory() {
         HashMap<String, ArrayList<String>> result = new HashMap<>();
-        WynnbindsConfig config = WynnbindsClient.getInstance().getConfig();
+        ClothConfig config = WynnbindsClient.getInstance().getConfig();
         HashMap<String, ArrayList<String>> keysByCategory = getAllKeysByCategory();
 
         for (Entry<String, ArrayList<String>> entry : keysByCategory.entrySet()) {
@@ -105,8 +105,9 @@ public class WynnbindsUtils {
     public static ArrayList<KeyMapping> getKeybindingsFromCaptureKeys() {
         ArrayList<KeyMapping> result = new ArrayList<>();
         for (KeyMapping keyBinding : Minecraft.getInstance().options.keyMappings) {
-            if (!WynnbindsClient.getInstance().getConfig().isCaptureKey(keyBinding.getName()))
+            if (!WynnbindsClient.getInstance().getConfig().isCaptureKey(keyBinding.getName())) {
                 continue;
+            }
             result.add(keyBinding);
         }
         return result;
