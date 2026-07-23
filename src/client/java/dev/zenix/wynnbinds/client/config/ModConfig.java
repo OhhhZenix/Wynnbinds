@@ -1,4 +1,4 @@
-package dev.zenix.wynnbinds.client;
+package dev.zenix.wynnbinds.client.config;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,7 +9,7 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;
 
 @Config(name = "wynnbinds")
-public class ClothConfig implements ConfigData {
+public class ModConfig implements ConfigData {
 
     private boolean enableMod = true;
     private boolean enableBindNotifications = true;

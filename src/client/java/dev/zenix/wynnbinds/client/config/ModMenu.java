@@ -1,4 +1,4 @@
-package dev.zenix.wynnbinds.client;
+package dev.zenix.wynnbinds.client.config;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;

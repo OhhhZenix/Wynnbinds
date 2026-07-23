@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
 import dev.zenix.wynnbinds.Wynnbinds;
+import dev.zenix.wynnbinds.client.config.ModConfig;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.toasts.SystemToast;
@@ -80,7 +81,7 @@ public class Utils {
 
     public static HashMap<String, ArrayList<String>> getCaptureKeysByCategory() {
         HashMap<String, ArrayList<String>> result = new HashMap<>();
-        ClothConfig config = WynnbindsClient.getInstance().getConfig();
+        ModConfig config = WynnbindsClient.getInstance().getConfig();
         HashMap<String, ArrayList<String>> keysByCategory = getAllKeysByCategory();
 
         for (Entry<String, ArrayList<String>> entry : keysByCategory.entrySet()) {

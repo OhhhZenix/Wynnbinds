@@ -7,6 +7,8 @@ import org.lwjgl.glfw.GLFW;
 import com.mojang.blaze3d.platform.InputConstants;
 
 import dev.zenix.wynnbinds.Wynnbinds;
+import dev.zenix.wynnbinds.client.config.ConfigScreen;
+import dev.zenix.wynnbinds.client.config.ModConfig;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
@@ -30,7 +32,7 @@ public class WynnbindsClient implements ClientModInitializer {
 
     private static WynnbindsClient instance = null;
 
-    private ClothConfig config = null;
+    private ModConfig config = null;
     private UpdateChecker updateChecker = null;
     private String oldCharacterId = Utils.DUMMY_CHARACTER_ID;
 
@@ -47,18 +49,18 @@ public class WynnbindsClient implements ClientModInitializer {
         ClientTickEvents.END_CLIENT_TICK.register(client -> onEndClientTick(client));
     }
 
-    public ClothConfig getConfig() {
+    public ModConfig getConfig() {
         return config;
     }
 
     public void saveConfig() {
         Wynnbinds.LOGGER.debug("Saving configuration");
-        AutoConfig.getConfigHolder(ClothConfig.class).save();
+        AutoConfig.getConfigHolder(ModConfig.class).save();
     }
 
     private void loadConfig() {
-        AutoConfig.register(ClothConfig.class, GsonConfigSerializer::new);
-        config = AutoConfig.getConfigHolder(ClothConfig.class).getConfig();
+        AutoConfig.register(ModConfig.class, GsonConfigSerializer::new);
+        config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
         Wynnbinds.LOGGER.info("Config loaded successfully");
     }
 
