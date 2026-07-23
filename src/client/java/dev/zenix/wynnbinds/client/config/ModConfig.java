@@ -14,8 +14,11 @@ public class ModConfig implements ConfigData {
     private boolean enableMod = true;
     private boolean enableBindNotifications = true;
     private boolean enableUpdateNotifications = true;
+    // keys that are being captured
     private HashSet<String> captureKeys = new HashSet<>();
+    // default keys for each translation key
     private HashMap<String, String> defaultKeys = new HashMap<>();
+    // character -> (translationKey -> boundKey)
     private HashMap<String, HashMap<String, String>> characters = new HashMap<>();
 
     public boolean isModEnabled() {
