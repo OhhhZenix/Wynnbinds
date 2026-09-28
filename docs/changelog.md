@@ -4,7 +4,10 @@ All the changes in Wynnbinds.
 
 ## Release 3.0.0 (WIP)
 
-- Upgrade to MC 26.2
+- Upgrade to MC 26.3
+- Upgrade Fabric (0.161.0)
+- Upgrade Cloth Config (26.3.159)
+- Upgrade Mod Menu (21.0.0)
 
 ## Release 2.1.0
 
