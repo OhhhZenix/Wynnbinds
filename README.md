@@ -1,7 +1,7 @@
 # Wynnbinds
 Ever felt annoyed with your keybinds in Wynncraft? They often feel uncomfortable when switching between classes or even archetypes. This mod aims to solve that problem by allowing you to set custom keybinds for each character—whether they’re the same class or different ones. You’ll never have to worry about your performance on your favorite character again.
 
-## Dependenices
+## Dependencies
 
 - [Fabric API](https://modrinth.com/mod/fabric-api) (**Required**)
   - Mod Version: 0.161.0
