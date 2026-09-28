@@ -134,7 +134,7 @@ public class Utils {
             return;
         }
 
-        SystemToast.add(Minecraft.getInstance().getToastManager(),
+        SystemToast.add(Minecraft.getInstance().gui.toastManager(),
                 SystemToast.SystemToastId.WORLD_BACKUP, Component.nullToEmpty(Wynnbinds.MOD_NAME), description);
     }
 }

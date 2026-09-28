@@ -5,7 +5,7 @@ import java.util.HashSet;
 
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.minecraft.client.KeyMapping;
 
 @Config(name = "wynnbinds")
@@ -86,7 +86,7 @@ public class ModConfig implements ConfigData {
         // if key does not exists, take current keybind
         if (!defaultKeys.containsKey(translationKey)) {
             KeyMapping keyBinding = KeyMapping.get(translationKey);
-            String boundKey = KeyBindingHelper.getBoundKeyOf(keyBinding).getName();
+            String boundKey = KeyMappingHelper.getBoundKeyOf(keyBinding).getName();
             defaultKeys.put(translationKey, boundKey);
         }
         return defaultKeys.get(translationKey);

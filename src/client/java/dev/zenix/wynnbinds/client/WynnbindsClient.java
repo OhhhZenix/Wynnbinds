@@ -2,7 +2,7 @@ package dev.zenix.wynnbinds.client;
 
 import java.util.HashMap;
 
-import org.lwjgl.glfw.GLFW;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 
 import com.mojang.blaze3d.platform.InputConstants;
 
@@ -14,7 +14,6 @@ import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.KeyMapping.Category;
 import net.minecraft.client.Minecraft;
@@ -26,9 +25,9 @@ public class WynnbindsClient implements ClientModInitializer {
     private static final Category KEY_CATEGORY = Category
             .register(Identifier.fromNamespaceAndPath(Wynnbinds.MOD_ID, "all"));
 
-    private static final KeyMapping OPEN_CONFIG_KEYBINDING = KeyBindingHelper
-            .registerKeyBinding(new KeyMapping("key.wynnbinds.config",
-                    InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, KEY_CATEGORY));
+    private static final KeyMapping OPEN_CONFIG_KEYBINDING = KeyMappingHelper
+            .registerKeyMapping(new KeyMapping("key.wynnbinds.config",
+                    InputConstants.Type.KEYBOARD, InputConstants.UNKNOWN.getValue(), KEY_CATEGORY));
 
     private static WynnbindsClient instance = null;
 
@@ -81,7 +80,7 @@ public class WynnbindsClient implements ClientModInitializer {
     private void handleOpenConfig(Minecraft client) {
         if (OPEN_CONFIG_KEYBINDING.isDown()) {
             OPEN_CONFIG_KEYBINDING.setDown(false);
-            client.setScreen(ConfigScreen.create(client.screen));
+            client.setScreenAndShow(ConfigScreen.create(client.gui.screen()));
         }
     }
 
