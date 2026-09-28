@@ -2,7 +2,7 @@
 
 All the changes in Wynnbinds.
 
-## Release 3.0.0 (WIP)
+## Release 3.0.0
 
 - Upgrade to MC 26.3
 - Upgrade Fabric (0.161.0)
