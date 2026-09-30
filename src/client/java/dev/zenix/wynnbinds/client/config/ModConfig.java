@@ -2,7 +2,6 @@ package dev.zenix.wynnbinds.client.config;
 
 import java.util.HashMap;
 import java.util.HashSet;
-
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
@@ -11,98 +10,98 @@ import net.minecraft.client.KeyMapping;
 @Config(name = "wynnbinds")
 public class ModConfig implements ConfigData {
 
-    private boolean enableMod = true;
-    private boolean enableBindNotifications = true;
-    private boolean enableUpdateNotifications = true;
-    // keys that are being captured
-    private HashSet<String> captureKeys = new HashSet<>();
-    // default keys for each translation key
-    private HashMap<String, String> defaultKeys = new HashMap<>();
-    // character -> (translationKey -> boundKey)
-    private HashMap<String, HashMap<String, String>> characters = new HashMap<>();
+  private boolean enableMod = true;
+  private boolean enableBindNotifications = true;
+  private boolean enableUpdateNotifications = true;
+  // keys that are being captured
+  private HashSet<String> captureKeys = new HashSet<>();
+  // default keys for each translation key
+  private HashMap<String, String> defaultKeys = new HashMap<>();
+  // character -> (translationKey -> boundKey)
+  private HashMap<String, HashMap<String, String>> characters = new HashMap<>();
 
-    public boolean isModEnabled() {
-        return enableMod;
-    }
+  public boolean isModEnabled() {
+    return enableMod;
+  }
 
-    public void setEnableMod(boolean enabled) {
-        enableMod = enabled;
-    }
+  public void setEnableMod(boolean enabled) {
+    enableMod = enabled;
+  }
 
-    public boolean isBindNotificationsEnabled() {
-        return enableBindNotifications;
-    }
+  public boolean isBindNotificationsEnabled() {
+    return enableBindNotifications;
+  }
 
-    public void setEnableBindNotifications(boolean enabled) {
-        enableBindNotifications = enabled;
-    }
+  public void setEnableBindNotifications(boolean enabled) {
+    enableBindNotifications = enabled;
+  }
 
-    public boolean isUpdateNotificationsEnabled() {
-        return enableUpdateNotifications;
-    }
+  public boolean isUpdateNotificationsEnabled() {
+    return enableUpdateNotifications;
+  }
 
-    public void setEnableUpdateNotifications(boolean enabled) {
-        enableUpdateNotifications = enabled;
-    }
+  public void setEnableUpdateNotifications(boolean enabled) {
+    enableUpdateNotifications = enabled;
+  }
 
-    public boolean hasCharacter(String characterId) {
-        return characters.containsKey(characterId);
-    }
+  public boolean hasCharacter(String characterId) {
+    return characters.containsKey(characterId);
+  }
 
-    public String getKey(String characterId, String translationKey) {
-        HashMap<String, String> keys = characters.get(characterId);
-        if (!keys.containsKey(translationKey)) {
-            setKey(characterId, translationKey, getDefaultKey(translationKey));
-        }
-        return keys.get(translationKey);
+  public String getKey(String characterId, String translationKey) {
+    HashMap<String, String> keys = characters.get(characterId);
+    if (!keys.containsKey(translationKey)) {
+      setKey(characterId, translationKey, getDefaultKey(translationKey));
     }
+    return keys.get(translationKey);
+  }
 
-    public void setKey(String characterId, String translationKey, String boundKey) {
-        HashMap<String, String> keys = characters.get(characterId);
-        keys.put(translationKey, boundKey);
-    }
+  public void setKey(String characterId, String translationKey, String boundKey) {
+    HashMap<String, String> keys = characters.get(characterId);
+    keys.put(translationKey, boundKey);
+  }
 
-    public HashMap<String, String> getKeys(String characterId) {
-        return characters.get(characterId);
-    }
+  public HashMap<String, String> getKeys(String characterId) {
+    return characters.get(characterId);
+  }
 
-    public void setKeys(String characterId, HashMap<String, String> keybinds) {
-        characters.put(characterId, keybinds);
-    }
+  public void setKeys(String characterId, HashMap<String, String> keybinds) {
+    characters.put(characterId, keybinds);
+  }
 
-    public boolean isCaptureKey(String translationKey) {
-        return captureKeys.contains(translationKey);
-    }
+  public boolean isCaptureKey(String translationKey) {
+    return captureKeys.contains(translationKey);
+  }
 
-    public void addCaptureKey(String translationKey) {
-        captureKeys.add(translationKey);
-    }
+  public void addCaptureKey(String translationKey) {
+    captureKeys.add(translationKey);
+  }
 
-    public void removeCaptureKey(String translationKey) {
-        captureKeys.remove(translationKey);
-    }
+  public void removeCaptureKey(String translationKey) {
+    captureKeys.remove(translationKey);
+  }
 
-    public String getDefaultKey(String translationKey) {
-        // if key does not exists, take current keybind
-        if (!defaultKeys.containsKey(translationKey)) {
-            KeyMapping keyBinding = KeyMapping.get(translationKey);
-            String boundKey = KeyMappingHelper.getBoundKeyOf(keyBinding).getName();
-            defaultKeys.put(translationKey, boundKey);
-        }
-        return defaultKeys.get(translationKey);
+  public String getDefaultKey(String translationKey) {
+    // if key does not exists, take current keybind
+    if (!defaultKeys.containsKey(translationKey)) {
+      KeyMapping keyBinding = KeyMapping.get(translationKey);
+      String boundKey = KeyMappingHelper.getBoundKeyOf(keyBinding).getName();
+      defaultKeys.put(translationKey, boundKey);
     }
+    return defaultKeys.get(translationKey);
+  }
 
-    public HashMap<String, String> getDefaultKeys() {
-        // return only the keys that are being captured
-        HashMap<String, String> result = new HashMap<>();
-        for (String translationKey : captureKeys) {
-            String boundKey = getDefaultKey(translationKey);
-            result.put(translationKey, boundKey);
-        }
-        return result;
+  public HashMap<String, String> getDefaultKeys() {
+    // return only the keys that are being captured
+    HashMap<String, String> result = new HashMap<>();
+    for (String translationKey : captureKeys) {
+      String boundKey = getDefaultKey(translationKey);
+      result.put(translationKey, boundKey);
     }
+    return result;
+  }
 
-    public void setDefaultKey(String translationKey, String boundKey) {
-        defaultKeys.put(translationKey, boundKey);
-    }
+  public void setDefaultKey(String translationKey, String boundKey) {
+    defaultKeys.put(translationKey, boundKey);
+  }
 }
