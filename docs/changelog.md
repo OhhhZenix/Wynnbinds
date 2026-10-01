@@ -2,9 +2,9 @@
 
 All the changes in Wynnbinds.
 
-## Release 3.0.0 (WIP)
+## Release 2.2.0
 
-- Upgrade to MC 26.2
+- Backport update checker improvements from v3
 
 ## Release 2.1.0
 
