@@ -44,6 +44,12 @@ loom {
             sourceSet sourceSets.client
         }
     }
+
+    runs {
+        client {
+            vmArg "-Dfabric.log.level=info"
+        }
+    }
 }
 
 dependencies {

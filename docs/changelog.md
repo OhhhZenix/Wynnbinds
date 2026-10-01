@@ -2,6 +2,10 @@
 
 All the changes in Wynnbinds.
 
+## 3.1.0
+
+- Improve update checker
+
 ## Release 3.0.0
 
 - Upgrade to MC 26.3
