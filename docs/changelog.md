@@ -2,7 +2,7 @@
 
 All the changes in Wynnbinds.
 
-## 3.1.0
+## Release 3.1.0
 
 - Improve update checker
 
@@ -12,6 +12,10 @@ All the changes in Wynnbinds.
 - Upgrade Fabric (0.161.0)
 - Upgrade Cloth Config (26.3.159)
 - Upgrade Mod Menu (21.0.0)
+
+## Release 2.2.0
+
+- Backport update checker improvements from v3
 
 ## Release 2.1.0
 
