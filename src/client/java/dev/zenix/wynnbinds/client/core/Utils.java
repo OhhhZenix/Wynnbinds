@@ -1,6 +1,7 @@
-package dev.zenix.wynnbinds.client;
+package dev.zenix.wynnbinds.client.core;
 
 import dev.zenix.wynnbinds.Wynnbinds;
+import dev.zenix.wynnbinds.client.WynnbindsClient;
 import dev.zenix.wynnbinds.client.config.ModConfig;
 import java.util.ArrayList;
 import java.util.HashMap;

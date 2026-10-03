@@ -4,7 +4,10 @@ import com.mojang.blaze3d.platform.InputConstants;
 import dev.zenix.wynnbinds.Wynnbinds;
 import dev.zenix.wynnbinds.client.config.ConfigScreen;
 import dev.zenix.wynnbinds.client.config.ModConfig;
+import dev.zenix.wynnbinds.client.core.UpdateChecker;
+import dev.zenix.wynnbinds.client.core.Utils;
 import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
@@ -30,11 +33,15 @@ public class WynnbindsClient implements ClientModInitializer {
               InputConstants.UNKNOWN.getValue(),
               KEY_CATEGORY));
 
+  private static final AtomicBoolean running = new AtomicBoolean(true);
   private static WynnbindsClient instance = null;
 
   private ModConfig config = null;
-  private UpdateChecker updateChecker = null;
   private String oldCharacterId = Utils.DUMMY_CHARACTER_ID;
+
+  public static boolean isRunning() {
+    return running.get();
+  }
 
   public static WynnbindsClient getInstance() {
     return instance;
@@ -43,10 +50,10 @@ public class WynnbindsClient implements ClientModInitializer {
   @Override
   public void onInitializeClient() {
     instance = this;
-    loadConfig();
-    ClientLifecycleEvents.CLIENT_STARTED.register(client -> onClientStart(client));
-    ClientLifecycleEvents.CLIENT_STOPPING.register(client -> onClientStop(client));
-    ClientTickEvents.END_CLIENT_TICK.register(client -> onEndClientTick(client));
+    ClientLifecycleEvents.CLIENT_STARTED.register(this::onClientStart);
+    ClientLifecycleEvents.CLIENT_STOPPING.register(this::onClientStop);
+    ClientTickEvents.END_CLIENT_TICK.register(this::handleKeybinds);
+    ClientTickEvents.END_CLIENT_TICK.register(this::handleOpenConfig);
   }
 
   public ModConfig getConfig() {
@@ -65,17 +72,14 @@ public class WynnbindsClient implements ClientModInitializer {
   }
 
   private void onClientStart(Minecraft client) {
-    updateChecker = new UpdateChecker();
+    loadConfig();
+
+    UpdateChecker updateChecker = new UpdateChecker();
     updateChecker.start();
   }
 
   private void onClientStop(Minecraft client) {
-    updateChecker.stop();
-  }
-
-  private void onEndClientTick(Minecraft client) {
-    handleOpenConfig(client);
-    handleKeybinds(client);
+    running.set(false);
   }
 
   private void handleOpenConfig(Minecraft client) {
