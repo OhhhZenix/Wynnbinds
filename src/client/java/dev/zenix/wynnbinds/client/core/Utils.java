@@ -136,7 +136,7 @@ public class Utils {
     }
 
     SystemToast.add(
-        Minecraft.getInstance().gui.toastManager(),
+        Minecraft.getInstance().getToastManager(),
         SystemToast.SystemToastId.WORLD_BACKUP,
         Component.nullToEmpty(Wynnbinds.MOD_NAME),
         description);
